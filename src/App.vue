@@ -1,73 +1,46 @@
 <script setup>
-//import { Login } from './components/Login.vue'
-import { ref } from 'vue';
-const passwordStatus = ref(false);
-function showpassword() {
-  passwordStatus.value = !passwordStatus.value;
-}
 </script>
 
 <template>
-  <div class="container">
-    <div class="left-side">
-      <v-img class="redondo" max-width="500" src="@/assets/logo.jpg"></v-img>
-      <h3 class="text-texto text-center text-h4">Bienvenido a Platan't</h3>
-    </div>
-    
-    <div class="right-side">
-      <v-card class="mx-auto" max-width="600" max-height="600" elevation="4">
-        <v-card-title>
-          <h3 class="text-h3 text-left">Iniciar sesión</h3>
-        </v-card-title>
-        <v-card-text class="py-0 ">
-          <v-text-field label="Nombre usuario" placeholder="mymail@gmail.com" type="email" prepend-inner-icon="mdi-account" variant="outlined" color="blue"></v-text-field>
-          <v-text-field label="Contraseña" placeholder="Contraseña" :type="passwordStatus? 'text' : 'password'" 
-          prepend-inner-icon="mdi-lock" :append-inner-icon= "passwordStatus ?'mdi-eye-outline' : 'mdi-eye-off-outline'"  
-          @click:append-inner="showpassword" variant="outlined" color="blue"></v-text-field>
-        </v-card-text>
-        <v-card-actions class="justify-end">
-          <v-btn color="primary" class="iniciar" variant="text">Iniciar sesión</v-btn>
-        </v-card-actions>
-        <v-divider class="opacity-10 mx-2"></v-divider>
-        <v-card-actions class="pb-0">
-          <p class="text-h8 pl-1">Olvidaste tu constraseña?</p>
-          <v-btn  color="primary" class="ml-auto" variant="plain">Recuperar Contraseña</v-btn>
-        </v-card-actions>
-        <v-card-actions class="pt-0"> 
-          <p class="text-h8 pl-1">Primera vez áca?</p>
-          <v-btn color="primary" class="ml-auto" variant="plain"> Considera Regístrarte</v-btn>
-        </v-card-actions>
-      </v-card>
-  </div>
+<v-app>
+  <v-navigation-drawer :width="300" color="#2C2C2C" elevation="15" permanent>
+    <v-list-item-title class="text-h4 titulo">PLATAN`T</v-list-item-title>
+    <v-divider  class="divisor"></v-divider>
+    <v-list-item class="list_items" prepend-icon="mdi-credit-card-multiple-outline" title="Mis Tarjetas"></v-list-item>
+    <v-list-item class="list_items" prepend-icon="mdi-send-variant-outline" title="Pagar"></v-list-item>
+    <v-list-item class="list_items" prepend-icon="mdi-arrow-up" title="Cobrar"></v-list-item>
+    <v-list-item class="list_items" prepend-icon="mdi-inbox-multiple-outline" title="Mi Actividad"></v-list-item>
+    <v-list-item class="list_items" prepend-icon="mdi-trending-up" title="Mis Inversiones"></v-list-item>
+    <v-list-item class="list_items" prepend-icon="mdi-account-group-outline" title="Mis contactos"></v-list-item>
+</v-navigation-drawer>
+</v-app>
+<div class="nav_bar elevation-15">
+  <!-- MAÑANA SEGUIR CON LA BARRA DE NAVEGACION-->
 </div>
-
 </template>
 
 <style scoped>
-  .container {
-  display: flex;
-  height: 100vh; /* Full height of the viewport */
-  width: 100vw; /* Full width of the viewport */
-  text-align: center;
-  align-items: center;
- background: linear-gradient(to right, rgba(44, 44, 44, 0.9) 40%, rgba(255, 255, 255, 0.7) 40%);
-/*linear-gradient(to right, #2C2C2C 40%, #FFFFFF 40%);*/
+.list_items {
+  color: white;
+  padding: auto;
+  margin: 4px 4px 16px 4px;
+  font-size: 20px;
+  font-weight: 500;
+  }
+.divisor {
+  background-color: white;
+  margin-top: 10px;
+  margin-bottom: 30px;
 }
-.left-side { /*Ver COMO CENTRAR LA IMAGEN */
-  flex: 0.8; /* Takes up 50% of the width */
-  padding: 20px 10px 20px 10px;
+.titulo {
+  font-weight: 500;
+  margin : 10px 0px 10px 16px;
 }
-.right-side {
-  flex: 1.2; /* Takes up 50% of the width */
-  padding: 20px;
-}
-
-.redondo {
-  border-radius: 50%;
-  margin: 0 auto;
-  opacity: 0.8; 
-}
-.iniciar {
-  font-weight: bold;
+.nav_bar {
+  height: 72px;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  background-color: #2C2C2C;
 }
 </style>
