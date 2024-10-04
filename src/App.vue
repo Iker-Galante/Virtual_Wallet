@@ -120,9 +120,8 @@ const user=ref('@user_name');
   
   /* Main content */
   .main_page {
-    margin-left: 300px; /* Same as the drawer width */
     margin-top: 72px; /* Account for navbar height */
-    width: calc(100vw - 315px);
+    width:100vw;
     min-height: calc(100vh - 72px); /* Full viewport height minus navbar */
     background-color: #8f9044;
   }
