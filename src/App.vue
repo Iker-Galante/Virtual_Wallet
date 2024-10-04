@@ -41,6 +41,7 @@ const user=ref('@user_name');
       <v-container fluid>
         <h1>Inicio de sesión</h1>
       </v-container>
+      <p>¡Bienvenido a tu cuenta de Platan't! Aquí podrás realizar todas tus transacciones de forma segura y rápida.</p>
     </v-main>
   </v-app>
   </template>
@@ -82,7 +83,7 @@ const user=ref('@user_name');
   .icon-container {
     display: flex;
     align-items: center;
-    padding-right: 60px;
+    padding-right: 60px;;
   }
   
   .icon {
@@ -100,11 +101,13 @@ const user=ref('@user_name');
     color: white;
     font-size: 14px;
     font-weight: 500;
+    margin-left: 12px;
   }
   
   .username {
     color: #A0A0A0;
     font-size: 12px;
+    margin-left: 12px;
   }
   
   /* Search bar */
