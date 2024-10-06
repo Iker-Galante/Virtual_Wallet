@@ -1,6 +1,12 @@
 <script setup>
-import { ref } from 'vue'
-const name= ref('Jose dominguez');
+import { ref, computed} from 'vue'
+import Saldo from './components/Saldo.vue';
+
+const changedname= ref('Jose_Dominguez');
+
+const name= computed(() =>{
+  return changedname.value;
+});
 const user=ref('@user_name');
 </script>
 
@@ -28,7 +34,7 @@ const user=ref('@user_name');
       </v-container>
       <div class="icon-container">
         <v-icon icon="mdi-bell-outline" color="white" size="x-large" class="icon"></v-icon>
-        <div class="name-container">
+        <div class="name-container overflow-hidden" >
           <span class="name">{{ name }}</span>
           <span class="username">{{ user }}</span>
         </div>
@@ -38,10 +44,7 @@ const user=ref('@user_name');
   
     <!-- Main Content -->
     <v-main class="main_page">
-      <v-container fluid>
-        <h1>Inicio de sesión</h1>
-      </v-container>
-      <p>¡Bienvenido a tu cuenta de Platan't! Aquí podrás realizar todas tus transacciones de forma segura y rápida.</p>
+      <Saldo/>
     </v-main>
   </v-app>
   </template>
@@ -58,7 +61,7 @@ const user=ref('@user_name');
   .divisor {
     background-color: white;
     margin-top: 10px;
-    margin-bottom: 30px;
+    margin-bottom: 38px;
   }
   
   .titulo {
@@ -93,8 +96,10 @@ const user=ref('@user_name');
   .name-container {
     display: flex;
     flex-direction: column;
-    align-items: flex-end;
-    margin-right: 16px;
+    align-items: flex-start;
+    width: auto;
+    margin-right: 8px;
+    max-width: 140px;
   }
   
   .name {
