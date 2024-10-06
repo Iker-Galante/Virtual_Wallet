@@ -42,27 +42,6 @@ const user=ref('@user_name');
         <v-avatar image="@/assets/default_user.jpg" size="default" class="icon"></v-avatar>
       </div>
     </div>
-  
-    <!-- Main Content -->
-    <v-main class="main_page">
-      <v-container fluid>
-        <v-row>
-          <v-col
-            v-for="n in 10"
-            :key="n"
-            cols="12"
-            sm="6"
-            md="6"
-            lg="4"
-            xl="3"
-          >
-            <Card />
-          </v-col>
-        </v-row>
-      </v-container>
-
-      <v-btn class="btn" @click="deleteCard">Borrar tarjeta</v-btn>
-    </v-main>
   </v-app>
   </template>
   
@@ -146,10 +125,6 @@ const user=ref('@user_name');
     width:100vw;
     min-height: calc(100vh - 72px); /* Full viewport height minus navbar */
     background-color: #8f9044;
-  }
-  .btn{
-    margin-top: 20px;
-    margin-left: 20px;
   }
   </style>
   

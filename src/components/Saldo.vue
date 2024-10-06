@@ -21,7 +21,7 @@ function addFunds() {
                 </v-btn>
                 <div class="align-left d-flex mr-auto text-white sld-text">
                 <span class="saldo">Saldo Disponible</span>
-                <span class="text-h5"> ${{ saldo }}</span>
+                <span class="text-h5 text-truncate"> ${{ saldo }}</span>
                 </div>    
         </div>
             </v-card-text> 
