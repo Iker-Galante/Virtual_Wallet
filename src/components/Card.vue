@@ -3,6 +3,10 @@ import { ref} from 'vue'
 
 const name= ref('Jose_Dominguez');
 const cardname=ref('VISA');
+
+function deleteCard(){
+    console.log('Card deleted');
+}
 </script>
 
 <template>
@@ -13,7 +17,7 @@ const cardname=ref('VISA');
         </v-card-title>
         <v-card-text class="d-flex align-center justify-space-between">
             <p class="pl-2 text-h6">**** **** **** 6789</p>
-            <v-icon icon="mdi-trash-can-outline"></v-icon>
+            <v-icon icon="mdi-trash-can-outline" @click="deleteCard()"></v-icon>
         </v-card-text>
     </v-card>
 </template>
