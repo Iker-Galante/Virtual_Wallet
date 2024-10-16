@@ -1,6 +1,6 @@
 <script setup>
 import { ref, computed} from 'vue'
-import Card from './components/Card.vue';
+import { useRouter } from 'vue-router';
 
 const n= ref(0);
 const changedname= ref('Jose_Dominguez');
@@ -9,19 +9,23 @@ const name= computed(() =>{
   return changedname.value;
 });
 const user=ref('@user_name');
+
+const router = useRouter();
+function navigate(destination) {
+  router.push(destination);
+}
 </script>
 
 <template>
-  <v-app>
-    <v-navigation-drawer :width="300" color="#352f3d" elevation="15" permanent>
+    <v-navigation-drawer :width="250" color="#352f3d" elevation="15" permanent>
       <v-list-item-title class="text-h4 titulo">PLATAN`T</v-list-item-title>
       <v-divider  class="divisor"></v-divider>
-      <v-list-item class="list_items" prepend-icon="mdi-credit-card-multiple-outline" title="Mis Tarjetas"></v-list-item>
-      <v-list-item class="list_items" prepend-icon="mdi-send-variant-outline" title="Pagar"></v-list-item>
-      <v-list-item class="list_items" prepend-icon="mdi-arrow-up" title="Cobrar"></v-list-item>
-      <v-list-item class="list_items" prepend-icon="mdi-inbox-multiple-outline" title="Mi Actividad"></v-list-item>
-      <v-list-item class="list_items" prepend-icon="mdi-trending-up" title="Mis Inversiones"></v-list-item>
-      <v-list-item class="list_items" prepend-icon="mdi-account-group-outline" title="Mis contactos"></v-list-item>
+      <v-list-item class="list_items" prepend-icon="mdi-credit-card-multiple-outline" title="Mis Tarjetas" @click="navigate('/Cards')"></v-list-item>
+      <v-list-item class="list_items" prepend-icon="mdi-send-variant-outline" title="Pagar" @click="navigate('/Pay')"></v-list-item>
+      <v-list-item class="list_items" prepend-icon="mdi-arrow-up" title="Cobrar" @click="navigate('/Collect')"></v-list-item>
+      <v-list-item class="list_items" prepend-icon="mdi-inbox-multiple-outline" title="Mi Actividad" @click="navigate('/Movements')"></v-list-item>
+      <v-list-item class="list_items" prepend-icon="mdi-trending-up" title="Mis Inversiones" @click="navigate('/Investments')"></v-list-item>
+      <v-list-item class="list_items" prepend-icon="mdi-account-group-outline" title="Mis contactos" @click="navigate('/Contacts')"></v-list-item>
     </v-navigation-drawer>
   
     <!-- Navbar with search bar and user info -->
@@ -42,7 +46,6 @@ const user=ref('@user_name');
         <v-avatar image="@/assets/default_user.jpg" size="default" class="icon"></v-avatar>
       </div>
     </div>
-  </v-app>
   </template>
   
   <style scoped>
@@ -68,10 +71,10 @@ const user=ref('@user_name');
   /* Navbar */
   .nav_bar {
     height: 72px;
-    width: calc(100vw - 315px); /* Adjust width to account for left offset */
+    width: calc(100vw - 265px); /* Adjust width to account for left offset */
     position: fixed;
     top: 0;
-    left: 300px;
+    left: 250px;
     background-color: #352f3d;
     display: flex;
     justify-content: flex-end;

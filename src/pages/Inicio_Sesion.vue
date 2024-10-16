@@ -1,9 +1,14 @@
 <script setup>
 //import { Login } from './components/Login.vue'
 import { ref } from 'vue';
+import { useRouter } from 'vue-router';
 const passwordStatus = ref(false);
 function showpassword() {
   passwordStatus.value = !passwordStatus.value;
+}
+const router = useRouter();
+function navigate(path){
+  router.push(path);
 }
 </script>
 
@@ -26,7 +31,7 @@ function showpassword() {
           @click:append-inner="showpassword" variant="outlined" color="blue"></v-text-field>
         </v-card-text>
         <v-card-actions class="justify-end">
-          <v-btn color="primary" class="iniciar" variant="text">Iniciar sesión</v-btn>
+          <v-btn color="primary" class="iniciar" variant="text" @click="navigate('/MainPage')">Iniciar sesión</v-btn>
         </v-card-actions>
         <v-divider class="opacity-10 mx-2"></v-divider>
         <v-card-actions class="pb-0">
