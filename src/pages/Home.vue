@@ -6,7 +6,7 @@ import Navegation from '../components/Navegation.vue';
 
 <template>
     <v-app>
-    <Navegation/>
+    <Navegation></Navegation>
   <!-- Main Content -->
   <v-main class="main_page">
     <v-container fluid>

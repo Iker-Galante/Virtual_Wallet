@@ -30,20 +30,25 @@ function navigate(destination) {
   
     <!-- Navbar with search bar and user info -->
     <div class="nav_bar elevation-15">
-      <v-container>
-        <v-row justify="center" align="center">
-          <v-col cols="12" md="6">
-            <v-text-field class="search_bar" prepend-inner-icon="mdi-magnify" max-width="500px" label="Buscar" color="grey"></v-text-field>
-          </v-col>
-        </v-row>
-      </v-container>
+      <div class="center-container">
+      <p class="text-h3 text-white"><slot>Inicio</slot></p>
+    </div>
       <div class="icon-container">
         <v-icon icon="mdi-bell-outline" color="white" size="x-large" class="icon"></v-icon>
         <div class="name-container overflow-hidden" >
           <span class="name">{{ name }}</span>
           <span class="username">{{ user }}</span>
         </div>
-        <v-avatar image="@/assets/default_user.jpg" size="default" class="icon"></v-avatar>
+        <v-avatar id="perfil" image="@/assets/default_user.jpg" size="default" class="icon"></v-avatar>
+        <v-menu transition="scale-transition" activator="#perfil">
+          <v-list>
+            <v-list-item-title>{{ name }}</v-list-item-title>
+            <v-list-item-title>{{ user }}</v-list-item-title>
+            <v-list-item @click="navigate('/Profile')">Perfil</v-list-item>
+            <v-list-item @click="navigate('/Settings')">Configuración</v-list-item>
+            <v-list-item @click="navigate('/Login')">Cerrar Sesión</v-list-item>
+          </v-list>
+        </v-menu>
       </div>
     </div>
   </template>
@@ -77,19 +82,24 @@ function navigate(destination) {
     left: 250px;
     background-color: #352f3d;
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
     align-items: center;
-    z-index: 10;
   }
   
   .icon-container {
     display: flex;
     align-items: center;
-    padding-right: 60px;;
+    padding-right: 60px;
+    justify-content: flex-end;
+
   }
   
   .icon {
     margin-left: 12px;
+    
+  }
+  .icon:hover {
+    cursor: pointer;
   }
   
   .name-container {
@@ -114,12 +124,11 @@ function navigate(destination) {
     margin-left: 12px;
   }
   
-  /* Search bar */
-  .search_bar {
-    margin-left: 40px;
-    color: white;
+  .center-container{
+    display: flex;
     align-items: center;
-    margin-top: 20px;
+    justify-content: center;
+    flex: 1;
   }
   
   /* Main content */
