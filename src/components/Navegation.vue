@@ -20,6 +20,7 @@ function navigate(destination) {
     <v-navigation-drawer :width="250" color="#352f3d" elevation="15" permanent>
       <v-list-item-title class="text-h4 titulo">PLATAN`T</v-list-item-title>
       <v-divider  class="divisor"></v-divider>
+      <v-list-item class="list_items" prepend-icon="mdi-home-outline" title="Inicio" @click="navigate('/MainPage')"></v-list-item>
       <v-list-item class="list_items" prepend-icon="mdi-credit-card-multiple-outline" title="Mis Tarjetas" @click="navigate('/Cards')"></v-list-item>
       <v-list-item class="list_items" prepend-icon="mdi-send-variant-outline" title="Pagar" @click="navigate('/Pay')"></v-list-item>
       <v-list-item class="list_items" prepend-icon="mdi-arrow-up" title="Cobrar" @click="navigate('/Collect')"></v-list-item>
