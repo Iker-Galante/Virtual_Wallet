@@ -1,12 +1,12 @@
 <script setup>
 import { ref } from 'vue'
-import Card from '../components/Card.vue';
-import Navegation from '../components/Navegation.vue';
+import Card from '../components/CardComponent.vue';
+import Navigation from '../components/NavigationComponent.vue';
 </script>
 
 <template>
     <v-app>
-    <Navegation></Navegation>
+    <Navigation></Navigation>
   <!-- Main Content -->
   <v-main class="main_page">
     <v-container fluid>

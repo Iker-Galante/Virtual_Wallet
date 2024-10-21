@@ -1,7 +1,7 @@
 <script setup>
 import { ref, computed} from 'vue'
-import Card from './components/Card.vue';
-import Navegation from './components/Navegation.vue';
+import Card from './components/CardComponent.vue';
+import Navigation from './components/NavigationComponent.vue';
 import { RouterView } from 'vue-router';
 
 const n= ref(0);

@@ -1,6 +1,6 @@
 <script setup>
 import { ref} from 'vue'
-import Card from '@/components/Card.vue'
+import Card from '@/components/CardComponent.vue'
 const n= ref(0);
 </script>
 

@@ -48,6 +48,31 @@ const router = createRouter({
       name: 'investments',
       component: () => import('../Views/InvestmentsView.vue'),
     },
+    {
+      path: '/profile',
+      name: 'profile',
+      component: () => import('../Views/ProfileView.vue'),
+    },
+    {
+      path: '/settings',
+      name: 'settings',
+      component: () => import('../Views/SettingsView.vue'),
+    },
+    {
+      path: '/:pathMatch(.*)*',
+      name: 'not-found',
+      component: () => import('../Views/PageNotFoundView.vue'),
+    },
+    {
+      path: '/register',
+      name: 'register',
+      component: () => import('../Views/RegisterView.vue'),
+    },
+    {
+      path: '/forget-password',
+      name: 'forget-password',
+      component: () => import('../Views/ForgetPasswordView.vue'),
+    }
   ]
 })
 
