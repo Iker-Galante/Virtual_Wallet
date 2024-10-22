@@ -1,5 +1,4 @@
 //id de Usuario, fecha, hora, monto, tipo de movimiento, descripcion
-// Nro de tarjeta
 
 import { ref } from 'vue';
 import { defineStore } from 'pinia';
@@ -7,17 +6,21 @@ import { defineStore } from 'pinia';
 
 export const useMovementStore = defineStore('movement', () => {
 
-    const movement = ref({
-        userId: '',
-        date: '',
-        time: '',
-        amount: '',
-        movementType: '',
-        description: '',
-        cardNumber: ''
-    })
+    const movements = ref([])
 
+    const fetchMovements = async () => {
+    }
 
+    function addMovement(userId, date, time, amount, movementType, description) {
+        if (!movements.value[userId]) {
+            movements.value[userId] = []
+        }
+        movements.value[userId].push({ date, time, amount, movementType, description })
+    }
 
-    //return {  }
+    function getMovementsByUserId(userId) {
+        return movements.value[userId]
+    }
+
+    return { addMovement, getMovementsByUserId }
 })
