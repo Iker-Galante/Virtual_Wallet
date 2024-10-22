@@ -3,24 +3,27 @@
 
 import { ref, computed } from 'vue';
 import { defineStore } from 'pinia'
-//import {  } from '@/api/';
+import dummyProfiles from '@/API/profiles';
 
 export const useProfileStore = defineStore('profile', () => {
 
     const profiles = ref([])
     const totalProfiles = computed(() => profiles.value.length)
-
-    //TODO: seguir esta parte. 
-    const fetchProfiles = async () => {
+ 
+    function fetchProfiles() {
+        const fetchedProfiles = dummyProfiles
+        fetchedProfiles.forEach(profile => {
+            addProfile(profile.name, profile.surname, profile.age, profile.email)
+        })
     }
 
     function getNextUnusedUserId() {
         return totalProfiles.value
     }
 
-    function addProfile(name, lastName, email, password) {
+    function addProfile(name, lastName, age, email, password) {
         const userId = getNextUnusedUserId()
-        profiles.value[userId] = { name, lastName, email, password }
+        profiles.value[userId] = { name, lastName, age, email, password }
         totalProfiles.value++
     }
 
@@ -29,5 +32,5 @@ export const useProfileStore = defineStore('profile', () => {
     }
 
 
-    return { addProfile, getCurrentProfileUserId }
+    return { addProfile, getCurrentProfileUserId, fetchProfiles }
 })
