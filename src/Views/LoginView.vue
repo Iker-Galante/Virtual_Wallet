@@ -1,5 +1,4 @@
 <script setup>
-//import { Login } from './components/Login.vue'
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 const passwordStatus = ref(false);
@@ -28,10 +27,10 @@ function navigate(path){
           <v-text-field label="Nombre usuario" placeholder="mymail@gmail.com" type="email" prepend-inner-icon="mdi-account" variant="outlined" color="blue"></v-text-field>
           <v-text-field label="Contraseña" placeholder="Contraseña" :type="passwordStatus? 'text' : 'password'" 
           prepend-inner-icon="mdi-lock" :append-inner-icon= "passwordStatus ?'mdi-eye-outline' : 'mdi-eye-off-outline'"  
-          @click:append-inner="showpassword" variant="outlined" color="blue"></v-text-field>
+          @click:append-inner="showpassword()" variant="outlined" color="blue"></v-text-field>
         </v-card-text>
         <v-card-actions class="justify-end">
-          <v-btn color="primary" class="iniciar" variant="text" @click="navigate('/MainPage')">Iniciar sesión</v-btn>
+          <v-btn color="primary" class="iniciar" variant="text" @click="navigate('/mainPage')">Iniciar sesión</v-btn>
         </v-card-actions>
         <v-divider class="opacity-10 mx-2"></v-divider>
         <v-card-actions class="pb-0">
@@ -40,7 +39,7 @@ function navigate(path){
         </v-card-actions>
         <v-card-actions class="pt-0"> 
           <p class="text-h8 pl-1">Primera vez áca?</p>
-          <v-btn color="primary" class="ml-auto" variant="plain"> Considera Regístrarte</v-btn>
+          <v-btn color="primary" class="ml-auto" variant="plain" @click="navigate('/register')"> Considera Regístrarte</v-btn>
         </v-card-actions>
       </v-card>
   </div>
@@ -56,14 +55,13 @@ function navigate(path){
   text-align: center;
   align-items: center;
  background: linear-gradient(to right, rgba(44, 44, 44, 0.9) 40%, rgba(255, 255, 255, 0.7) 40%);
-/*linear-gradient(to right, #2C2C2C 40%, #FFFFFF 40%);*/
 }
-.left-side { /*Ver COMO CENTRAR LA IMAGEN */
-  flex: 0.8; /* Takes up 50% of the width */
+.left-side {
+  flex: 0.8; 
   padding: 20px 10px 20px 10px;
 }
 .right-side {
-  flex: 1.2; /* Takes up 50% of the width */
+  flex: 1.2;
   padding: 20px;
 }
 

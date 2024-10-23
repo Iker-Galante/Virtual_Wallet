@@ -23,11 +23,17 @@ export const useProfileStore = defineStore('profile', () => {
 
     function addProfile(name, lastName, age, email, password) {
         const userId = getNextUnusedUserId()
-        profiles.value[userId] = { name, lastName, age, email, password }
-        totalProfiles.value++
+        profiles.value[userId] = { 
+            name: name,
+            lastName: lastName,
+            age: age,
+            email: email,
+            password: password }
     }
 
     function getCurrentProfileUserId(email) {
+        const index=profiles.value.findIndex(profile => profile.email === email);
+        console.log(profiles.value[index]);
         return profiles.value.findIndex(profile => profile.email === email)
     }
 
