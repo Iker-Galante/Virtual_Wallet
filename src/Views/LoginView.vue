@@ -1,13 +1,28 @@
 <script setup>
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
+import { useProfileStore } from '@/stores/ProfileStore';
+
+const profileStore = useProfileStore();
+const email= ref('');
+const password= ref('');
 const passwordStatus = ref(false);
+
 function showpassword() {
   passwordStatus.value = !passwordStatus.value;
 }
 const router = useRouter();
 function navigate(path){
   router.push(path);
+}
+
+function checkCredentials(path){
+  const profile = profileStore.getCurrentProfileUserId(email.value);
+  if(profile && profile.password === password.value){
+    router.push(path);
+  }else{
+    alert("Credenciales incorrectas");
+  }
 }
 </script>
 
@@ -24,13 +39,13 @@ function navigate(path){
           <h3 class="text-h3 text-left">Iniciar sesión</h3>
         </v-card-title>
         <v-card-text class="py-0 ">
-          <v-text-field label="Nombre usuario" placeholder="mymail@gmail.com" type="email" prepend-inner-icon="mdi-account" variant="outlined" color="blue"></v-text-field>
-          <v-text-field label="Contraseña" placeholder="Contraseña" :type="passwordStatus? 'text' : 'password'" 
+          <v-text-field label="Email" v-model="email" placeholder="mymail@gmail.com" type="email" prepend-inner-icon="mdi-account" variant="outlined" color="blue"></v-text-field>
+          <v-text-field label="Contraseña" v-model="password" placeholder="Contraseña" :type="passwordStatus? 'text' : 'password'" 
           prepend-inner-icon="mdi-lock" :append-inner-icon= "passwordStatus ?'mdi-eye-outline' : 'mdi-eye-off-outline'"  
           @click:append-inner="showpassword()" variant="outlined" color="blue"></v-text-field>
         </v-card-text>
         <v-card-actions class="justify-end">
-          <v-btn color="primary" class="iniciar" variant="text" @click="navigate('/mainPage')">Iniciar sesión</v-btn>
+          <v-btn color="primary" class="iniciar" variant="text" @click="checkCredentials('/mainPage')">Iniciar sesión</v-btn>
         </v-card-actions>
         <v-divider class="opacity-10 mx-2"></v-divider>
         <v-card-actions class="pb-0">

@@ -7,7 +7,7 @@ import dummyProfiles from '@/API/profiles';
 
 export const useProfileStore = defineStore('profile', () => {
 
-    const profiles = ref([])
+    const profiles = ref([{ name: 'admin', lastName: 'admin', age: '100', email: 'admin@gmail.com', password: 'admin' }])
     const totalProfiles = computed(() => profiles.value.length)
  
     function fetchProfiles() {
@@ -32,8 +32,8 @@ export const useProfileStore = defineStore('profile', () => {
     }
 
     function getCurrentProfileUserId(email) {
-        const index=profiles.value.findIndex(profile => profile.email === email);
-        console.log(index);
+        // const index=profiles.value.findIndex(profile => profile.email === email);
+        // console.log(index);
         return profiles.value.find(profile => profile.email === email)
     }
 
