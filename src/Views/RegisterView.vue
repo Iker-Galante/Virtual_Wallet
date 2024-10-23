@@ -11,7 +11,7 @@ const mail= ref('');
 const age= ref('');
 const password= ref('');
 const validatePassword= ref('');
-const forms = computed(() => name.value!='' && lastName.value!='' && mail.value!='' && age.value!='' && password.value!='' && validatePassword.value!='' );
+const forms = computed(() => name.value!='' && lastName.value!='' && mail.value!='' && age.value!='' && password.value!='' && validatePassword.value!='');
 const profileStore = useProfileStore();
 
 function showpassword() {
@@ -22,8 +22,9 @@ function showpassword2() {
 }
 const router = useRouter();
 function validate(path){
-    if(password.value === validatePassword.value && name.value!='' && lastName.value!='' && mail.value!=''){ //Por ahora solo valida que las contraseñas sean iguales
+    if(password.value === validatePassword.value){ 
         profileStore.addProfile(name.value, lastName.value, age.value,mail.value, password.value);
+        router.push(path);
     }else{
         alert("Contraseñas no coinciden");
     }
