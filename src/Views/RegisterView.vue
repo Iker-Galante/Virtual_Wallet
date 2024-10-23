@@ -11,7 +11,8 @@ const mail= ref('');
 const age= ref('');
 const password= ref('');
 const validatePassword= ref('');
-const forms = computed(() => name.value!='' && lastName.value!='' && mail.value!='' && age.value!='' && password.value!='' && validatePassword.value!='');
+const regex = /\d/;
+const forms = computed(() => name.value!='' && lastName.value!='' && mail.value!='' && age.value!='' && password.value!='' && validatePassword.value!='' && age.value.length<=2 && !regex.test(name.value) && !regex.test(lastName.value));
 const profileStore = useProfileStore();
 
 function showpassword() {
@@ -41,6 +42,16 @@ function validateCharacters(v){
         return "Campo requerido";
     }
 }
+function checkNumbers(){
+  if(age.value.length>2){
+    return "Edad no válida";
+  }
+  return true;
+}
+
+function checkStrings(v){
+  return regex.test(v) ? "No se permiten números" : true;
+}
 </script>
 
 <template>
@@ -50,12 +61,12 @@ function validateCharacters(v){
         </v-card-title>
         <v-card-text class="py-0">
             <div class="d-flex flex-row">   
-                <v-text-field label="Nombre" v-model="name" placeholder="Jose Gutierrez" type="text" prepend-inner-icon="mdi-account" variant="outlined" color="blue" class="pa-1" :rules="[validateCharacters(name)]"></v-text-field>
-                <v-text-field label="Apellido" v-model="lastName" placeholder="Dolores de Rosa" type="text" prepend-inner-icon="mdi-account" variant="outlined" color="blue" class="pa-1" :rules="[validateCharacters(lastName)]"></v-text-field>
+                <v-text-field label="Nombre" v-model="name" placeholder="Jose Gutierrez" type="text" prepend-inner-icon="mdi-account" variant="outlined" color="blue" class="pa-1" :rules="[validateCharacters(name),checkStrings(name)]"></v-text-field>
+                <v-text-field label="Apellido" v-model="lastName" placeholder="Dolores de Rosa" type="text" prepend-inner-icon="mdi-account" variant="outlined" color="blue" class="pa-1" :rules="[validateCharacters(lastName),checkStrings(lastName)]"></v-text-field>
             </div>
             <div class="d-flex">
                 <v-text-field label="Mail" v-model="mail" placeholder="mymail@gmail.com" type="email" prepend-inner-icon="mdi-account" variant="outlined" color="blue" class="pa-1" :rules="[validateCharacters(mail)]"></v-text-field>
-                <v-text-field label="Edad" v-model="age" max-width="150px" placeholder="13" type="number" variant="outlined" color="blue" class="pa-1" :rules="[validateCharacters(age)]"></v-text-field>
+                <v-text-field label="Edad" v-model="age" max-width="150px" placeholder="13" type="number" variant="outlined" color="blue" class="pa-1" :rules="[validateCharacters(age), checkNumbers()]"></v-text-field>
             </div>
           <v-text-field label="Contraseña" v-model="password" placeholder="Contraseña" :type="passwordStatus? 'text' : 'password'" 
           prepend-inner-icon="mdi-lock" :append-inner-icon= "passwordStatus ?'mdi-eye-outline' : 'mdi-eye-off-outline'"  
