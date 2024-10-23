@@ -33,8 +33,8 @@ export const useProfileStore = defineStore('profile', () => {
 
     function getCurrentProfileUserId(email) {
         const index=profiles.value.findIndex(profile => profile.email === email);
-        console.log(profiles.value[index]);
-        return profiles.value.findIndex(profile => profile.email === email)
+        console.log(index);
+        return profiles.value.find(profile => profile.email === email)
     }
 
 
