@@ -1,5 +1,4 @@
 <script setup>
-import { computed } from 'vue';
 
 const props = defineProps({
   movement: {
@@ -9,7 +8,6 @@ const props = defineProps({
 });
 
 function getIcon(type) {
-  // You can customize these icons based on your needs
   const iconMap = {
     'deposit': 'mdi-cash-plus',
     'withdrawal': 'mdi-cash-minus',
