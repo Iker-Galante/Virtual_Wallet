@@ -12,7 +12,7 @@ const age= ref('');
 const password= ref('');
 const validatePassword= ref('');
 const regex = /\d/;
-const forms = computed(() => name.value!='' && lastName.value!='' && mail.value!='' && age.value!='' && password.value!='' && validatePassword.value!='' && age.value.length<=2 && !regex.test(name.value) && !regex.test(lastName.value));
+const forms = computed(() => name.value!='' && lastName.value!='' && mail.value!='' && age.value!='' && password.value!='' && validatePassword.value!='' && age.value.length<=2 && age.value > 15 && !regex.test(name.value) && !regex.test(lastName.value) && mail.value.includes('@'));
 const profileStore = useProfileStore();
 
 function showpassword() {
@@ -31,7 +31,7 @@ function validate(path){
     }
 }
 
-function navigate(path){
+function navigate(){
     router.go(-1);
 }
 
@@ -43,7 +43,7 @@ function validateCharacters(v){
     }
 }
 function checkNumbers(){
-  if(age.value.length>2){
+  if(age.value.length>2  || age.value <= 15){
     return "Edad no válida";
   }
   return true;
@@ -76,8 +76,8 @@ function checkStrings(v){
           @click:append-inner="showpassword2()" variant="outlined" color="blue" class="pa-1" :rules="[validateCharacters(validatePassword)]"></v-text-field>
         </v-card-text>
         <v-card-actions class="justify-end">
-          <v-btn color="primary" class="iniciar" variant="text" @click="navigate('/login')">Salir</v-btn>
-          <v-btn color="primary" class="iniciar" variant="text" @click="validate('/mainPage')" :disabled="!forms">Crear Cuenta</v-btn>
+          <v-btn color="primary" class="iniciar" variant="text" @click="navigate()">Salir</v-btn>
+          <v-btn color="primary" class="iniciar" variant="text" @click="validate('/login')" :disabled="!forms">Crear Cuenta</v-btn>
         </v-card-actions>
       </v-card>
 </template>

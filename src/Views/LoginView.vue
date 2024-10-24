@@ -54,7 +54,7 @@ function checkCredentials(path){
         </v-card-actions>
         <v-card-actions class="pt-0"> 
           <p class="text-h8 pl-1">Primera vez áca?</p>
-          <v-btn color="primary" class="ml-auto" variant="plain" @click="navigate('/register')"> Considera Regístrarte</v-btn>
+          <v-btn color="primary" class="ml-auto" variant="plain" @click="navigate('/register')">Registrarse</v-btn>
         </v-card-actions>
       </v-card>
   </div>
