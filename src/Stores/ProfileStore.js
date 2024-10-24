@@ -9,7 +9,8 @@ export const useProfileStore = defineStore('profile', () => {
 
     const profiles = ref([{ name: 'admin', lastName: 'admin', age: '100', email: 'admin@gmail.com', password: 'admin' }])
     const totalProfiles = computed(() => profiles.value.length)
- 
+    const currentProfile = ref(null);
+
     function fetchProfiles() {
         const fetchedProfiles = dummyProfiles
         fetchedProfiles.forEach(profile => {
@@ -32,11 +33,20 @@ export const useProfileStore = defineStore('profile', () => {
     }
 
     function getCurrentProfileUserId(email) {
-        // const index=profiles.value.findIndex(profile => profile.email === email);
-        // console.log(index);
         return profiles.value.find(profile => profile.email === email)
     }
 
+    function getCurrentProfileIndex(email) {
+        return profiles.value.findIndex(profile => profile.email === email)
+        }
+    
+    function setCurrentProfile(profile){
+        currentProfile.value = profile
+    }
 
-    return { addProfile, getCurrentProfileUserId, fetchProfiles }
+    function getCurrentProfile() {
+        return currentProfile.value
+    }
+
+    return { addProfile, getCurrentProfileUserId, fetchProfiles,getCurrentProfileIndex,setCurrentProfile,getCurrentProfile }
 })

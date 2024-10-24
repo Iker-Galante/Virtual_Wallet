@@ -1,14 +1,19 @@
 <script setup>
 import { ref, computed} from 'vue'
 import { useRouter } from 'vue-router';
+import { useProfileStore } from '@/stores/ProfileStore';
+import { useMovementStore } from '@/stores/MovementStore';
 
+const profileStore = useProfileStore();
+const movementStore = useMovementStore();
 const n= ref(0);
-const changedname= ref('Jose_Dominguez');
+const profile= profileStore.getCurrentProfile();
+const changedname= ref( profile.name);
 
 const name= computed(() =>{
   return changedname.value;
 });
-const user=ref('@user_name');
+const user=ref('@'+ profile.name + '_' + profile.lastName);
 
 const router = useRouter();
 function navigate(destination) {
