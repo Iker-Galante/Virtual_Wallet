@@ -1,14 +1,14 @@
 <script setup>
 import { ref, computed} from 'vue'
 import { useRouter } from 'vue-router';
-import { useProfileStore } from '@/stores/ProfileStore';
-import { useMovementStore } from '@/stores/MovementStore';
+import { useProfileStore } from '@/Stores/ProfileStore';
+import { useMovementStore } from '@/Stores/MovementStore';
 
 const profileStore = useProfileStore();
 const movementStore = useMovementStore();
 const n= ref(0);
-const profile= profileStore.getCurrentProfile();
-const changedname= ref( profile.name);
+const profile= computed(() => profileStore.getCurrentProfile());
+const changedname= ref( profile.value.name);
 
 const name= computed(() =>{
   return changedname.value;

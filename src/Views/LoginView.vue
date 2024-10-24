@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
-import { useProfileStore } from '@/stores/ProfileStore';
+import { useProfileStore } from '@/Stores/ProfileStore';
 
 const profileStore = useProfileStore();
 const email= ref('');
