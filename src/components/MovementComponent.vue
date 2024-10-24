@@ -9,57 +9,46 @@ const profileStore = useProfileStore()
 const movementStore = useMovementStore()
 
 const profileMail = computed(() => profileStore.getCurrentProfile().email)
-movementStore.addMovement(profileMail, '2024-10-24', '10:00', 100, 'deposit', 'Depósito de prueba')
+
+//test purposes.
+//movementStore.addMovement(profileMail, '2024-10-24', '10:00', -100, 'deposit', 'Depósito de prueba')
+
 const movements = computed(() => movementStore.getMovementsByUserId(profileMail))
 </script>
 
 <template>
-    <div class="box">
-        <div class="group">
-            <div class="overlap">
-                <div class="title">Movimientos Recientes</div>
-                <v-list class="movement-list">
-                    <MovementItemComponent 
-                        v-for="movement in movements" 
-                        :key="movement.id"
-                        :movement="movement"
-                    />
-                </v-list>
-            </div>
-        </div>
-    </div>
+  <div class="box">
+    <div class="title">Movimientos Recientes</div>
+    <v-list class="movement-list">
+      <MovementItemComponent 
+        v-for="movement in movements" 
+        :key="movement.id"
+        :movement="movement"
+      />
+    </v-list>
+  </div>
 </template>
 
 <style scoped>
 .box {
   width: 400px;
-  height: 413px;
-}
-.box .group {
-  width: 402px;
-  height: 413px;
-}
-.box .overlap {
-  width: 400px;
-  height: 413px;
   background-color: #1d1d1d;
   border-radius: 15px;
-  display: flex;
-  flex-direction: column;
-  padding: 12px;
+  padding: 16px;
 }
-.box .title {
+
+.title {
   font-family: "Inter-SemiBold", Helvetica;
   font-weight: 600;
-  color: #d7d7d7;
+  color: #FFFFFF;
   font-size: 20px;
   letter-spacing: -0.40px;
   line-height: 20px;
   margin-bottom: 16px;
-  text-align: center;
+  text-align: left;
 }
+
 .movement-list {
-  flex-grow: 1;
-  overflow-y: auto;
+  background-color: transparent;
 }
 </style>
