@@ -1,5 +1,6 @@
 <script setup>
 import { ref } from 'vue'
+import BalanceComponent from '@/components/BalanceComponent.vue';
 import Card from '../components/CardComponent.vue';
 import Navigation from '../components/NavigationComponent.vue';
 </script>
@@ -10,6 +11,7 @@ import Navigation from '../components/NavigationComponent.vue';
 
     <!-- Main Content -->
     <v-main class="main_page">
+      <BalanceComponent></BalanceComponent>
       <v-container fluid>
         <v-row>
           <v-col
