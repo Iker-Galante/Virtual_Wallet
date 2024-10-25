@@ -1,9 +1,10 @@
 <script setup>
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
-import { useProfileStore } from '@/Stores/ProfileStore';
+//import { useProfileStore } from '@/Stores/ProfileStore';
+import { getProfileStore } from '@/Stores/GlobalStore';
 
-const profileStore = useProfileStore();
+const profileStore = getProfileStore();
 const email= ref('');
 const password= ref('');
 const passwordStatus = ref(false);
