@@ -13,26 +13,17 @@ const routeName = router.options.routes.filter(route => route.name === 'mainPage
   <Navigation>
     <template #page-title>{{routeName}}</template>
     <template #Main_page>
-      <div class="home-content">
         <div class="balance-wrapper">
           <BalanceComponent/>
         </div>
         <div class="movement-wrapper">
           <MovementComponent/>
         </div>
-      </div>
     </template>
   </Navigation>
 </template>
 
 <style scoped>
-.home-content {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  width: 100%;
-  padding-top: 40px;
-}
 
 .balance-wrapper, .movement-wrapper {
   width: 100%;
