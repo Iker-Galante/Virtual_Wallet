@@ -1,14 +1,14 @@
 <script setup>
-import { ref } from 'vue';
-import {useRouter} from 'vue-router';
+// import { useRouter } from 'vue-router';
+import SaldoDisplay from './SaldoDisplay.vue';
+// import { useBalanceStore } from '@/Stores/BalanceStore';
 
-const router = useRouter();
-const saldo = ref(0.00);
+// const router = useRouter();
+// const balanceStore = useBalanceStore();
 
-
-
+//TODO: make it dynamic
 function addFunds() {
-    saldo.value += 100.05; //Cambiar por la logica de agregado de fondos
+    // balanceStore.addFunds(100.05); 
 }
 </script>
 
@@ -18,21 +18,18 @@ function addFunds() {
             <v-card-text>
                 <div class="align-center justify-space-between d-flex">
                     <v-btn prepend-icon="mdi-plus-circle-outline" class="add-funds-btn" @click="addFunds"> 
-                    <div class="btn-text">
+                     <div class="btn-text">
                         <span>Ingresar</span>
                         <span>Fondos</span>
-                    </div>
+                    </div> 
                     </v-btn>
-                    <div class="align-left d-flex mr-auto text-white sld-text">
-                    <span class="saldo">Saldo Disponible</span>
-                    <span class="text-h5 text-truncate"> ${{ saldo.toFixed(2) }}</span>
-                    </div>    
+                    <SaldoDisplay/>
                 </div>
-            </v-card-text> 
+            </v-card-text>
             <v-card-actions class="button-container">
                 <v-btn class="action-btn pagar" prepend-icon="mdi-send-variant-outline">Pagar</v-btn>
                 <v-btn class="action-btn cobrar" prepend-icon="mdi-arrow-up">Cobrar</v-btn>
-            </v-card-actions>
+            </v-card-actions> 
         </v-card>
     </div>
 </template>

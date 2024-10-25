@@ -6,7 +6,7 @@ import { defineStore } from 'pinia';
 
 export const useMovementStore = defineStore('movement', () => {
 
-    const movements = ref([])
+    const movements = ref({})
 
     const fetchMovements = async () => {
     }
@@ -16,10 +16,6 @@ export const useMovementStore = defineStore('movement', () => {
             movements.value[userId] = []
         }
         movements.value[userId].push({ date, time, amount, movementType, description })
-    }
-
-    function getMovementsByUserId(userId) {
-        return movements.value[userId]
     }
 
     //simulate the API.
@@ -38,6 +34,10 @@ export const useMovementStore = defineStore('movement', () => {
             }
             addMovement(userId, randomMovement.date, randomMovement.time, randomMovement.amount, randomMovement.movementType, randomMovement.description)
         }
+    }
+
+    function getMovementsByUserId(userId) {
+        return movements.value[userId]
     }
 
     return { addMovement, getMovementsByUserId, addRandomMovements }

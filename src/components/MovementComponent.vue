@@ -1,21 +1,20 @@
 <script setup>
+import { ref, computed } from 'vue';
 import { useProfileStore } from '@/Stores/ProfileStore';
 import { useMovementStore } from '@/Stores/MovementStore';
 import MovementItemComponent from './MovementItemComponent.vue';
 
-import { computed } from 'vue';
+const profileStore = computed(() => useProfileStore())
+const movementStore = computed(() => useMovementStore())
 
-const profileStore = useProfileStore()
-const movementStore = useMovementStore()
+const profileId = computed(() => profileStore.value.getCurrentProfileIndex(profileStore.value.getCurrentProfile().email));
 
-const profileId = computed(() => profileStore.getCurrentProfileIndex(profileStore.getCurrentProfile().email));
-
-console.log(profileId.value)
+// console.log(profileId.value)
  //Test purposes
-movementStore.addRandomMovements(profileId.value)
+//movementStore.value.addRandomMovements(profileId.value)
 //
 
-const movements = computed(() => movementStore.getMovementsByUserId(profileId.value))
+const movements = computed(() => movementStore.value.getMovementsByUserId(profileId.value))
 </script>
 
 <template>
