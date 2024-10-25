@@ -2,7 +2,7 @@
 import { ref, onMounted, computed } from 'vue'
 import Card from '@/components/CardComponent.vue'
 import NavigationComponent from '@/components/NavigationComponent.vue'
-import { useCardStore } from '@/stores/CardStore'
+import { useCardStore } from '@/Stores/CardStore'
 import { useProfileStore } from '@/Stores/ProfileStore'
 
 const cardStore = useCardStore()
