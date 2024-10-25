@@ -2,6 +2,7 @@
 import { ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { useProfileStore } from '@/Stores/ProfileStore';
+//import {NavigationBarComponent} from '@/components/NavigationBarComponent.vue'
 
 const profileStore = useProfileStore();
 
@@ -22,18 +23,10 @@ function navigate(destination) {
 
 <template>
   <v-app>
-    <v-navigation-drawer :width="250" color="#1D1D1D" class="elevation-15" permanent floating>
-      <v-list-item-title class="text-h4 titulo">PLATAN`T</v-list-item-title>
-      <v-divider class="divisor"></v-divider>
-      <v-list-item class="list_items" prepend-icon="mdi-home-outline" title="Inicio" @click="navigate('/MainPage')"></v-list-item>
-      <v-list-item class="list_items" prepend-icon="mdi-credit-card-multiple-outline" title="Mis Tarjetas" @click="navigate('/Cards')"></v-list-item>
-      <v-list-item class="list_items" prepend-icon="mdi-send-variant-outline" title="Pagar" @click="navigate('/Pay')"></v-list-item>
-      <v-list-item class="list_items" prepend-icon="mdi-arrow-up" title="Cobrar" @click="navigate('/Collect')"></v-list-item>
-      <v-list-item class="list_items" prepend-icon="mdi-inbox-multiple-outline" title="Mi Actividad" @click="navigate('/Movements')"></v-list-item>
-      <v-list-item class="list_items" prepend-icon="mdi-trending-up" title="Mis Inversiones" @click="navigate('/Investments')"></v-list-item>
-      <v-list-item class="list_items" prepend-icon="mdi-account-group-outline" title="Mis contactos" @click="navigate('/Contacts')"></v-list-item>
-    
-      <!-- Navbar with search bar and user info -->
+   
+       <NavigationBarComponent/> 
+  
+     <v-main class="main_page">
       <div class="nav_bar">
         <div class="center-container">
           <p class="text-h3 text-white"><slot>Inicio</slot></p>
@@ -55,16 +48,28 @@ function navigate(destination) {
             </v-list>
           </v-menu>
         </div>
-      </div>
-    </v-navigation-drawer>
-  
-    <v-main class="main_page">
-      <slot name="Main_page"></slot>
+      </div> 
     </v-main>
+  
+     <v-main class="main_page">
+      <slot name="Main_page"></slot>
+    </v-main> 
   </v-app>
 </template>
 
 <style>
+
+.navLeftBar {
+    background-color: #1D1D1D !important;
+    width: 200px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 100;
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+  }
+  
   .list_items {
     padding: 10px 16px;
     margin: 4px 0;
@@ -159,4 +164,6 @@ function navigate(destination) {
     font-weight: 450;
     font-size: 16px; 
   }
+
+  
 </style>
