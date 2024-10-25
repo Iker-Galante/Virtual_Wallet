@@ -15,7 +15,7 @@ const profileMail = computed(() => profileStore.getCurrentProfile().email)
 // movementStore.addMovement(profileMail, '2024-10-24', '10:00', -100, 'deposit', 'Depósito de prueba')
 // movementStore.addMovement(profileMail, '2024-10-24', '10:00', -100, 'deposit', 'Depósito de prueba')
 
-movementStore.addRandomMovements(profileMail)
+//movementStore.addRandomMovements(profileMail)
 
 const movements = computed(() => movementStore.getMovementsByUserId(profileMail))
 </script>
@@ -35,7 +35,7 @@ const movements = computed(() => movementStore.getMovementsByUserId(profileMail)
 
 <style scoped>
 .box {
-  width: 400px;
+  width: 60vw;
   background-color: #1d1d1d;
   border-radius: 15px;
   padding: 16px;

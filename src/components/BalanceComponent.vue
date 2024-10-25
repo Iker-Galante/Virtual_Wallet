@@ -8,46 +8,40 @@ function addFunds() {
 </script>
 
 <template>
-    <div class="balance-component">
-        <div class="saldo-component d-flex align-center">
-            <v-card class="tarjeta elevation-12" image="@/assets/Cardbg.jpeg">
-                <v-card-text>
-                <div class="align-center justify-space-between d-flex">
-                    <v-btn prepend-icon="mdi-plus-circle-outline" color="white" variant="text" class="text-none ml-auto pl-0"
-                    @click="addFunds"> 
-                    <div class="btn-text">
-                        <span>Ingresar</span>
-                        <span>Fondos</span>
-                    </div>
-                    </v-btn>
-                    <div class="align-left d-flex mr-auto text-white sld-text">
-                    <span class="saldo">Saldo Disponible</span>
-                    <span class="text-h5 text-truncate"> ${{ saldo }}</span>
-                    </div>    
-            </div>
-                </v-card-text> 
-                <v-card-actions class="justify-space-between px-12">
-                    <v-btn class="text-white pagar" prepend-icon="mdi-send-variant-outline" >Pagar</v-btn>
-                    <v-btn class="text-white cobrar"  prepend-icon="mdi-arrow-up">Cobrar</v-btn>
-                </v-card-actions>
-            </v-card>
+    <div class="saldo-component d-flex align-center">
+        <v-card class="tarjeta elevation-12" image="@/assets/Cardbg.jpeg">
+            <v-card-text>
+            <div class="align-center justify-space-between d-flex">
+                <v-btn prepend-icon="mdi-plus-circle-outline" color="white" variant="text" class="text-none ml-auto pl-0"
+                @click="addFunds"> 
+                <div class="btn-text">
+                    <span>Ingresar</span>
+                    <span>Fondos</span>
+                </div>
+                </v-btn>
+                <div class="align-left d-flex mr-auto text-white sld-text">
+                <span class="saldo">Saldo Disponible</span>
+                <span class="text-h5 text-truncate"> ${{ saldo }}</span>
+                </div>    
         </div>
+            </v-card-text> 
+            <v-card-actions class="justify-space-between px-12">
+                <v-btn class="text-white pagar" prepend-icon="mdi-send-variant-outline" >Pagar</v-btn>
+                <v-btn class="text-white cobrar"  prepend-icon="mdi-arrow-up">Cobrar</v-btn>
+            </v-card-actions>
+        </v-card>
     </div>
 </template>
 
 <style scoped>
-.balance-component {
-    width: 100%;
-    max-width: 600px; /* Adjust as needed */
-    margin-top: 20px; /* Add some top margin if needed */
-}
 .saldo-component {
-    margin-top: 20px;
+    margin-top: 50px;
     justify-content: center;
 }
 .tarjeta {
     /*Agregar ancho si necesario   width: ;*/
-    padding: 20px;
+    width: 60vw; /* Set a specific width */
+    padding: 30px; 
     border-radius: 20px;
 }
 .btn-text {

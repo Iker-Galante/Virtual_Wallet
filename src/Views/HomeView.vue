@@ -2,11 +2,17 @@
 import BalanceComponent from '@/components/BalanceComponent.vue';
 import MovementComponent from '@/components/MovementComponent.vue';
 import Navigation from '@/components/NavigationComponent.vue';
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
+const routeName = router.options.routes.filter(route => route.name === 'mainPage')[0].name;
+const title = routeName =='mainPage'? 'Inicio' : routeName;
+
 </script>
 
 <template>
   <Navigation>
-    <template #page-title>Inicio</template>
+    <template #page-title>{{ title}}</template>
     <template #Main_page>
       <div class="home-content">
         <div class="balance-wrapper">
@@ -26,7 +32,7 @@ import Navigation from '@/components/NavigationComponent.vue';
   flex-direction: column;
   gap: 20px;
   width: 100%;
-  padding-top: 20px; /* Add some top padding */
+  padding-top: 40px;
 }
 
 .balance-wrapper, .movement-wrapper {
@@ -39,6 +45,8 @@ import Navigation from '@/components/NavigationComponent.vue';
 }
 
 .movement-wrapper {
+  display: flex;
+  justify-content: center;
   margin-top: 20px;
 }
 </style>
