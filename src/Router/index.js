@@ -60,13 +60,6 @@ const router = createRouter({
       component: () => import('../Views/CollectView.vue'),
     },
     {
-      path: '/investments',
-      name: 'investments',
-      spanishName: 'Inversiones',
-      icon: 'mdi-trending-up',
-      component: () => import('../Views/InvestmentsView.vue'),
-    },
-    {
       path: '/profile',
       name: 'profile',
       spanishName: 'Perfil',
