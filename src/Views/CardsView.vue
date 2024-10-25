@@ -39,11 +39,11 @@ const deleteCard = (tarjeta) => {
     cardStore.eliminateCard(profileId.value, tarjeta.cardNumber)
     isOpen.value = false
 }
-console.log(cards.value)
 </script>
 
 <template>
-    <NavigationComponent>Mis Tarjetas
+    <NavigationComponent>
+      <template #page-title>Tarjetas</template> 
     <template #Main_page>
       <v-container fluid>
         <v-row>

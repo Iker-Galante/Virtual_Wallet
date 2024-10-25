@@ -35,12 +35,14 @@ function addFunds() {
 
 <style scoped>
 .saldo-component {
-    margin-top: 20px;
+    margin-top: 50px;
     justify-content: center;
 }
 .tarjeta {
-    /*Agregar ancho si necesario   width: ;*/
-    padding: 20px;
+    
+    width: 60vw; 
+    height: 20vw;
+    padding: 30px; 
     border-radius: 20px;
 }
 .btn-text {

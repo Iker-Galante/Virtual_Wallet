@@ -7,9 +7,9 @@ import dummyProfiles from '@/API/profiles';
 
 export const useProfileStore = defineStore('profile', () => {
 
-    const profiles = ref([{ name: 'admin', lastName: 'admin', age: '100', email: 'admin@gmail.com', password: 'admin' }])
+    const profiles = ref([{ name: 'default', lastName: 'guest', age: '100', email: 'admin@gmail.com', password: 'admin' }])
     const totalProfiles = computed(() => profiles.value.length)
-    const currentProfile = ref(null);
+    const currentProfile = ref(profiles.value[0]);
 
     function fetchProfiles() {
         const fetchedProfiles = dummyProfiles
