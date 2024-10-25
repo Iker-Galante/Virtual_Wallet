@@ -25,7 +25,7 @@ const navItems = routes
       v-for="route in navItems"
       :key="route.name" class="routeItems"
       :prepend-icon="route.icon"
-      :title="route.name === 'mainPage' ? 'Inicio' : route.name"
+      :title="route.name === 'mainPage' ? 'Inicio' : route.spanishName"
       @click="navigate(route.path)"
     ></v-list-item>
   </v-navigation-drawer>

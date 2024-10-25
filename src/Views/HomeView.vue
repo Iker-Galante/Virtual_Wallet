@@ -5,14 +5,13 @@ import Navigation from '@/components/NavigationComponent.vue';
 import { useRouter } from 'vue-router';
 
 const router = useRouter();
-const routeName = router.options.routes.filter(route => route.name === 'mainPage')[0].name;
-const title = routeName =='mainPage'? 'Inicio' : routeName;
+const routeName = router.options.routes.filter(route => route.name === 'mainPage')[0].spanishName;
 
 </script>
 
 <template>
   <Navigation>
-    <template #page-title>{{ title}}</template>
+    <template #page-title>{{ routeName}}</template>
     <template #Main_page>
       <div class="home-content">
         <div class="balance-wrapper">
