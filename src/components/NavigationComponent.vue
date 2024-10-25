@@ -49,113 +49,80 @@ const user = ref('@' + profile.value.name + '_' + profile.value.lastName);
   </v-app>
 </template>
 
-<style>
+<style scoped>
+.main_page {
+  padding-left: 200px;
+  background-color: #2D2B3E;
+  min-height: 100vh;
+}
 
-.navLeftBar {
-    background-color: #1D1D1D !important;
-    width: 200px;
-    position: fixed;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    /* z-index: 100; */
-    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
-  }
-  
-  .list_items {
-    padding: 10px 16px;
-    margin: 4px 0;
-    font-size: 16px;
-    font-weight: 600; 
-    color: white;
-  }
-  
-  .divisor {
-    margin: 10px 0;
-    background-color: rgba(255, 255, 255, 0.1);
-  }
-  
-  .titulo {
-    font-weight: 600; 
-    margin: 10px 16px;
-    color: white;
-  }
-  
-  .nav_bar {
-    height: 72px;
-    width: calc(100% - 200px);
-    position: fixed;
-    top: 0;
-    left: 200px; 
-    background-color: #1D1D1D;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 16px;
-    z-index: 100;
-  }
-  
-  .icon-container {
-    display: flex;
-    align-items: center;
-    padding-right: 20px;
-    justify-content: flex-end;
-  }
-  
-  .icon {
-    margin-left: 12px;
-  }
-  
-  .icon:hover {
-    cursor: pointer;
-  }
-  
-  .name-container {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    width: auto;
-    margin-right: 8px;
-    max-width: 140px;
-  }
-  
-  .name {
-    color: white; 
-    font-size: 14px;
-    font-weight: 500; 
-    margin-left: 12px;
-  }
-  
-  .username {
-    color: rgba(160, 160, 160, 1); 
-    font-size: 12px;
-    margin-left: 12px;
-  }
-  
-  .center-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex: 1;
-  }
-  
-  .main_page {
-    padding-top: 92px; /* Increased from 72px to 92px to add more space */
-    padding-left: 200px; /* Width of the NavigationBarComponent */
-    background-color: #2D2B3E;
-    min-height: 100vh;
-  }
+.nav_bar {
+  height: 72px;
+  width: calc(100% - 200px);
+  position: fixed;
+  top: 0;
+  left: 200px; 
+  background-color: #1D1D1D;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 16px;
+  z-index: 100;
+}
 
-  .menu_expandible {
-    width: 200px;
-  }
+.content-wrapper {
+  padding-top: 50px;
+  padding-left: 20px;
+  padding-right: 20px;
+}
 
-  .tiny_style {
-    font-weight: 450;
-    font-size: 16px; 
-  }
+.icon-container {
+  display: flex;
+  align-items: center;
+  padding-right: 20px;
+  justify-content: flex-end;
+}
 
-  .content-wrapper {
-    padding: 20px;
-  }
+.icon {
+  margin-left: 12px;
+}
+
+.icon:hover {
+  cursor: pointer;
+}
+
+.name-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: auto;
+  margin-right: 8px;
+  max-width: 140px;
+}
+
+.name {
+  color: white; 
+  font-size: 14px;
+  font-weight: 500; 
+  margin-left: 12px;
+}
+
+.username {
+  color: rgba(160, 160, 160, 1); 
+  font-size: 12px;
+  margin-left: 12px;
+}
+
+.center-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+}
+
+.menu_expandible {
+  width: 200px;
+}
+
+/* ... (rest of your styles) ... */
 </style>
