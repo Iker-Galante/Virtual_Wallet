@@ -1,8 +1,7 @@
 <script setup>
 import { ref, computed } from 'vue';
-import { useRouter } from 'vue-router';
 import { useProfileStore } from '@/Stores/ProfileStore';
-//import {NavigationBarComponent} from '@/components/NavigationBarComponent.vue'
+import NavigationBarComponent from '@/components/NavigationBarComponent.vue';
 
 const profileStore = useProfileStore();
 
@@ -14,22 +13,16 @@ const name = computed(() => {
 });
 const user = ref('@' + profile.value.name + '_' + profile.value.lastName);
 
-const router = useRouter();
-
-function navigate(destination) {
-  router.push(destination);
-}
 </script>
 
 <template>
   <v-app>
-   
-       <NavigationBarComponent/> 
+    <NavigationBarComponent/> 
   
-     <v-main class="main_page">
+    <v-main class="main_page">
       <div class="nav_bar">
         <div class="center-container">
-          <p class="text-h3 text-white"><slot>Inicio</slot></p>
+          <p class="text-h3 text-white"><slot name="page-title">Inicio</slot></p>
         </div>
         <div class="icon-container">
           <v-icon icon="mdi-bell-outline" color="white" size="x-large" class="icon"></v-icon>
@@ -49,11 +42,10 @@ function navigate(destination) {
           </v-menu>
         </div>
       </div> 
+      <div class="content-wrapper">
+        <slot name="Main_page"></slot>
+      </div>
     </v-main>
-  
-     <v-main class="main_page">
-      <slot name="Main_page"></slot>
-    </v-main> 
   </v-app>
 </template>
 
@@ -66,7 +58,7 @@ function navigate(destination) {
     top: 0;
     left: 0;
     bottom: 0;
-    z-index: 100;
+    /* z-index: 100; */
     box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
   }
   
@@ -91,16 +83,16 @@ function navigate(destination) {
   
   .nav_bar {
     height: 72px;
-    width: calc(100vw - 265px);
+    width: calc(100% - 200px); /* Adjust for the width of NavigationBarComponent */
     position: fixed;
     top: 0;
-    left: 250px;
+    left: 200px; /* Adjust for the width of NavigationBarComponent */
     background-color: #1D1D1D;
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 0 16px;
-    
+    z-index: 100;
   }
   
   .icon-container {
@@ -148,12 +140,10 @@ function navigate(destination) {
   }
   
   .main_page {
-    margin-top: 72px;
-    width: 100vw;
-    min-height: calc(100vh - 72px);
+    padding-top: 92px; /* Increased from 72px to 92px to add more space */
+    padding-left: 200px; /* Width of the NavigationBarComponent */
     background-color: #2D2B3E;
-    padding: 0;
-    margin: 0;
+    min-height: 100vh;
   }
 
   .menu_expandible {
@@ -165,5 +155,7 @@ function navigate(destination) {
     font-size: 16px; 
   }
 
-  
+  .content-wrapper {
+    padding: 20px;
+  }
 </style>
