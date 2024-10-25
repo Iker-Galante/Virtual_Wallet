@@ -25,7 +25,7 @@ const addCard = (lastName) => {
   cardStore.addCard(
     currentProfile.value.name,
     lastName,
-    123456781479,
+    123456781477,
     '12/06',
     123,
     0,
@@ -34,8 +34,8 @@ const addCard = (lastName) => {
   )
 }
 
-const deleteCard = () => {
-  console.log('Card deleted')
+const deleteCard = (tarjeta) => {
+    cardStore.eliminateCard(profileId.value, tarjeta.cardNumber)
 }
 console.log(cards.value)
 </script>
@@ -62,7 +62,7 @@ console.log(cards.value)
               <template #card_number>
                 <span class="pl-2 text-h5">{{ tarjeta.cardNumber }}</span>
                 <span class="pl-2 text-h7">Exp date: {{ tarjeta.expirationDate }}</span>
-                <v-icon icon="mdi-trash-can-outline" @click="deleteCard()"></v-icon>
+                <v-icon icon="mdi-trash-can-outline" @click="deleteCard(tarjeta)"></v-icon>
               </template>
             </Card>
           </v-col>
