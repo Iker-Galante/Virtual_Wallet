@@ -41,9 +41,8 @@ console.log(cards.value)
 </script>
 
 <template>
-  <v-app>
-    <NavigationComponent>Mis Tarjetas</NavigationComponent>
-    <v-main class="main_page">
+    <NavigationComponent>Mis Tarjetas
+    <template #Main_page>
       <v-container fluid>
         <v-row>
           <v-col
@@ -70,8 +69,8 @@ console.log(cards.value)
         </v-row>
       </v-container>
       <v-btn @click="addCard('Galante')" class="agregar">Agregar Tarjeta</v-btn>
-    </v-main>
-  </v-app>
+      </template>
+    </NavigationComponent>
 </template>
 
 <style scoped>

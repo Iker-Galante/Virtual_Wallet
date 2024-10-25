@@ -1,43 +1,47 @@
 <template>
-    <div class="profile_page">
-      <nav-component/>
+    <nav-component>Perfil
+        <template #Main_page>
+      
+            <div class="profile_page">
+      
 
-        <div class="profile_container">
+                <div class="profile_container">
         
-            <h1>Perfil</h1>
+                    <h1>Perfil</h1>
             
-            <div class="profile_details">
+                    <div class="profile_details">
           
-                <label for="username">Usuario:  </label>
-                <span>{{ username }}</span>
+                        <label for="username">Usuario:  </label>
+                        <span>{{ username }}</span>
 
+                    </div>
+
+                    <div class="profile_details">
+
+                        <label for="email">Email: </label>
+                        <span>{{ profile.email }}</span>
+
+                    </div>
+
+                    <div class="profile_details password-container">
+
+                        <label for="password">Contraseña:  </label>
+
+                        <span>{{ getPassword() }}</span>
+
+                        <b class="password-toggle" @click="togglePasswordVisibility">
+
+                        <span v-if="passwordVisible">Ocultar</span>
+                        <span v-else>Mostrar</span>
+
+                        </b>
+
+                    </div>
+                </div>
             </div>
-
-            <div class="profile_details">
-
-                <label for="email">Email: </label>
-                <span>{{ profile.email }}</span>
-
-            </div>
-
-        <div class="profile_details password-container">
-
-            <label for="password">Contraseña:  </label>
-
-            <span>{{ getPassword() }}</span>
-
-            <b class="password-toggle" @click="togglePasswordVisibility">
-
-                <span v-if="passwordVisible">Ocultar</span>
-                <span v-else>Mostrar</span>
-
-            </b>
-
-        </div>
-      </div>
-    </div>
-  </template>
-  
+        </template>
+    </nav-component>
+</template>
 <script setup>
 
 import { useProfileStore } from '@/Stores/ProfileStore';

@@ -22,6 +22,7 @@ function navigate(destination) {
 </script>
 
 <template>
+  <v-app>
     <v-navigation-drawer :width="250" color="#352f3d" class="elevation-15" permanent floating>
       <v-list-item-title class="text-h4 titulo">PLATAN`T</v-list-item-title>
       <v-divider  class="divisor opacity-0"></v-divider>
@@ -57,6 +58,11 @@ function navigate(destination) {
       </div>
     </div>
   </v-navigation-drawer>
+  
+    <v-main class="main_page">
+      <slot name="Main_page"></slot>
+    </v-main>
+  </v-app>
   </template>
   
   <style>
