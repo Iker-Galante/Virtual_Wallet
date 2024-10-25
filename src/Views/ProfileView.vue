@@ -7,7 +7,6 @@
 
                 <div class="profile_container">
         
-                    <h1>Perfil</h1>
             
                     <div class="profile_details">
           
