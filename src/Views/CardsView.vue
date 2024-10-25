@@ -20,7 +20,7 @@ onMounted(() => {
   }
 })
 
-
+const colors = ["#E1CC83", "#83B4E1", "#888989"]
 
 const addCard = (lastName) => {
   cardStore.addCard(
@@ -59,7 +59,7 @@ const deleteCard = (tarjeta) => {
           <CreditCard
           :cardNumber="tarjeta.cardNumber.toString()"
           :cardholderName="tarjeta.name + ' ' + tarjeta.lastName"
-           cardColor="#E1CC83"
+          :cardColor="colors[index % 3]"
             />
             <!--
             <AuxCard>
