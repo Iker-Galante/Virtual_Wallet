@@ -1,9 +1,9 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue'
-import Card from '@/components/CardComponent.vue'
-import AuxCard from '@/components/AuxiliarCardComponent.vue'
+import CreditCard from '@/components/CardComponent.vue'
+//import AuxCard from '@/components/AuxiliarCardComponent.vue'
 import NavigationComponent from '@/components/NavigationComponent.vue'
-import { useCardStore } from '@/stores/CardStore'
+import { useCardStore } from '@/Stores/CardStore'
 import { useProfileStore } from '@/Stores/ProfileStore'
 
 const cardStore = useCardStore()
@@ -26,7 +26,7 @@ const addCard = (lastName) => {
   cardStore.addCard(
     currentProfile.value.name,
     lastName,
-    123456781497,
+    341234567890123,
     '12/06',
     123,
     0,
@@ -56,6 +56,12 @@ console.log(cards.value)
             lg="4"
             xl="3"
           >
+          <CreditCard
+          :cardNumber="tarjeta.cardNumber.toString()"
+          :cardholderName="tarjeta.name + ' ' + tarjeta.lastName"
+           cardColor="#E1CC83"
+            />
+            <!--
             <AuxCard>
               <template #card>
                 <span class="pl-2 text-h5">{{ tarjeta.name + ' ' + tarjeta.lastName }}</span>
@@ -77,6 +83,7 @@ console.log(cards.value)
                 </v-dialog>
               </template>
             </AuxCard>
+            -->
           </v-col>
         </v-row>
       </v-container>

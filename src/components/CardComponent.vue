@@ -17,8 +17,8 @@
           <v-col cols="4" class="text-right">
             <v-img
             :src= "TipoTarjeta" 
-            max-width="50"
-            max-height="50"
+            max-width="60"
+            max-height="60"
             class="ml-4"
           ></v-img>
           </v-col>
@@ -41,6 +41,7 @@
   import { computed, defineProps, ref } from 'vue';
   import mastercard from '@/assets/mastercard-logo.png';
   import visa from '@/assets/Visa.png';
+  import amex from '@/assets/American-Express-Logo.png'
   
   const props = defineProps({
     cardNumber: {
@@ -57,31 +58,35 @@
     },
   });
   
+  const visaRegex = /^4[0-9]{12}(?:[0-9]{3})?$/;
+  const masterCardRegex = /^5[1-5][0-9]{14}$/;
+  const amexRegex = /^3[47][0-9]{13}$/;
+
   const formattedCardNumber = computed(() => {
     // Format the card number to show only the last 4 digits
     const lastFourDigits = props.cardNumber.slice(-4);
+    if (amexRegex.test(props.cardNumber)) {
+      return `•••• •••••• •${lastFourDigits}`;
+    }
     return `•••• •••• •••• ${lastFourDigits}`;
   });
 
   const variants = ref([
     { image: mastercard },
-    { image: visa }
+    { image: visa },
+    { image: amex }
   ]);
 
   const TipoTarjeta = computed(() => {
-  // Elimina cualquier espacio o guión del número de tarjeta
-    const tarjetaLimpia = props.cardNumber.replace(/[\s-]/g, '');
-
-  // Reglas para determinar el tipo de tarjeta
-    const visaRegex = /^4[0-9]{12}(?:[0-9]{3})?$/;
-    const masterCardRegex = /^5[1-5][0-9]{14}$/;
-    //const amexRegex = /^3[47][0-9]{13}$/;
-
-    if (visaRegex.test(tarjetaLimpia)) {
+    
+    if (visaRegex.test(props.cardNumber)) {
         return variants.value[1].image;
-    } else if (masterCardRegex.test(tarjetaLimpia)) {
+    } else if (masterCardRegex.test(props.cardNumber)) {
         return variants.value[0].image;
-    } else {
+    } else if (amexRegex.test(props.cardNumber)) {
+        return variants.value[2].image;
+    }
+    else {
         return '';
     }
 });
