@@ -7,7 +7,7 @@ import { useProfileStore } from '@/Stores/ProfileStore'
 
 const cardStore = useCardStore()
 const profileStore = useProfileStore()
-
+const isOpen = ref(false);
 const currentProfile = computed(() => profileStore.getCurrentProfile())
 const profileId = computed(() => profileStore.getCurrentProfileIndex(currentProfile.value.email))
 const cards = computed(() => cardStore.getCards(profileId.value))
@@ -25,7 +25,7 @@ const addCard = (lastName) => {
   cardStore.addCard(
     currentProfile.value.name,
     lastName,
-    123456781477,
+    123456781497,
     '12/06',
     123,
     0,
@@ -36,6 +36,7 @@ const addCard = (lastName) => {
 
 const deleteCard = (tarjeta) => {
     cardStore.eliminateCard(profileId.value, tarjeta.cardNumber)
+    isOpen.value = false
 }
 console.log(cards.value)
 </script>
@@ -62,7 +63,17 @@ console.log(cards.value)
               <template #card_number>
                 <span class="pl-2 text-h5">{{ tarjeta.cardNumber }}</span>
                 <span class="pl-2 text-h7">Exp date: {{ tarjeta.expirationDate }}</span>
-                <v-icon icon="mdi-trash-can-outline" @click="deleteCard(tarjeta)"></v-icon>
+                <v-icon icon="mdi-trash-can-outline" @click="isOpen = true"></v-icon>
+                <v-dialog v-model="isOpen" width="auto">
+                    <v-card>
+                        <v-card-text>¿Estás seguro de que deseas eliminar esta tarjeta?</v-card-text>
+                        <v-card-actions>
+                            <v-spacer></v-spacer>
+                            <v-btn color="error" @click="deleteCard(tarjeta)">Sí</v-btn>
+                            <v-btn @click="isOpen = false">No</v-btn>
+                        </v-card-actions>
+                    </v-card>
+                </v-dialog>
               </template>
             </Card>
           </v-col>
