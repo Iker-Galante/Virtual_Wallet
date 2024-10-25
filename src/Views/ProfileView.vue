@@ -71,39 +71,54 @@ function getPassword() {
 </script>
   
 <style scoped>
-   .profile_page {
+
+    .profile_page {
+
       display: flex;
       flex-direction: column;
       align-items: center;
-      background: #1c1b23;
       color: #ffffff;
       padding: 2rem;
-}
+    }
   
-  .profile_container {
+    .profile_container  {
       width: 100%;
       max-width: 400px;
       padding: 2rem;
       background: #2f2e36;
       border-radius: 10px;
-}
+
+    }
   
-  .profile_details {
-      margin-bottom: 1.5rem;
-  }
+    .profile_details {
+    
+    margin-bottom: 1.5rem;
+        display: flex;
+        margin-right: 1rem;
+    }
   
-  .profile_details label {
-      font-weight: bold;
-}
+    .profile_details label    {
+    
+    font-weight: bold;
+      margin-right: 1rem;
+    }
   
-  .password-container {
+    .password-container   {
+
       display: flex;
       align-items: center; 
-}
+    }
   
-  .password-toggle {
-      cursor: pointer;
-      margin-left: 10px;
-      font-size: 1.2rem; 
-}
+    .password-toggle    {
+
+        cursor: pointer;
+        margin-left: 10px;
+        font-size: 0.9rem;
+        margin-left: auto;
+    }
+    
+    .password-toggle:hover  {
+    
+        color: #8E66FF;
+    }
   </style>
