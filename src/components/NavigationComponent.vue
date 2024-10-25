@@ -18,6 +18,8 @@ const user = ref('@' + profile.value.name + '_' + profile.value.lastName);
 <template>
   <v-app>
     <NavigationBarComponent/> 
+  
+    <v-main class="main_page">
       <div class="nav_bar">
         <div class="center-container">
           <p class="text-h3 text-white"><slot name="page-title"></slot></p>
@@ -40,18 +42,18 @@ const user = ref('@' + profile.value.name + '_' + profile.value.lastName);
           </v-menu>
         </div>
       </div> 
-      <v-main class="main_page">
+      <div class="content-wrapper">
         <slot name="Main_page"></slot>
-      </v-main>
+      </div>
+    </v-main>
   </v-app>
 </template>
 
 <style scoped>
 .main_page {
-  padding-left: 255px;
+  padding-left: 200px;
   background-color: #2D2B3E;
   min-height: 100vh;
-  margin-top: 72px;
 }
 
 .nav_bar {

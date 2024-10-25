@@ -1,36 +1,29 @@
-<script setup>
-import { ref, computed } from 'vue';
-
-// import { useProfileStore } from '@/Stores/ProfileStore';
-// import { useMovementStore } from '@/Stores/MovementStore';
-import { getProfileStore, getMovementStore } from '@/Stores/GlobalStore';
-import MovementItemComponent from './MovementItemComponent.vue';
-
-const profileStore = computed(() => getProfileStore())
-const movementStore = computed(() => getMovementStore())
-
-const profileId = computed(() => profileStore.value.getCurrentProfileIndex(profileStore.value.getCurrentProfile().email));
-
-// console.log(profileId.value)
- //Test purposes
-movementStore.value.addRandomMovements(profileId.value)
-//
-
-const movements = computed(() => movementStore.value.getMovementsByUserId(profileId.value))
-</script>
-
 <template>
-  <div class="box">
-    <div class="title">Movimientos Recientes</div>
-    <v-list class="movement-list">
-      <MovementItemComponent 
-        v-for="movement in movements" 
-        :key="movement.id"
-        :movement="movement"
-      />
-    </v-list>
+  <div>
+    <h2>Movements:</h2>
+    <ul>
+      <li v-for="movement in movements" :key="movement.id">
+        {{ movement.type === 'credit' ? '+' : '-' }} {{ movement.amount }}
+      </li>
+    </ul>
+    <button @click="addRandomMovement">Add Random Movement</button>
   </div>
 </template>
+
+<script setup>
+import { storeToRefs } from 'pinia'
+import { useMovementStore } from '@/Stores/MovementStore'
+import { useBalanceStore } from '@/Stores/BalanceStore'
+
+const movementStore = useMovementStore()
+const balanceStore = useBalanceStore()
+const { movements } = storeToRefs(movementStore)
+
+function addRandomMovement() {
+  const amount = Math.floor(Math.random() * 100)
+  balanceStore.addFunds(amount)  // This will now also create a movement
+}
+</script>
 
 <style scoped>
 .box {

@@ -1,37 +1,17 @@
 <script setup>
-// import { useRouter } from 'vue-router';
-import SaldoDisplay from './SaldoDisplay.vue';
-// import { useBalanceStore } from '@/Stores/BalanceStore';
+import { storeToRefs } from 'pinia'
+import { useBalanceStore } from '@/Stores/BalanceStore'
 
-// const router = useRouter();
-// const balanceStore = useBalanceStore();
-
-//TODO: make it dynamic
-function addFunds() {
-    // balanceStore.addFunds(100.05); 
-}
+const balanceStore = useBalanceStore()
+const { balance } = storeToRefs(balanceStore)
+const { addFunds } = balanceStore
 </script>
 
 <template>
-    <div class="saldo-component d-flex align-center">
-        <v-card class="tarjeta elevation-12" image="@/assets/Cardbg.jpeg">
-            <v-card-text>
-                <div class="align-center justify-space-between d-flex">
-                    <v-btn prepend-icon="mdi-plus-circle-outline" class="add-funds-btn" @click="addFunds"> 
-                     <div class="btn-text">
-                        <span>Ingresar</span>
-                        <span>Fondos</span>
-                    </div> 
-                    </v-btn>
-                    <SaldoDisplay/>
-                </div>
-            </v-card-text>
-            <v-card-actions class="button-container">
-                <v-btn class="action-btn pagar" prepend-icon="mdi-send-variant-outline">Pagar</v-btn>
-                <v-btn class="action-btn cobrar" prepend-icon="mdi-arrow-up">Cobrar</v-btn>
-            </v-card-actions> 
-        </v-card>
-    </div>
+  <div>
+    <h2>Balance: {{ balance }}</h2>
+    <button @click="addFunds(100)">Add 100</button>
+  </div>
 </template>
 
 <style scoped>
