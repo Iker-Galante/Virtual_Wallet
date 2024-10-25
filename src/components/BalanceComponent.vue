@@ -39,8 +39,9 @@ function addFunds() {
     justify-content: center;
 }
 .tarjeta {
-    /*Agregar ancho si necesario   width: ;*/
-    width: 60vw; /* Set a specific width */
+    
+    width: 60vw; 
+    height: 20vw;
     padding: 30px; 
     border-radius: 20px;
 }

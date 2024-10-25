@@ -8,16 +8,13 @@ import { computed } from 'vue';
 const profileStore = useProfileStore()
 const movementStore = useMovementStore()
 
-const profileMail = computed(() => profileStore.getCurrentProfile().email)
+const profileId = computed(() => profileStore.getCurrentProfile().id)
 
-//test purposes.
-// movementStore.addMovement(profileMail, '2024-10-24', '10:00', -100, 'deposit', 'Depósito de prueba')
-// movementStore.addMovement(profileMail, '2024-10-24', '10:00', -100, 'deposit', 'Depósito de prueba')
-// movementStore.addMovement(profileMail, '2024-10-24', '10:00', -100, 'deposit', 'Depósito de prueba')
+ //Test purposes
+movementStore.addRandomMovements(profileId)
+//
 
-//movementStore.addRandomMovements(profileMail)
-
-const movements = computed(() => movementStore.getMovementsByUserId(profileMail))
+const movements = computed(() => movementStore.getMovementsByUserId(profileId))
 </script>
 
 <template>

@@ -11,7 +11,7 @@ const routeName = router.options.routes.filter(route => route.name === 'mainPage
 
 <template>
   <Navigation>
-    <template #page-title>{{ routeName}}</template>
+    <template #page-title>{{routeName}}</template>
     <template #Main_page>
       <div class="home-content">
         <div class="balance-wrapper">

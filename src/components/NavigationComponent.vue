@@ -22,7 +22,7 @@ const user = ref('@' + profile.value.name + '_' + profile.value.lastName);
     <v-main class="main_page">
       <div class="nav_bar">
         <div class="center-container">
-          <p class="text-h3 text-white"><slot name="page-title">Inicio</slot></p>
+          <p class="text-h3 text-white"><slot name="page-title"></slot></p>
         </div>
         <div class="icon-container">
           <v-icon icon="mdi-bell-outline" color="white" size="x-large" class="icon"></v-icon>
@@ -83,10 +83,10 @@ const user = ref('@' + profile.value.name + '_' + profile.value.lastName);
   
   .nav_bar {
     height: 72px;
-    width: calc(100% - 200px); /* Adjust for the width of NavigationBarComponent */
+    width: calc(100% - 200px);
     position: fixed;
     top: 0;
-    left: 200px; /* Adjust for the width of NavigationBarComponent */
+    left: 200px; 
     background-color: #1D1D1D;
     display: flex;
     justify-content: space-between;

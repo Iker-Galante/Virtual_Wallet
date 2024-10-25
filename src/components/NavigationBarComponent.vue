@@ -20,7 +20,7 @@ const navItems = routes
 <template>
   <v-navigation-drawer class="navLeftBar">
     <v-list-item-title class="text-h4 webTitle">{{ webName }}</v-list-item-title>
-    <!-- <v-divider class="divisor"></v-divider> -->
+    <v-divider class="divisor"></v-divider>
     <v-list-item
       v-for="route in navItems"
       :key="route.name" class="routeItems"
@@ -47,6 +47,7 @@ const navItems = routes
   font-weight: 600; 
   margin: 10px 16px;
   color: white;
+  text-align: center;
 }
 
 .routeItems {
@@ -58,7 +59,7 @@ const navItems = routes
 }
 
 .divisor {
-  margin: 10px 0;
+  margin: 20px 0;
   background-color: rgba(255, 255, 255, 0.1);
 }
 

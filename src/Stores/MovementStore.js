@@ -24,8 +24,7 @@ export const useMovementStore = defineStore('movement', () => {
 
     //simulate the API.
     function addRandomMovements(userId) {
-        const randomMovements = []
-        for (let i = 0; i < 3; i++) {
+        for (let i = 0; i < 2; i++) {
             const isPositive = Math.random() < 0.5; 
             const randomAmount = Math.floor(Math.random() * 1000) + 1; 
             const amount = isPositive ? randomAmount : -randomAmount;
