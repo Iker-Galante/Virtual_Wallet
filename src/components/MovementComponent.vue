@@ -11,7 +11,11 @@ const movementStore = useMovementStore()
 const profileMail = computed(() => profileStore.getCurrentProfile().email)
 
 //test purposes.
-//movementStore.addMovement(profileMail, '2024-10-24', '10:00', -100, 'deposit', 'Depósito de prueba')
+// movementStore.addMovement(profileMail, '2024-10-24', '10:00', -100, 'deposit', 'Depósito de prueba')
+// movementStore.addMovement(profileMail, '2024-10-24', '10:00', -100, 'deposit', 'Depósito de prueba')
+// movementStore.addMovement(profileMail, '2024-10-24', '10:00', -100, 'deposit', 'Depósito de prueba')
+
+movementStore.addRandomMovements(profileMail)
 
 const movements = computed(() => movementStore.getMovementsByUserId(profileMail))
 </script>

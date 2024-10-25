@@ -37,7 +37,7 @@ function formatAmount(amount) {
 <template>
   <div class="movement-item">
     <div class="icon-container">
-      <v-icon color="black" size="small">{{ getIcon(movement.type) }}</v-icon>
+      <v-icon color="black" size="28">{{ getIcon(movement.movementType) }}</v-icon>
     </div>
     <div class="movement-description">{{ movement.description }}</div>
     <div class="movement-right">
@@ -67,9 +67,19 @@ function formatAmount(amount) {
   margin-right: 16px;
   border-radius: 50%;
   background-color: white;
+  overflow: hidden;
 }
 
-.movement-description {
+.icon-container .v-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  left: 30px;
+}
+
+.movement-description { 
   flex-grow: 1;
   font-weight: 500;
   color: #CCCCCC;
