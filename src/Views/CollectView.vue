@@ -1,14 +1,23 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, provide } from 'vue'
 import { useProfileStore } from '@/Stores/ProfileStore'
 import NavigationComponent from '@/components/NavigationComponent.vue';
+import AmountComponent from '@/components/AmountComponent.vue';
+
+const profileStore = useProfileStore();
+const currentuserId = ref(profileStore.getCurrentProfileIndex(profileStore.getCurrentProfile().email));
+provide('currentuserId', currentuserId);
+
 </script>
 
 <template>
     <NavigationComponent>
         <template #page-title> Cobrar </template>
         <template #Main_page>
-            <h1>Cobrar</h1>
+            <AmountComponent/>
         </template>
     </NavigationComponent>
 </template>
+
+<style scoped>
+</style>

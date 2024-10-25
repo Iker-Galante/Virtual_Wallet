@@ -2,6 +2,11 @@
 <script setup>
 </script>
 
-<template scoped>
-<h1>Movements</h1>
+<template>
+    <NavigationComponent>
+        <template #page-title> Movimientos </template>
+        <template #Main_page>
+            <h1>Movimientos</h1>
+        </template>
+    </NavigationComponent>
 </template>

@@ -2,6 +2,11 @@
 <script setup>
 </script>
 
-<template scoped>
-<h1>Contacts</h1>
+<template>
+    <NavigationComponent>
+        <template #page-title> Contactos </template>
+        <template #Main_page>
+            <h1>Contactos</h1>
+        </template>
+    </NavigationComponent>
 </template>
