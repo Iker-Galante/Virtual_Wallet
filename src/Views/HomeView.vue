@@ -1,7 +1,7 @@
 <script setup>
 import BalanceComponent from '@/components/BalanceComponent.vue';
 import MovementComponent from '@/components/MovementComponent.vue';
-import Navigation from '../components/NavigationComponent.vue';
+import Navigation from '@/components/NavigationComponent.vue';
 </script>
 
 <template>
