@@ -1,8 +1,9 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue'
 import Card from '@/components/CardComponent.vue'
+import AuxCard from '@/components/AuxiliarCardComponent.vue'
 import NavigationComponent from '@/components/NavigationComponent.vue'
-import { useCardStore } from '@/Stores/CardStore'
+import { useCardStore } from '@/stores/CardStore'
 import { useProfileStore } from '@/Stores/ProfileStore'
 
 const cardStore = useCardStore()
@@ -55,7 +56,7 @@ console.log(cards.value)
             lg="4"
             xl="3"
           >
-            <Card>
+            <AuxCard>
               <template #card>
                 <span class="pl-2 text-h5">{{ tarjeta.name + ' ' + tarjeta.lastName }}</span>
                 <span class="pr-2 text-h5">{{ tarjeta.cardType }}</span>
@@ -75,7 +76,7 @@ console.log(cards.value)
                     </v-card>
                 </v-dialog>
               </template>
-            </Card>
+            </AuxCard>
           </v-col>
         </v-row>
       </v-container>

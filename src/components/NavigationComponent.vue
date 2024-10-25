@@ -16,6 +16,7 @@ const name= computed(() =>{
 const user=ref('@'+ profile.value.name + '_' + profile.value.lastName);
 
 const router = useRouter();
+
 function navigate(destination) {
   router.push(destination);
 }
@@ -41,7 +42,7 @@ function navigate(destination) {
     </div>
       <div class="icon-container">
         <v-icon icon="mdi-bell-outline" color="white" size="x-large" class="icon"></v-icon>
-        <div class="name-container overflow-hidden" >
+        <div class="name-container overflow-hidden">
           <span class="name">{{ name }}</span>
           <span class="username">{{ user }}</span>
         </div>
