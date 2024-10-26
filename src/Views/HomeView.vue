@@ -1,6 +1,6 @@
 <script setup>
 import BalanceComponent from '@/components/BalanceComponent.vue';
-import MovementComponent from '@/components/MovementComponent.vue';
+import MovementsComponent from '@/components/MovementComponent.vue';
 import Navigation from '@/components/NavigationComponent.vue';
 import { useRouter } from 'vue-router';
 
@@ -17,7 +17,7 @@ const routeName = router.options.routes.filter(route => route.name === 'mainPage
           <BalanceComponent/>
         </div>
         <div class="movement-wrapper">
-          <MovementComponent/>
+          <MovementsComponent/>
         </div>
     </template>
   </Navigation>

@@ -43,7 +43,7 @@ const router = createRouter({
       name: 'movements',
       spanishName: 'Movimientos',
       icon: 'mdi-inbox-multiple-outline',
-      component: () => import('../Views/MovementsView.vue'),
+      component: () => import('../Views/MovementView.vue'),
     },
     {
       path: '/contacts',

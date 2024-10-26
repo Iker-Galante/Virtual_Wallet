@@ -27,7 +27,7 @@ function navigate(destination) {
           <p class="text-h3 text-white"><slot name="page-title"></slot></p>
         </div>
         <div class="icon-container">
-          <v-icon icon="mdi-bell-outline" color="white" size="x-large" class="icon"></v-icon>
+          <!-- <v-icon icon="mdi-bell-outline" color="white" size="x-large" class="icon"></v-icon> -->
           <div class="name-container overflow-hidden">
             <span class="name">{{ name }}</span>
             <span class="username">{{ user }}</span>
@@ -35,9 +35,9 @@ function navigate(destination) {
           <v-avatar id="perfil" image="@/assets/default_user.jpg" size="default" class="icon"></v-avatar>
           <v-menu transition="scale-transition" activator="#perfil" class="menu_expandible">
             <v-list class="elevation-20">
-              <v-list-item-title>{{ name }}</v-list-item-title>
+              <!-- <v-list-item-title>{{ name }}</v-list-item-title>
               <v-list-item-title>{{ user }}</v-list-item-title>
-              <v-list-item @click="navigate('/Profile')">Perfil</v-list-item>
+              <v-list-item @click="navigate('/Profile')">Perfil</v-list-item> -->
               <v-list-item @click="navigate('/Settings')">Configuración</v-list-item>
               <v-list-item @click="navigate('/Login')">Cerrar Sesión</v-list-item>
             </v-list>
