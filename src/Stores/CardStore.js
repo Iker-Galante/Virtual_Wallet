@@ -13,11 +13,11 @@ export const useCardStore = defineStore('card', () => {
     const fetchCards = async () => {
     }
 
-    function addCard(name, lastName, cardNumber, expirationDate, cvv, cardBalance, cardType, userId) {
+    function addCard(name, cardNumber, expirationDate, cvv, cardBalance, userId) {
         if (!cards.value[userId]) {
             cards.value[userId] = []
         }
-        cards.value[userId].push({ name, lastName, cardNumber, expirationDate, cvv, cardBalance, cardType })
+        cards.value[userId].push({ name, cardNumber, expirationDate, cvv, cardBalance })
     }
 
     function getCards(userId) {

@@ -54,7 +54,7 @@
     },
     cardColor: {
       type: String,
-      default: '#CFB53B', // Default to a gold-like color
+      default: '#CFB53B',
     },
   });
   
@@ -63,7 +63,7 @@
   const amexRegex = /^3[47][0-9]{13}$/;
 
   const formattedCardNumber = computed(() => {
-    // Format the card number to show only the last 4 digits
+    
     const lastFourDigits = props.cardNumber.slice(-4);
     if (amexRegex.test(props.cardNumber)) {
       return `•••• •••••• •${lastFourDigits}`;
