@@ -17,6 +17,11 @@ export const useProfileStore = defineStore('profile', () => {
             addProfile(profile.name, profile.surname, profile.age, profile.email)
         })
     }
+    
+    function getProfileById(id) {
+
+        return (id>=0 && id<totalProfiles) ? profiles.value[id] : null;
+    }
 
     function getNextUnusedUserId() {
         return totalProfiles.value
