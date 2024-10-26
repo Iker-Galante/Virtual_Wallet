@@ -2,7 +2,7 @@
 // import { useRouter } from 'vue-router';
 import { computed } from 'vue';
 import { useRouter } from 'vue-router';
-import SaldoDisplay from './SaldoDisplay.vue';
+import SaldoDisplay from './SaldoDisplayComponent.vue';
 import { useBalanceStore } from '@/Stores/BalanceStore';
 import { useMovementStore } from '@/Stores/MovementStore';
 import { useProfileStore } from '@/Stores/ProfileStore';
