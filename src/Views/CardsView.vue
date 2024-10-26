@@ -94,9 +94,6 @@ const deleteCard = (tarjeta) => {
 
 <style scoped>
 .agregar{
-   position: absolute;
-    bottom: 50vh;
-    right: 50vh;
     background-color: #acacac;
     color: white;
     font-size: 20px;

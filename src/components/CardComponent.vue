@@ -38,7 +38,7 @@
   
   <script setup>
 
-  import { computed, defineProps, ref } from 'vue';
+  import { computed, ref } from 'vue';
   import mastercard from '@/assets/mastercard-logo.png';
   import visa from '@/assets/Visa.png';
   import amex from '@/assets/American-Express-Logo.png'

@@ -2,7 +2,7 @@
 import { ref, computed } from 'vue';
 import { useProfileStore } from '@/Stores/ProfileStore';
 import NavigationBarComponent from '@/components/NavigationBarComponent.vue';
-
+import { useRouter } from 'vue-router';
 const profileStore = useProfileStore();
 
 const profile = computed(() => profileStore.getCurrentProfile());
@@ -12,7 +12,11 @@ const name = computed(() => {
   return changedname.value;
 });
 const user = ref('@' + profile.value.name + '_' + profile.value.lastName);
+const route= useRouter();
 
+function navigate(destination) {
+  route.push(destination);
+}
 </script>
 
 <template>
