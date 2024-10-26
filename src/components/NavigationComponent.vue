@@ -35,8 +35,7 @@ function navigate(destination) {
           <v-avatar id="perfil" image="@/assets/default_user.jpg" size="default" class="icon"></v-avatar>
           <v-menu transition="scale-transition" activator="#perfil" class="menu_expandible">
             <v-list class="elevation-20">
-              <!-- <v-list-item-title>{{ name }}</v-list-item-title>
-              <v-list-item-title>{{ user }}</v-list-item-title>
+              <!--
               <v-list-item @click="navigate('/Profile')">Perfil</v-list-item> -->
               <v-list-item @click="navigate('/Settings')">Configuración</v-list-item>
               <v-list-item @click="navigate('/Login')">Cerrar Sesión</v-list-item>

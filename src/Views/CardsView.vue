@@ -1,6 +1,7 @@
 <script setup>
-import { ref, onMounted, computed } from 'vue'
+import { ref, onMounted, computed,provide } from 'vue'
 import CreditCard from '@/components/CardComponent.vue'
+import DeleteCardComponent from '@/components/DeleteCardComponent.vue'
 //import AuxCard from '@/components/AuxiliarCardComponent.vue'
 import NavigationComponent from '@/components/NavigationComponent.vue'
 import { useCardStore } from '@/Stores/CardStore'
@@ -8,7 +9,8 @@ import { useProfileStore } from '@/Stores/ProfileStore'
 
 const cardStore = useCardStore()
 const profileStore = useProfileStore()
-const isOpen = ref(false);
+const isOpenAdd = ref(false);
+const isOpenDelete = ref(false);
 const currentProfile = computed(() => profileStore.getCurrentProfile())
 const profileId = computed(() => profileStore.getCurrentProfileIndex(currentProfile.value.email))
 const cards = computed(() => cardStore.getCards(profileId.value))
@@ -35,9 +37,8 @@ const addCard = (lastName) => {
   )
 }
 
-const deleteCard = (tarjeta) => {
-    cardStore.eliminateCard(profileId.value, tarjeta.cardNumber)
-    isOpen.value = false
+function changeDelete(){
+  isOpenDelete.value = !isOpenDelete.value
 }
 </script>
 
@@ -87,7 +88,14 @@ const deleteCard = (tarjeta) => {
           </v-col>
         </v-row>
       </v-container>
-      <v-btn @click="addCard('Galante')" class="agregar">Agregar Tarjeta</v-btn>
+      <v-btn @click="addCard('Galante')" class="agregar" id="editar">Editar</v-btn>
+      <v-menu transition="scale-transition" activator="#editar">
+            <v-list class="elevation-20">
+              <v-list-item @click="changeAdd()">Agregar Tarjeta</v-list-item>
+              <v-list-item @click="changeDelete()">Borrar Tarjeta</v-list-item>
+              <DeleteCardComponent v-model="isOpenDelete"/>
+            </v-list>
+          </v-menu>
       </template>
     </NavigationComponent>
 </template>
@@ -99,5 +107,9 @@ const deleteCard = (tarjeta) => {
     font-size: 20px;
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
     transition: 0.3s;
+    position : fixed;
+    bottom: 70px;
+    right: 20px;
+    border-radius: 12px;
 }
 </style>
