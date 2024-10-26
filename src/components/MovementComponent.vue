@@ -31,10 +31,10 @@ const profileId = computed(() => profileStore.value.getCurrentProfileIndex(profi
         // }
 }
 
-// for (let i = 0; i < 10; i++) {
-//     addRandomMovement(profileId.value)
-// }
-//
+for (let i = 0; i < 3; i++) {
+    addRandomMovement(profileId.value)
+}
+
 
 const movements = computed(() => {
   const userMovements = movementStore.value.getMovementsByUserId(profileId.value);

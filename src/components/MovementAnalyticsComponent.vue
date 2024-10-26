@@ -23,15 +23,15 @@ const analytics = computed(() => {
   const totalExpense = movements.value.reduce((sum, movement) => 
     movement.amount < 0 ? sum + Math.abs(movement.amount) : sum, 0);
   const mostFrequentType = getMostFrequentType(movements.value);
-  const averageTransaction = movements.value.length > 0 
-    ? (totalIncome + totalExpense) / movements.value.length 
-    : 0;
+//   const averageTransaction = movements.value.length > 0 
+//     ? (totalIncome + totalExpense) / movements.value.length 
+//     : 0;
 
   return {
     totalIncome,
     totalExpense,
     mostFrequentType,
-    averageTransaction: Math.abs(averageTransaction),
+    // averageTransaction: Math.abs(averageTransaction),
   };
 });
 
@@ -95,10 +95,10 @@ function getMostFrequentType(movements) {
             <v-list-item-title>Tipo de Movimiento más Frecuente</v-list-item-title>
             <v-list-item-subtitle>{{ analytics.mostFrequentType }}</v-list-item-subtitle>
           </v-list-item>
-          <v-list-item>
+          <!-- <v-list-item>
             <v-list-item-title>Promedio de Transacción</v-list-item-title>
             <v-list-item-subtitle>${{ analytics.averageTransaction.toFixed(2) }}</v-list-item-subtitle>
-          </v-list-item>
+          </v-list-item> -->
         </v-list>
       </div>
       <div class="chart-container">
@@ -116,7 +116,7 @@ function getMostFrequentType(movements) {
   width: 60vw;
   background-color: #1d1d1d;
   border-radius: 15px;
-  padding: 16px;
+  padding: 16px 16px 24px;
 }
 
 .title {
@@ -128,6 +128,7 @@ function getMostFrequentType(movements) {
   line-height: 20px;
   margin-bottom: 16px;
   text-align: left;
+  padding-top: 4px;
 }
 
 .content-container {
@@ -138,6 +139,7 @@ function getMostFrequentType(movements) {
 
 .text-container {
   width: 50%;
+  padding-top: 0;
 }
 
 .analytics-list {
@@ -154,6 +156,7 @@ function getMostFrequentType(movements) {
 .chart-container {
   width: 45%;
   height: 250px;
+  margin-top: -20px;
 }
 
 :deep(.v-list-item) {
