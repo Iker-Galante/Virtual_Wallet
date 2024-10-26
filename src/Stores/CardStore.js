@@ -9,15 +9,21 @@ export const useCardStore = defineStore('card', () => {
 
     const cards = ref({})
 
+    const showDelete = ref(false)
+
     //TODO: como no esta la API, hay que inventar datos. 
     const fetchCards = async () => {
     }
 
-    function addCard(name, lastName, cardNumber, expirationDate, cvv, cardBalance, cardType, userId) {
+    function toggleDeleteButton(state) {
+        showDelete.value = state;
+    }
+
+    function addCard(name, cardNumber, expirationDate, cvv, cardBalance, userId) {
         if (!cards.value[userId]) {
             cards.value[userId] = []
         }
-        cards.value[userId].push({ name, lastName, cardNumber, expirationDate, cvv, cardBalance, cardType })
+        cards.value[userId].push({ name, cardNumber, expirationDate, cvv, cardBalance })
     }
 
     function getCards(userId) {
@@ -30,5 +36,5 @@ export const useCardStore = defineStore('card', () => {
         }
     }
 
-    return { addCard, getCards, eliminateCard }
+    return { addCard, getCards, eliminateCard, toggleDeleteButton, showDelete }
 })
