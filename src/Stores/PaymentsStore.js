@@ -13,7 +13,7 @@ export const usePaymentsStore = defineStore('profile', () => {
 
     function createPayment(userId, amount)    { 
 
-        if(amount <= 0) return;
+        if(amount <= 0) return null;
 
         if (!payments.value[userId])  {
 
