@@ -8,9 +8,6 @@ export const useMovementStore = defineStore('movement', () => {
 
     const movements = ref({})
 
-    const fetchMovements = async () => {
-    }
-
     function addMovement(userId, date, time, amount, movementType, description) {
         if (!movements.value[userId]) {
             movements.value[userId] = []
@@ -22,5 +19,5 @@ export const useMovementStore = defineStore('movement', () => {
         return movements.value[userId]
     }
 
-    return { addMovement, getMovementsByUserId, addRandomMovement }
+    return { addMovement, getMovementsByUserId }
 })

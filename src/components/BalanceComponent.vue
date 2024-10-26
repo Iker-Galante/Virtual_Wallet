@@ -1,11 +1,13 @@
 <script setup>
 // import { useRouter } from 'vue-router';
 import { computed } from 'vue';
+import { useRouter } from 'vue-router';
 import SaldoDisplay from './SaldoDisplay.vue';
 import { useBalanceStore } from '@/Stores/BalanceStore';
 import { useMovementStore } from '@/Stores/MovementStore';
 import { useProfileStore } from '@/Stores/ProfileStore';
 
+const router = useRouter();
 const balanceStore = computed(() => useBalanceStore());
 const movementStore = computed(() => useMovementStore());
 const profileStore = computed(() => useProfileStore());
@@ -41,8 +43,8 @@ function addFunds() {
                 </div>
             </v-card-text>
             <v-card-actions class="button-container">
-                <v-btn class="action-btn pagar" prepend-icon="mdi-send-variant-outline">Pagar</v-btn>
-                <v-btn class="action-btn cobrar" prepend-icon="mdi-arrow-up">Cobrar</v-btn>
+                <v-btn class="action-btn pagar" prepend-icon="mdi-send-variant-outline" @click="router.push('/Pay')">Pagar</v-btn>
+                <v-btn class="action-btn cobrar" prepend-icon="mdi-arrow-up" @click="router.push('/Collect')">Cobrar</v-btn>
             </v-card-actions> 
         </v-card>
     </div>
