@@ -1,14 +1,28 @@
 <script setup>
 // import { useRouter } from 'vue-router';
+import { computed } from 'vue';
 import SaldoDisplay from './SaldoDisplay.vue';
-// import { useBalanceStore } from '@/Stores/BalanceStore';
+import { useBalanceStore } from '@/Stores/BalanceStore';
+import { useMovementStore } from '@/Stores/MovementStore';
+import { useProfileStore } from '@/Stores/ProfileStore';
 
-// const router = useRouter();
-// const balanceStore = useBalanceStore();
+const balanceStore = computed(() => useBalanceStore());
+const movementStore = computed(() => useMovementStore());
+const profileStore = computed(() => useProfileStore());
+const profileId = computed(() => profileStore.value.getCurrentProfileIndex(profileStore.value.getCurrentProfile().email));
 
 //TODO: make it dynamic
 function addFunds() {
-    // balanceStore.addFunds(100.05); 
+    balanceStore.value.addFunds(100.05); 
+    movementStore.value.addMovement(
+        profileId.value, 
+        new Date().toISOString().split('T')[0], 
+        new Date().toISOString().split('T')[1].split('.')[0], 
+        100.05, 
+        'credit', 
+        'Ingreso de fondos'
+    );
+
 }
 </script>
 

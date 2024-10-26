@@ -1,17 +1,15 @@
 <script setup>
 import { computed,ref } from 'vue';
-// import { useBalanceStore } from '@/Stores/BalanceStore';
+ import { useBalanceStore } from '@/Stores/BalanceStore';
 import { useMovementStore } from '@/Stores/MovementStore';
 import { useProfileStore } from '@/Stores/ProfileStore';
 
-// const balanceStore = useBalanceStore();
 const initialBalance = ref(0.00);
 const profileStore = computed(() => useProfileStore());
 const movementStore = computed(() => useMovementStore());
-
+const balanceStore = computed(() => useBalanceStore());
 const currentUserMail = computed(() => profileStore.value.getCurrentProfile());
 const currentUserId = computed(() => profileStore.value.getCurrentProfileUserId(currentUserMail));
-movementStore.value.addRandomMovements(currentUserId);
 const movements = computed(() => movementStore.value.getMovementsByUserId(currentUserId));
 
 const totalBalance = computed(() => {
@@ -23,7 +21,7 @@ const totalBalance = computed(() => {
 <template>
   <div class="saldo-display">
     <span class="saldo">Saldo Disponible</span>
-    <span class="saldo-amount">${{ totalBalance.toFixed(2) }}</span>
+    <span class="saldo-amount">${{ balanceStore.getBalance().toFixed(2) }}</span>
   </div>
 </template>
 
