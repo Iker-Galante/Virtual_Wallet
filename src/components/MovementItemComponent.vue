@@ -22,10 +22,10 @@ function formatTime(time) {
   
   const [hours, minutes] = time.split(':');
   const date = new Date();
-  date.setHours(parseInt(hours, 10));
+  date.setHours(parseInt(hours-3, 10));
   date.setMinutes(parseInt(minutes, 10));
   
-  return date.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
+  return date.toLocaleString('es-AR', { hour: 'numeric', minute: 'numeric', hour12: true });
 }
 
 function formatAmount(amount) {
