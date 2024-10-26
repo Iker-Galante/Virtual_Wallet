@@ -10,6 +10,7 @@ export const useProfileStore = defineStore('profile', () => {
     const profiles = ref([{ name: 'default', lastName: 'guest', age: '100', email: 'admin@gmail.com', password: 'admin' }])
     const totalProfiles = computed(() => profiles.value.length)
     const currentProfile = ref(profiles.value[0]);
+    const token = ref('12345678')
 
     function fetchProfiles() {
         const fetchedProfiles = dummyProfiles
@@ -17,10 +18,13 @@ export const useProfileStore = defineStore('profile', () => {
             addProfile(profile.name, profile.surname, profile.age, profile.email)
         })
     }
-    
-    function getProfileById(id) {
 
-        return (id>=0 && id<totalProfiles) ? profiles.value[id] : null;
+    function getToken(){
+        return token.value
+    }
+
+    function setToken(newToken){
+        token.value = newToken
     }
 
     function getNextUnusedUserId() {
@@ -62,5 +66,5 @@ export const useProfileStore = defineStore('profile', () => {
         profiles.value[index].password = newPassword
     }
 
-    return { getCurrentProfileId, addProfile, getCurrentProfileUserId, fetchProfiles,getCurrentProfileIndex,setCurrentProfile,getCurrentProfile,resetPassword }
+    return { getCurrentProfileId, addProfile, getCurrentProfileUserId, fetchProfiles,getCurrentProfileIndex,setCurrentProfile,getCurrentProfile,resetPassword, getToken, setToken }
 })

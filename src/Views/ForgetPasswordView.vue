@@ -3,6 +3,7 @@
 import { ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { useProfileStore } from '@/Stores/ProfileStore';
+import ConfirmTokenComponent from '@/components/ConfirmTokenComponent.vue';
 
 const profileStore = useProfileStore();
 const mail= ref('');
@@ -14,12 +15,13 @@ const forms = computed(() => name.value!='' && lastName.value!='' && mail.value!
 const errorMessage = ref('Los datos no coinciden con los registrados');
 const displayErrorNoUser = ref(false);
 const displayErrorNoMatching = ref(false);
+const isOpen= ref(false);
 const router = useRouter();
 function navigate(){
   router.go(-1);
 }
 
-function validate(path){
+function validate(){
   displayErrorNoUser.value=false;
   displayErrorNoMatching.value=false;
 
@@ -35,8 +37,12 @@ function validate(path){
     displayErrorNoMatching.value=true;
     return;
   }
-  profileStore.resetPassword(index, password.value);
-  router.push(path);
+  const random= ref(Math.random()* 100000000);
+  let roundedNumber = Number(random.value.toPrecision(8));
+  profileStore.setToken(roundedNumber);
+  console.log(roundedNumber);
+  profileStore.setToken(roundedNumber);
+  isOpen.value=true;
 }
 
 function showpassword() {
@@ -63,9 +69,10 @@ function showpassword() {
         </v-card-text>
         <v-card-actions class="justify-end">
           <v-btn color="primary" class="iniciar" variant="text" @click="navigate()">Salir</v-btn>
-          <v-btn color="primary" class="iniciar" variant="text" @click="validate('/login')" :disabled="!forms">Restablecer Contraseña</v-btn>
+          <v-btn color="primary" class="iniciar" variant="text" @click="validate()" :disabled="!forms">Restablecer Contraseña</v-btn>
         </v-card-actions>
       </v-card>
+      <ConfirmTokenComponent v-model:value="isOpen" v-model:email="mail" v-model:newPassword="password"/>
 </template>
 
 <style scoped>

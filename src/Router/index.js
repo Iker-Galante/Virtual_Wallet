@@ -23,6 +23,7 @@ const router = createRouter({
       spanishName: 'Inicio',
       icon: 'mdi-home-outline',
       component: () => import('../Views/HomeView.vue'),
+      meta: { RequiresAuth: true },
     },
     {
       path: '/Cards',
@@ -30,6 +31,7 @@ const router = createRouter({
       spanishName: 'Tarjetas',
       icon: 'mdi-credit-card-multiple-outline',
       component: () => import('../Views/CardsView.vue'),
+      meta: { RequiresAuth: true },
     },
     {
       path: '/pay',
@@ -37,6 +39,7 @@ const router = createRouter({
       spanishName: 'Pagar',
       icon: 'mdi-send-variant-outline',
       component: () => import('../Views/PayView.vue'),
+      meta: { RequiresAuth: true },
     },
     {
       path: '/movements',
@@ -44,6 +47,7 @@ const router = createRouter({
       spanishName: 'Movimientos',
       icon: 'mdi-inbox-multiple-outline',
       component: () => import('../Views/MovementView.vue'),
+      meta: { RequiresAuth: true },
     },
     {
       path: '/contacts',
@@ -51,6 +55,7 @@ const router = createRouter({
       spanishName: 'Contactos',
       icon: 'mdi-account-group-outline',
       component: () => import('../Views/ContactsView.vue'),
+      meta: { RequiresAuth: true },
     },
     {
       path: '/collect',
@@ -58,6 +63,7 @@ const router = createRouter({
       spanishName: 'Cobrar',
       icon: 'mdi-arrow-up',
       component: () => import('../Views/CollectView.vue'),
+      meta: { RequiresAuth: true },
     },
     {
       path: '/profile',
@@ -65,6 +71,7 @@ const router = createRouter({
       spanishName: 'Perfil',
       icon: 'mdi-account-outline',
       component: () => import('../Views/ProfileView.vue'),
+      meta: { RequiresAuth: true },
     },
     {
       path: '/settings',
@@ -103,6 +110,13 @@ const router = createRouter({
     }
   ]
 })
+
+router.beforeEach((to, from,next) => {
+  if(to.meta.RequiresAuth){
+
+  }
+  next()
+});
 
 export default router
 

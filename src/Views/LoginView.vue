@@ -50,7 +50,7 @@ function checkCredentials(path){
           @click:append-inner="showpassword()" variant="outlined" color="blue" :error="showEmailError" :error-messages="showEmailError? userEmailError : ''"></v-text-field>
         </v-card-text>
         <v-card-actions class="justify-end">
-          <v-btn color="primary" class="iniciar" variant="text" @click.self="checkCredentials('/MainPage')">Iniciar sesión</v-btn>
+          <v-btn color="primary" class="iniciar" variant="text" @click="checkCredentials('/MainPage')">Iniciar sesión</v-btn>
         </v-card-actions>
         <v-divider class="opacity-10 mx-2"></v-divider>
         <v-card-actions class="pb-0">
