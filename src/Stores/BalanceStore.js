@@ -15,5 +15,4 @@ export const useBalanceStore = defineStore('balance', () => {
     }
 
     return { addFunds,getBalance };
-    // return {initialBalance};
 });
