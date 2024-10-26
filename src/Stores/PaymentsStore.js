@@ -36,5 +36,11 @@ export const usePaymentsStore = defineStore('profile', () => {
         return true;
     }
 
-    return {createPayment, pay};
+    function getPaymentAmount(userId, paymentId) {
+        
+        return payments.value[userId]?.[paymentId] ?? null;
+    }
+    
+
+    return {createPayment, pay, getPaymentAmount};
 })
