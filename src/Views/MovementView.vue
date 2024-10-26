@@ -1,11 +1,15 @@
 <script setup>
 import MovementsComponent from '@/components/MovementComponent.vue';
+import MovementAnalyticsComponent from '@/components/MovementAnalyticsComponent.vue';
 </script>
 
 <template>
     <NavigationComponent>
         <template #page-title> Movimientos </template>
         <template #Main_page>
+            <div class="movement-wrapper">
+                <MovementAnalyticsComponent/>
+            </div>
             <div class="movement-wrapper">
                 <MovementsComponent/>
             </div>
