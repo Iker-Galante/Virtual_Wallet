@@ -1,43 +1,57 @@
 <script setup>
-import { computed,ref } from 'vue';
- import { useBalanceStore } from '@/Stores/BalanceStore';
-import { useMovementStore } from '@/Stores/MovementStore';
-import { useProfileStore } from '@/Stores/ProfileStore';
+import { ref, computed } from 'vue';
+import { useBalanceStore } from '@/Stores/BalanceStore';
 
-const profileStore = computed(() => useProfileStore());
-const movementStore = computed(() => useMovementStore());
 const balanceStore = computed(() => useBalanceStore());
-const currentUserMail = computed(() => profileStore.value.getCurrentProfile());
-const currentUserId = computed(() => profileStore.value.getCurrentProfileUserId(currentUserMail));
+const isBalanceHidden = ref(false);
 
+const toggleBalanceVisibility = () => {
+  isBalanceHidden.value = !isBalanceHidden.value;
+};
 </script>
 
 <template>
   <div class="saldo-display">
-    <span class="saldo">Saldo Disponible</span>
-    <span class="saldo-amount">${{ balanceStore.getBalance().toFixed(2) }}</span>
+    <div class="saldo">Saldo Disponible</div>
+    <div class="amount-container">
+      <div class="balance-wrapper">
+        <span class="saldo-amount" v-if="!isBalanceHidden">$ {{ balanceStore.getBalance().toFixed(2) }}</span>
+        <span class="saldo-amount" v-else>$ ****.**</span>
+      </div>
+      <v-icon class="eye-icon" @click="toggleBalanceVisibility">mdi-eye-outline</v-icon>
+    </div>
   </div>
 </template>
 
 <style scoped>
 .saldo-display {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  margin-right: auto;
+  background-color: rgba(57, 56, 56, 0.5);
+  padding: 8px 12px;
+  border-radius: 8px;
   color: white;
-  line-height: 1.2;
 }
 .saldo {
-  font-size: 10px;
-  font-weight: 500;
+  font-size: 14px;
+  font-weight: 400;
+  
+}
+.amount-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 15vw;
+}
+.balance-wrapper {
+  flex-grow: 1;
 }
 .saldo-amount {
-  font-size: 1.5rem;
-  font-weight: 400;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  max-width: 100%;
+  font-size: 30px;
+  font-weight: 700;
+}
+.eye-icon {
+  opacity: 0.7;
+  cursor: pointer;
+  font-size: 36px;
+  margin-bottom: 10px;
 }
 </style>

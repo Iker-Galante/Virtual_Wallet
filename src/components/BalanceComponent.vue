@@ -37,7 +37,7 @@ function addFunds() {
                         <span>Fondos</span>
                     </div> 
                     </v-btn>
-                    <SaldoDisplay/>
+                    <SaldoDisplay class="saldo-display"/>
                 </div>
             </v-card-text>
             <v-card-actions class="button-container">
@@ -91,7 +91,7 @@ function addFunds() {
   color: white;
   background-color: transparent; 
   text-transform: none;
-  margin-left: 25%;
+  margin-left: 20%;
   padding-left: 0;
   font-size: 1.2rem; 
   height: auto; 
@@ -131,5 +131,8 @@ function addFunds() {
 .action-btn :deep(.v-btn__prepend) {
   margin-right: 10px;
   font-size: 1.3rem;
+}
+.saldo-display {
+    margin-right: 40%;
 }
 </style>
