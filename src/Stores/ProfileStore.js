@@ -48,5 +48,9 @@ export const useProfileStore = defineStore('profile', () => {
         return currentProfile.value
     }
 
-    return { addProfile, getCurrentProfileUserId, fetchProfiles,getCurrentProfileIndex,setCurrentProfile,getCurrentProfile }
+    function resetPassword(index, newPassword) {
+        profiles.value[index].password = newPassword
+    }
+
+    return { addProfile, getCurrentProfileUserId, fetchProfiles,getCurrentProfileIndex,setCurrentProfile,getCurrentProfile,resetPassword }
 })

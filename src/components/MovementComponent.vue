@@ -23,8 +23,8 @@ const profileId = computed(() => profileStore.value.getCurrentProfileIndex(profi
                 date: new Date().toISOString().split('T')[0],
                 time: new Date().toISOString().split('T')[1].split('.')[0],
                 amount: amount,
-                movementType: ['deposit', 'withdrawal', 'transfer', 'payment'][Math.floor(Math.random() * 4)],
-                description: ['Salary', 'Rent', 'Groceries', 'Dinner', 'Refund', 'Bill Payment'][Math.floor(Math.random() * 6)]
+                movementType: ['deposito', 'retiros', 'transferencia', 'pagos'][Math.floor(Math.random() * 4)],
+                description: ['Salario', 'Renta', 'Compras', 'Cena', 'Rembolso', 'Pago de cuentas'][Math.floor(Math.random() * 6)]
         }
         movementStore.value.addMovement(userId, randomMovement.date, randomMovement.time, randomMovement.amount, randomMovement.movementType, randomMovement.description)
         balanceStore.value.addFunds(amount)
