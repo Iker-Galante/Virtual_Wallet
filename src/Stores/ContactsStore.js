@@ -2,21 +2,34 @@
 
 import { ref } from 'vue';
 import { defineStore } from 'pinia';
-//import {  } from '@/api/';
+import dummyProfiles from '@/API/profiles';
 
 export const useContactsStore = defineStore('contacts', () => {
 
     const contacts = ref({})
 
-    //TODO: como no esta la API, hay que inventar datos. 
-    const fetchContacts = async () => {
+    function fetchContacts() {
+
+        for(let i=1; i < dummyProfiles.length; i++) { //OMG C sintax hi!!
+
+            addContact(0, i);
+        }
+
+        console.log(contacts);
     }
 
     //asumo que los contactos se agregan a los dos lados.
     function addContact(userId, contactId) {
+        
         if (!contacts.value[userId]) {
             contacts.value[userId] = []
         }
+
+        if (!contacts.value[contactId]) {
+        
+            contacts.value[contactId] = []
+        }
+
         contacts.value[userId].push(contactId)
         contacts.value[contactId].push(userId)
     }
@@ -30,5 +43,5 @@ export const useContactsStore = defineStore('contacts', () => {
         contacts.value[contactId] = contacts.value[contactId].filter(id => id !== userId)
     }
 
-    return { addContact, getContacts, eliminateContact }
+    return { fetchContacts, addContact, getContacts, eliminateContact }
 })
