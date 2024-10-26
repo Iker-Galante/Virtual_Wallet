@@ -29,10 +29,11 @@ export const usePaymentsStore = defineStore('profile', () => {
 
     function pay(userId, paymentId)    {
 
-        if(!payments.value[userId] || !payments.value[userId][paymentId]) return;
+        if(!payments.value[userId] || !payments.value[userId][paymentId]) return false;
         
         balances.addFundsById(userId, payments.value[userId][paymentId]);
         payments.value[userId][paymentId] = null;
+        return true;
     }
 
     return {createPayment, pay};
