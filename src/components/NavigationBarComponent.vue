@@ -35,7 +35,7 @@ const navItems = routes
 .navLeftBar {
   background-color: #1D1D1D !important;
   width: 200px;
-  position: fixed;
+  position: fixed !important;
   top: 0;
   left: 0;
   bottom: 0;
