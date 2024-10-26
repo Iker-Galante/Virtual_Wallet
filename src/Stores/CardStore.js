@@ -9,8 +9,14 @@ export const useCardStore = defineStore('card', () => {
 
     const cards = ref({})
 
+    const showDelete = ref(false)
+
     //TODO: como no esta la API, hay que inventar datos. 
     const fetchCards = async () => {
+    }
+
+    function toggleDeleteButton(state) {
+        showDelete.value = state;
     }
 
     function addCard(name, cardNumber, expirationDate, cvv, cardBalance, userId) {
@@ -30,5 +36,5 @@ export const useCardStore = defineStore('card', () => {
         }
     }
 
-    return { addCard, getCards, eliminateCard }
+    return { addCard, getCards, eliminateCard, toggleDeleteButton, showDelete }
 })

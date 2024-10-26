@@ -1,7 +1,6 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue'
 import CreditCard from '@/components/CardComponent.vue'
-//import AuxCard from '@/components/AuxiliarCardComponent.vue'
 import NavigationComponent from '@/components/NavigationComponent.vue'
 import { useCardStore } from '@/Stores/CardStore'
 import { useProfileStore } from '@/Stores/ProfileStore'
@@ -12,7 +11,6 @@ import { required, numeric, maxLength, helpers } from '@vuelidate/validators'
 
 const cardStore = useCardStore()
 const profileStore = useProfileStore()
-const isOpen = ref(false);
 const showModal = ref(false)
 const currentProfile = computed(() => profileStore.getCurrentProfile())
 const profileId = computed(() => profileStore.getCurrentProfileIndex(currentProfile.value.email))
@@ -26,6 +24,8 @@ onMounted(() => {
   if (cards.value.length === 0) {
     cardStore.addCard("admin admin", "4338123456789101", "10/26", "123", 0, profileId.value)
   }
+
+  cardStore.toggleDeleteButton(false)
 })
 
 const colors = ["#E1CC83", "#83B4E1", "#888989", "#6CAB90"]
@@ -110,6 +110,14 @@ const cvvValidator = (value) => {
     }
   }
 
+  function handleDeletButton() {
+    cardStore.toggleDeleteButton(true)
+  }
+
+  function handleCancelDelete() {
+    cardStore.toggleDeleteButton(false)
+  }
+
 const addCard = () => {
   cardStore.addCard(
     formState.name,
@@ -137,17 +145,31 @@ const handleCancel = () => {
   clear();
 }
 
-const deleteCard = (tarjeta) => {
-    cardStore.eliminateCard(profileId.value, tarjeta.cardNumber)
-    isOpen.value = false
-}
 </script>
 
 <template>
     <NavigationComponent>
       <template #page-title>Tarjetas</template> 
       <template #Main_page>
-        <v-container fluid>
+        <v-btn
+          fab
+          color="#1D1D1D"
+          icon="mdi-close"
+          size="60"
+          class="fab-top-right"
+          v-if="cardStore.showDelete"
+          @click="handleCancelDelete()"
+          >
+          <v-icon size="28">mdi-close</v-icon>
+        </v-btn>
+        <v-row justify="start">
+          <v-col cols="4" md="4" class="ma-15">
+            <p class="text-h3 font-weight-bold" style="color: white">
+              Mis Tarjetas
+            </p>
+          </v-col>
+        </v-row>
+        <v-container class="ml-15 mr-15" fluid>
           <v-row>
             <v-col
               v-for="(tarjeta, index) in cards"
@@ -163,38 +185,13 @@ const deleteCard = (tarjeta) => {
             :cardholderName="tarjeta.name"
             :cardColor="colors[index % 4]"
               />
-            <!--
-            <AuxCard>
-              <template #card>
-                <span class="pl-2 text-h5">{{ tarjeta.name + ' ' + tarjeta.lastName }}</span>
-                <span class="pr-2 text-h5">{{ tarjeta.cardType }}</span>
-              </template>
-              <template #card_number>
-                <span class="pl-2 text-h5">{{ tarjeta.cardNumber }}</span>
-                <span class="pl-2 text-h7">Exp date: {{ tarjeta.expirationDate }}</span>
-                <v-icon icon="mdi-trash-can-outline" @click="isOpen = true"></v-icon>
-                <v-dialog v-model="isOpen" width="auto">
-                    <v-card>
-                        <v-card-text>¿Estás seguro de que deseas eliminar esta tarjeta?</v-card-text>
-                        <v-card-actions>
-                            <v-spacer></v-spacer>
-                            <v-btn color="error" @click="deleteCard(tarjeta)">Sí</v-btn>
-                            <v-btn @click="isOpen = false">No</v-btn>
-                        </v-card-actions>
-                    </v-card>
-                </v-dialog>
-              </template>
-            </AuxCard>
-            -->
             </v-col>
           </v-row>
         </v-container>
-        <!--<v-btn @click="addCard('Galante')" class="agregar">Agregar Tarjeta</v-btn>
-        @click="addCard('Galante')"
-        -->
         <v-speed-dial
           location="top center"
           transition="slide-y-reverse-transition"
+          v-if="!cardStore.showDelete"
         >
           <template v-slot:activator="{ props: activatorProps }">
             <v-btn
@@ -210,7 +207,7 @@ const deleteCard = (tarjeta) => {
             </v-btn>
           </template>
 
-          <v-btn  key="1" icon="mdi-trash-can-outline" size="large" color="#3D3D3D">
+          <v-btn  key="1" icon="mdi-trash-can-outline" size="large" color="#3D3D3D" @click="handleDeletButton()">
             <v-icon color="white" size="25">mdi-trash-can-outline</v-icon>
           </v-btn>
           <v-btn key="2" icon="mdi-plus" size="large" color="#3D3D3D" @click="showModal = true">
@@ -219,63 +216,62 @@ const deleteCard = (tarjeta) => {
 
         </v-speed-dial>
         
-        <v-dialog v-model="showModal" max-width="900px">
-      <v-card color="#1D1D1D" height="700px" rounded="xl" >
-        <v-card-title class="text-h5 ma-4" >Nueva Tarjeta</v-card-title>
-        <v-card-text>
+        <v-dialog v-model="showModal" max-width="900px" persistent>
+        <v-card color="#1D1D1D" height="700px" rounded="xl" >
+          <v-card-title class="text-h5 ma-4" >Nueva Tarjeta</v-card-title>
+          <v-card-text>
+            <v-container>
+              <v-row justify="center">
+                <v-col cols="12" sm="8" md="8" lg="6" xl="5">
+                  <CreditCard
+                  :cardNumber= "formState.cardNumber"
+                  :cardholderName="formState.name"
+                  :cardColor="colors[2]"
+                  />
+                </v-col>
+              </v-row>
+            </v-container>
+            <form>
+              <v-text-field
+                v-model="formState.name"
+                :error-messages="v$.name.$errors.map(e => e.$message)"
+                label="Nombre (Como aparece en la tarjeta)"
+                required
+                maxlength="18"
+                @blur="v$.name.$touch"
+                @input="v$.name.$touch"
+                ></v-text-field>
 
-          <v-container>
-            <v-row justify="center">
-              <v-col cols="12" sm="6" md="6" lg="4" xl="3">
-                <CreditCard
-                :cardNumber= "formState.cardNumber"
-                :cardholderName="formState.name"
-                :cardColor="colors[2]"
-                />
-              </v-col>
-            </v-row>
-          </v-container>
-          <form>
-            <v-text-field
-              v-model="formState.name"
-              :error-messages="v$.name.$errors.map(e => e.$message)"
-              label="Nombre (Como aparece en la tarjeta)"
-              required
-              maxlength="18"
-              @blur="v$.name.$touch"
-              @input="v$.name.$touch"
-              ></v-text-field>
-
-              <v-card-text>
-                <v-row no-gutters align="center" justify="start" class="d-flex align-center">
-                  <v-col cols="auto" class="pr-2">
-                    <p class="text-h8 font-weight-bold" style="color: white;">
-                      Solo se aceptan los siguientes tipos de tarjetas:
-                    </p>
-                  </v-col>
-                  <v-col cols="1" class="px-1">
-                    <v-img
-                      src="@/assets/mastercard2.jpg"
-                      max-width="55"
-                      max-height="55"
-                    ></v-img>
-                  </v-col>
-                  <v-col cols="1" class="px-1">
-                    <v-img
-                      src="@/assets/Visa.png"
-                      max-width="50"
-                      max-height="50"
-                    ></v-img>
-                  </v-col>
-                  <v-col cols="1" class="px-1">
-                    <v-img
-                      src="@/assets/American-Express-Logo.png"
-                      max-width="60"
-                      max-height="60"
-                    ></v-img>
-                  </v-col>
-                </v-row>
-              </v-card-text>
+                <v-card-text>
+                  <v-row no-gutters align="center" justify="start" class="d-flex align-center">
+                    <v-col cols="auto" class="pr-2">
+                      <p class="text-h8 font-weight-bold" style="color: white">
+                        Solo se aceptan los siguientes tipos de tarjetas:
+                      </p>
+                    </v-col>
+                    <v-col cols="1" class="px-1">
+                      <v-img
+                        src="@/assets/mastercard2.jpg"
+                        max-width="55"
+                        max-height="55"
+                      ></v-img>
+                    </v-col>
+                    <v-col cols="1" class="px-1">
+                      <v-img
+                        src="@/assets/Visa.png"
+                        max-width="50"
+                        max-height="50"
+                      ></v-img>
+                    </v-col>
+                    <v-col cols="1" class="px-1">
+                      <v-img
+                        src="@/assets/American-Express-Logo.png"
+                        max-width="60"
+                        max-height="60"
+                      ></v-img>
+                    </v-col>
+                  </v-row>
+                </v-card-text>
               <v-text-field
                 v-model="formState.cardNumber"
                 :error-messages="v$.cardNumber.$errors.map(e => e.$message)"
@@ -342,5 +338,11 @@ const deleteCard = (tarjeta) => {
   bottom: 34px;
   right: 44px;
   color: rgba(255, 255, 255, 0.1) !important;
+}
+
+.fab-top-right {
+  position: fixed;
+  top:120px; 
+  right: 60px;
 }
 </style>

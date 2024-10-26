@@ -17,8 +17,8 @@
           <v-col cols="4" class="text-right">
             <v-img
             :src= "TipoTarjeta" 
-            max-width="60"
-            max-height="60"
+            max-width="50"
+            max-height="50"
             class="ml-4"
           ></v-img>
           </v-col>
@@ -30,6 +30,28 @@
             </p>
           </v-col>
         </v-row>
+        <v-row no-gutters justify="end">
+          <v-col class="text-right">
+            <v-icon
+              icon="mdi-trash-can-outline"
+              color="white"
+              size="large"
+              v-if="cardStore.showDelete"
+              @click="isOpen = true"
+              class="mt-10 mr-2"
+            ></v-icon>
+          </v-col>
+        </v-row>
+        <v-dialog v-model="isOpen" width="auto" persistent>
+          <v-card color="#1D1D1D">
+            <v-card-text>¿Estás seguro de que deseas eliminar esta tarjeta?</v-card-text>
+              <v-card-actions>
+                  <v-spacer></v-spacer>
+                  <v-btn color="error" @click="deleteCard()">Sí</v-btn>
+                  <v-btn @click="isOpen = false">No</v-btn>
+              </v-card-actions>
+            </v-card>
+        </v-dialog>
       </v-card-text>
     </v-card>
   </template>
@@ -39,6 +61,8 @@
   <script setup>
 
   import { computed, defineProps, ref } from 'vue';
+  import { useProfileStore } from '@/Stores/ProfileStore'
+  import { useCardStore } from '@/Stores/CardStore'
   import mastercard from '@/assets/mastercard-logo.png';
   import visa from '@/assets/Visa.png';
   import amex from '@/assets/American-Express-Logo.png'
@@ -57,10 +81,24 @@
       default: '#CFB53B',
     },
   });
+
+  const isOpen = ref(false);
+
+  const profileStore = useProfileStore()
+  const cardStore = useCardStore()
+  const currentProfile = computed(() => profileStore.getCurrentProfile())
+  const profileId = computed(() => profileStore.getCurrentProfileIndex(currentProfile.value.email))
   
   const visaRegex = /^4[0-9]{12}(?:[0-9]{3})?$/;
   const masterCardRegex = /^5[1-5][0-9]{14}$/;
   const amexRegex = /^3[47][0-9]{13}$/;
+
+  
+
+  const deleteCard = () => {
+    cardStore.eliminateCard(profileId.value, props.cardNumber)
+    isOpen.value = false
+}
 
   const formattedCardNumber = computed(() => {
     
