@@ -2,7 +2,7 @@ import { ref, computed } from 'vue';
 import { defineStore } from 'pinia'
 import { useBalanceStore } from './BalanceStore';
 
-export const usePaymentsStore = defineStore('profile', () => {
+export const usePaymentsStore = defineStore('payments', () => {
 
 // Colección de pagos, index representa el id del usuario y se guarda un array
 // de montos de los links de pago generados, al pagarse la deuda el monto se setea en null
@@ -36,11 +36,20 @@ export const usePaymentsStore = defineStore('profile', () => {
         return true;
     }
 
-    function getPaymentAmount(userId, paymentId) {
-        
-        return payments.value[userId]?.[paymentId] ?? null;
-    }
-    
+    function getPaymentAmount(userId, paymentId)    {
 
-    return {createPayment, pay, getPaymentAmount};
+        if(!payments.value[userId] || !payments.value[userId][paymentId]) {
+            
+            return null;
+        }
+        
+        return payments.value[userId][paymentId];
+    }
+
+    function getLastPayment(userId) {
+
+        return getPaymentAmount(userId, payments.value[userId].length - 1);
+    }
+
+    return {createPayment, pay, getPaymentAmount, getLastPayment};
 })
