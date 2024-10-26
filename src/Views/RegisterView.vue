@@ -2,7 +2,7 @@
 <script setup>
 import { ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
-import { useProfileStore } from '@/stores/ProfileStore';
+import { useProfileStore } from '@/Stores/ProfileStore';
 const passwordStatus = ref(false);
 const passwordStatus2 = ref(false);
 const name= ref('');
