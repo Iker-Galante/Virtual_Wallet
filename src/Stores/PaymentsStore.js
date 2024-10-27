@@ -24,7 +24,7 @@ export const usePaymentsStore = defineStore('payments', () => {
 
         const paymentId = payments.value[userId].length - 1;
 
-        return `from=${userId}&payment=${paymentId}`;
+        return `?from=${userId}&payment=${paymentId}`;
     }
 
     function pay(userId, paymentId)    {

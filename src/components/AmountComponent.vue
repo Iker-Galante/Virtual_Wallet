@@ -1,16 +1,16 @@
 <script setup>
 import { ref, computed, inject } from 'vue'
-import { useMovementStore } from '@/Stores/MovementStore';
-import logo from '../assets/Visa.png'
-const amount = ref(0)
+import { usePaymentsStore } from '@/Stores/PaymentsStore';
+import { useProfileStore } from '@/Stores/ProfileStore';
+
+const amount = ref()
 const description = ref('')
 const isLoading = ref(false)
-
-const currentProfile = inject('currentuserId');
-const movementStore = useMovementStore();
-const otherForms=ref([{name:'QR',img:'mdi-qrcode-scan'},
-                      {name:'Contactos',img:'mdi-contacts'},
-                      {name:'Sin Monto Definido',img:'mdi-currency-usd-off'}]);
+const showLink = ref(false)
+const copied = ref(false)
+const textToCopy = ref('');
+const profileStore = useProfileStore();
+const paymentsStore = usePaymentsStore();
 
 const isFormValid = computed(() => {
   return amount.value > 0 && description.value.trim() !== ''
@@ -19,7 +19,6 @@ const isFormValid = computed(() => {
 const handleSubmit = () => {
   if (isFormValid.value) {
     isLoading.value = true
-    // Simulate API call
     setTimeout(() => {
       console.log('Creating payment link for:', {
         amount: amount.value,
@@ -27,20 +26,38 @@ const handleSubmit = () => {
       })
         const date = new Date().toISOString().split('T')[0];
         const time= new Date().toISOString().split('T')[1].split('.')[0];
-        movementStore.addMovement(currentProfile.value,date,time,amount.value,'payment',description.value);
-        
+        const params = paymentsStore.createPayment(profileStore.getCurrentProfileId(), amount);
+        textToCopy.value = `http://localhost:3000/pay/${params}`
         isLoading.value = false
-        amount.value = ''
-        description.value = ''
+        showLink.value = true
     },1500)
   }
+}
+
+
+
+function copyToClipboard() {
+  navigator.clipboard.writeText(textToCopy.value)
+    .then(() => {
+      copied.value = true
+    })
+    .catch(err => {
+      console.error("Error al copiar al portapapeles:", err);
+    });
+}
+
+const handleClose = () => {
+  amount.value = 0
+  description.value = ''
+  showLink.value = false
+  copied.value = false
 }
 </script>
 <template>
 <v-container>
     <v-row justify="center" align="center">
       <v-col cols="12" sm="8" md="6">
-        <h1 class="text-h4 mb-6 text-left text-white height">Creá un Link de Pago</h1>
+        <h1 class="text-h4 mb-6 font-weight-bold text-center text-white height">Creá un Link de Pago</h1>
         <v-card variant="elevated" class="pa-6 cuadro">
           <v-form @submit.prevent="handleSubmit">
             <v-card-text>
@@ -52,6 +69,7 @@ const handleSubmit = () => {
                 variant="outlined"
                 class="mb-4 text-white"
                 color="white"
+                placeholder="0"
               ></v-text-field>
               
               <v-text-field
@@ -76,30 +94,41 @@ const handleSubmit = () => {
               </v-btn>
             </v-card-actions>
           </v-form>
+         
         </v-card>
-        <h1 class="text-h5 mb-6 text-left text-white height">Otras Formas de Cobro</h1>
-        <div class="d-flex d-row justify-space-between align-center" justify="center" align="center">
-          <v-card v-for="forms in otherForms" class="distancia" @click="console.log('Gracias por su compra')">
-            <v-card-text>
-              <v-row no-gutters align="center">
-                <v-col cols="16">
-                  <v-icon
-                  :icon="forms.img" 
-                  max-width="60"
-                  max-height="60"
-                  class="icons"
-                ></v-icon>
-                  <p class="text-h6 font-weight-bold text-white" style="color: white;">
-                    {{ forms.name }}
-                  </p>
-                </v-col>
-              </v-row>
-            </v-card-text>
-          </v-card>
-        </div>
-              
       </v-col>
     </v-row>
+      <v-dialog v-model="showLink" max-width="500px" persistent>
+        <v-card color="#1D1D1D" height="250px" rounded="xl">
+          <v-card-title class="text-h6 ma-4" >
+            <v-row>
+              <v-col cols="11">
+                <span>Link de pago generado por $ {{ amount }}</span>
+              </v-col>
+              <v-col cols="1">
+                <v-icon class="close-icon close-button" @click="handleClose" color="grey darken-1">
+                  mdi-close
+                </v-icon>
+              </v-col>
+            </v-row>
+            
+            
+          </v-card-title>
+          <v-card-text>
+            <v-text-field
+            v-model="textToCopy"
+            label="Link de pago"
+            variant="outlined"
+            color="white"
+            class="text-white"
+            readonly
+            append-inner-icon="mdi-content-copy"
+            @click:append-inner="copyToClipboard"
+            ></v-text-field>
+            <h4 v-if="copied" class="copy-confirmation">Link copiado a portapapeles</h4>
+          </v-card-text>
+        </v-card>
+      </v-dialog>
   </v-container>
 </template>
 
@@ -126,4 +155,10 @@ const handleSubmit = () => {
   font-size: 80px;
 }
 
+.copy-confirmation {
+  font-size: 0.8rem;
+  margin-top: -18px;
+  margin-left: 10px;
+  color: #757575; 
+}
 </style>
