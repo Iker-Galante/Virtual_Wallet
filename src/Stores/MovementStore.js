@@ -12,55 +12,46 @@ export const useMovementStore = defineStore('movement', () => {
     const balanceStore = useBalanceStore()
 
     const staticMovements = [
-        { date: '2024-03-16', time: '14:45', amount: 5000.00, movementType: 'deposito', description: 'Salario', isCardTransaction: false },
-        { date: '2024-03-16', time: '14:45', amount: -50.00, movementType: 'retiro', description: 'Compras', isCardTransaction: true },
-        { date: '2024-03-17', time: '11:20', amount: -30.00, movementType: 'pago', description: 'Factura de servicios', isCardTransaction: false },
-        { date: '2024-03-18', time: '20:15', amount: -25.50, movementType: 'pago', description: 'Restaurante', isCardTransaction: true },
-        { date: '2024-03-19', time: '16:00', amount: 200.00, movementType: 'deposito', description: 'Reembolso', isCardTransaction: false },
+        { date: '2024-03-16', time: '14:45:00', amount: 5000.00, movementType: 'deposito', description: 'Salario', isCardTransaction: false },
+        { date: '2024-03-16', time: '14:45:00', amount: -50.00, movementType: 'retiro', description: 'Compras', isCardTransaction: true },
+        { date: '2024-03-17', time: '11:20:00', amount: -30.00, movementType: 'pago', description: 'Factura de servicios', isCardTransaction: false },
+        { date: '2024-03-18', time: '20:15:00', amount: -25.50, movementType: 'pago', description: 'Restaurante', isCardTransaction: true },
+        { date: '2024-03-19', time: '16:00:00', amount: 200.00, movementType: 'deposito', description: 'Reembolso', isCardTransaction: false },
     ];
 
-    function addMovement(userId, date, time, amount, movementType, description, isCardTransaction, cardNumber) {
-        if (!movements.value[userId]) {
-            movements.value[userId] = [...staticMovements];
-            
-            console.log("Adding static movements to user:", userId);
-            for (const movement of staticMovements) {
-                if (movement.isCardTransaction) {
-                    const cards = cardStore.getCards(userId);
-                    if (cards.length > 0) {
-                        cardStore.addCardTransaction(userId, cards[0].cardNumber, movement.amount);
-                        console.log("Card transaction added for static movement:", movement);
-                    }
-                } else {
-                    balanceStore.addFundsById(userId, movement.amount);
-                    console.log("Funds added for static movement:", movement);
+    function initializeUserMovements(userId) {
+        if (movements.value[userId]) return;
+
+        movements.value[userId] = [...staticMovements];
+        
+        staticMovements.forEach(movement => {
+            if (movement.isCardTransaction) {
+                const cards = cardStore.getCards(userId);
+                if (cards.length > 0) {
+                    cardStore.addCardTransaction(userId, cards[0].cardNumber, movement.amount);
                 }
+            } else {
+                balanceStore.addFundsById(userId, movement.amount);
             }
-        }
+        });
+    }
 
-        let transactionSuccess = true;
+    function addMovement(userId, date, time, amount, movementType, description, isCardTransaction, cardNumber) {
+        initializeUserMovements(userId);
 
-        if (isCardTransaction) {
-            if (!cardNumber) {
-                cardNumber = cardStore.getCards(userId)[0].cardNumber;
-            }
-            transactionSuccess = cardStore.addCardTransaction(userId, cardNumber, amount);
-        } else {
-            balanceStore.addFundsById(userId, amount);
-        }
+        const transactionSuccess = isCardTransaction
+            ? cardStore.addCardTransaction(userId, cardNumber || cardStore.getCards(userId)[0].cardNumber, amount)
+            : (balanceStore.addFundsById(userId, amount), true);
 
         if (transactionSuccess) {
             movements.value[userId].push({ date, time, amount, movementType, description, isCardTransaction });
-            return true;
         }
 
-        return false;
+        return transactionSuccess;
     }
 
     function getMovementsByUserId(userId) {
-        if (!movements.value[userId]) {
-            addMovement(userId, '2024-03-15', '09:30', 1500.00, 'deposito', 'Salario', false, null);
-        }
+        initializeUserMovements(userId);
         return movements.value[userId];
     }
 
