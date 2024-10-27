@@ -1,7 +1,7 @@
 <script setup>
 import { ref, computed, inject } from 'vue'
 import { useMovementStore } from '@/Stores/MovementStore';
-import logo from '../assets/Visa.png'
+import logo from '@/assets/Visa.png'
 const amount = ref(0)
 const description = ref('')
 const isLoading = ref(false)
