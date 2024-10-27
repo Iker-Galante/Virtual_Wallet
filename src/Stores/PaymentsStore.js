@@ -48,8 +48,13 @@ export const usePaymentsStore = defineStore('payments', () => {
 
     function getLastPayment(userId) {
 
-        return getPaymentAmount(userId, payments.value[userId].length - 1);
+        return getPaymentAmount(userId, getLastPaymentId(userId));
     }
 
-    return {createPayment, pay, getPaymentAmount, getLastPayment};
+    function getLastPaymentId(userId)   {
+
+        return payments.value[userId].length - 1;
+    }
+
+    return {createPayment, pay, getPaymentAmount, getLastPayment, getLastPaymentId};
 })
