@@ -203,7 +203,7 @@ const handleCancel = () => {
               class="fab-button"
               size="70"
             >
-              <v-icon color="white" size="28">mdi-credit-card-edit-outline</v-icon>
+              <v-icon color="white" size="28"></v-icon>
             </v-btn>
           </template>
 

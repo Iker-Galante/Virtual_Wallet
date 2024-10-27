@@ -6,7 +6,7 @@ import dummyProfiles from '@/API/profiles';
 
 export const useContactsStore = defineStore('contacts', () => {
 
-    const contacts = ref({})
+    const contacts = ref([])
 
     function fetchContacts() {
 
@@ -19,19 +19,12 @@ export const useContactsStore = defineStore('contacts', () => {
     }
 
     //asumo que los contactos se agregan a los dos lados.
-    function addContact(userId, contactId) {
+    function addContact(userId, name, cvu, phone) {
         
         if (!contacts.value[userId]) {
             contacts.value[userId] = []
         }
-
-        if (!contacts.value[contactId]) {
-        
-            contacts.value[contactId] = []
-        }
-
-        contacts.value[userId].push(contactId)
-        contacts.value[contactId].push(userId)
+        contacts.value[userId].push({name: name, cvu: cvu, phone: phone});
     }
 
     function getContacts(userId) {

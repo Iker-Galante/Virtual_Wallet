@@ -3,21 +3,14 @@ import UserComponent from '@/components/UserComponent.vue';
 import NavigationComponent from '@/components/NavigationComponent.vue';
 import { useContactsStore } from '@/Stores/ContactsStore';
 import { useProfileStore } from '@/Stores/ProfileStore';
-import { computed, onMounted } from 'vue';
+import { computed, onMounted, ref } from 'vue';
+import AddContactComponent from '@/components/AddContactComponent.vue';
 
 const contactsStore = useContactsStore();
 const profileStore = useProfileStore();
-const currentUserId = 0; 
-
-onMounted(async () => {
-
-  await contactsStore.fetchContacts();
-  await profileStore.fetchProfiles();
-
-});
-
-const contactIds = computed(() => contactsStore.getContacts(currentUserId));
-
+const currentUserId = profileStore.getCurrentProfileId();
+const isOpen = ref(false);
+const contactsId = computed(() => contactsStore.getContacts(currentUserId));
 
 </script>
 
@@ -30,11 +23,11 @@ const contactIds = computed(() => contactsStore.getContacts(currentUserId));
     
         <div class="contacts-wrapper">
             <v-container fluid>
-                <v-row v-if="contacts && contacts.length">
+                <v-row v-if="contactsId && contactsId.length">
                     <v-col
                     
-                        v-for="id in contactsId"
-                        :key="id"
+                        v-for="contacts in contactsId"
+                        :key="contacts"
                         cols="12"
                         sm="6"
                         md="4"
@@ -42,13 +35,13 @@ const contactIds = computed(() => contactsStore.getContacts(currentUserId));
 
     <!-- Feo, pero necesario para validar que exista el usuario y de paso ya se gettea su info-->
 
-            <template v-if="(profile = profileStore.getProfileById(id))">
+            <template v-if="contacts">
                 
                 <UserComponent
                 
-                :name="profile.name"
-                  :lastName="profile.lastName"
-                  :username="`@${profile.name}_${profile.lastName}`"
+                :name="contacts.name"
+                  :lastName="contacts.cvu"
+                  :username="contacts.phone"
                 />
 
               </template>
@@ -60,10 +53,11 @@ const contactIds = computed(() => contactsStore.getContacts(currentUserId));
             <v-col cols="12" class="text-center">
 
               <p class="no-contacts-message">Todavía no tenés ningun contacto</p>
-
             </v-col>
 
           </v-row>
+          <v-btn @click="isOpen=!isOpen" class="place"> Add a new contact</v-btn>
+          <AddContactComponent v-model:isOpen="isOpen" v-model:userId="currentUserId"/>
         </v-container>
       </div>
     </template>
@@ -92,6 +86,16 @@ const contactIds = computed(() => contactsStore.getContacts(currentUserId));
         font-size: 1.5rem;
         color: #8E66FF;
         font-weight: bold;
+    }
+
+    .place  {
+      position: absolute;
+      position: fixed;  /* Keeps the button in a fixed position */
+      bottom: 20px;     /* Distance from the bottom of the screen */
+      right: 20px;      /* Distance from the right side of the screen */
+      padding: 10px 20px;
+      background-color: rgb(51, 51, 51) ;
+      color : white;
     }
     
 </style>

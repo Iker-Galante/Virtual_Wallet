@@ -9,11 +9,15 @@
     >
     <v-card-text>
         <p class="text-h6 font-weight-bold white--text">
-            {{ name }} {{ lastName }}
+            {{ name }}
         </p>
         <p class="text-h7 font-weight-bold purple--text">
-            {{ username }}
+           CVU: {{ lastName }}
         </p>
+        <p class="text-h7 font-weight-bold purple--text">
+           Telefono: {{ username }}
+        </p>
+        
     </v-card-text>
 </v-card>
 
