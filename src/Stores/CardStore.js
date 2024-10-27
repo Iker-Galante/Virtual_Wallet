@@ -16,7 +16,7 @@ export const useCardStore = defineStore('card', () => {
         const userName = currentProfile ? `${currentProfile.name} ${currentProfile.lastName}` : 'Default User'
         return {
             name: userName,
-            cardNumber: '1234 5678 9012 3456',
+            cardNumber: '347777777777777',
             expirationDate: '12/25',
             cvv: '123',
             cardBalance: 1000.00

@@ -11,9 +11,9 @@ function navigate(destination) {
 }
 
 const navItems = routes
-  .filter(route => ['mainPage', 'Cards', 'pay', 'collect', 'movements', 'contacts'].includes(route.name))
+  .filter(route => ['mainPage', 'Cards', 'pay', 'collect', 'movements'].includes(route.name))
   .sort((a, b) => {
-    const order = ['mainPage', 'Cards', 'pay', 'collect', 'movements', 'contacts'];
+    const order = ['mainPage', 'Cards', 'pay', 'collect', 'movements'];
     return order.indexOf(a.name) - order.indexOf(b.name);
   });
 </script>

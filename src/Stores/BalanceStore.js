@@ -5,6 +5,8 @@ import { useProfileStore } from '@/Stores/ProfileStore';
 export const useBalanceStore = defineStore('balance', () => {
 
     const balances = ref({});
+    const profiles = useProfileStore();
+    const currentId = computed(() => profiles.getCurrentProfileId());
 
     function addFundsById(userId, amount) {
         if (!balances.value[userId]) {
@@ -12,7 +14,7 @@ export const useBalanceStore = defineStore('balance', () => {
         }
 
         if (balances.value[userId] + amount < 1) {
-            alert("Insufficient funds. This action cannot be completed.");
+            // alert("Insufficient funds. This action cannot be completed.");
             return false;
         }
         
@@ -23,9 +25,6 @@ export const useBalanceStore = defineStore('balance', () => {
     function getBalanceById(userId) {
         return balances.value[userId] || 0;
     }
-
-    const profiles = useProfileStore();
-    const currentId = computed(() => profiles.getCurrentProfileId());
 
     function addFunds(amount) {
         return addFundsById(currentId.value, amount);

@@ -150,7 +150,7 @@ function handleLogOut() {
   font-size: 14px;
 }
 
-:deep(.v-list-item-title) {
+.v-list-item-title {
   font-size: 14px;
 }
 
