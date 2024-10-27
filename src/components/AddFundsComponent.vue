@@ -72,7 +72,7 @@ function addFunds() {
 
 <style scoped>
 .add-funds-container {
-    padding-left: 150px;
+    padding-left: 180px;
 }
 
 .add-funds-btn {
