@@ -20,7 +20,7 @@ const navItems = routes
 
 <template>
   <v-navigation-drawer class="navLeftBar" permanent>
-    <v-list-item-title class="text-h3 webTitle">{{ webName }}</v-list-item-title>
+    <v-list-item-title class="text-h4 webTitle">{{ webName }}</v-list-item-title>
     <v-divider class="divisor"></v-divider>
     <v-list-item
       v-for="item in navItems"
