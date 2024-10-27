@@ -103,8 +103,11 @@
 
 <script setup>
 import { ref, computed, inject, onMounted } from 'vue'
+import { useRouter } from 'vue-router'  // Import useRouter
 import { useMovementStore } from '@/Stores/MovementStore'
 import { usePaymentsStore } from '@/Stores/PaymentsStore'
+
+const router = useRouter()  // Initialize router
 
 const description = ref('Bitcoin')
 const userToPay = ref('Isaac@Newton')
@@ -118,7 +121,6 @@ const currentProfile = inject('currentuserId')
 const movementStore = useMovementStore()
 const paymentStore = usePaymentsStore()
 
-// Hardcoded Example
 const userIdArg = 0
 
 onMounted(() => {
@@ -126,7 +128,6 @@ onMounted(() => {
   price.value = paymentStore.getLastPayment(userIdArg)
 })
 
-// Functions to control dialog visibility
 const openConfirmationDialog = () => {
   confirmDialog.value = true
 }
@@ -148,14 +149,18 @@ const confirmPayment = () => {
   confirmDialog.value = false
 }
 
+// Updated closeSuccessDialog function
 const closeSuccessDialog = () => {
-  successDialog.value = false
+  successDialog.value = false;
+  router.push({ name: 'mainPage' });  // Navigate to main page after user closes dialog
 }
 
 const closeFailureDialog = () => {
   failureDialog.value = false
 }
 </script>
+
+
 
 <style scoped>
 .cuadro {
