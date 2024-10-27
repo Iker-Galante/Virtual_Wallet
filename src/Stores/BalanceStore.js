@@ -10,8 +10,14 @@ export const useBalanceStore = defineStore('balance', () => {
         if (!balances.value[userId]) {
             balances.value[userId] = 0;
         }
+
+        if (balances.value[userId] + amount < 0) {
+            alert("Insufficient funds. This action cannot be completed.");
+            return false;
+        }
         
         balances.value[userId] = parseFloat((parseFloat(balances.value[userId]) + parseFloat(amount)).toFixed(2));
+        return true;
     }
 
     function getBalanceById(userId) {
@@ -22,7 +28,7 @@ export const useBalanceStore = defineStore('balance', () => {
     const currentId = computed(() => profiles.getCurrentProfileId());
 
     function addFunds(amount) {
-        addFundsById(currentId.value, amount);
+        return addFundsById(currentId.value, amount);
     }
 
     function getBalance() {

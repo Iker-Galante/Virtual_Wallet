@@ -38,8 +38,18 @@ export const useCardStore = defineStore('card', () => {
 
     function addCardTransaction(userId, cardNumber, amount) {
         if (cards.value[userId]) {
-            cards.value[userId] = cards.value[userId].map(card => card.cardNumber === cardNumber ? { ...card, cardBalance: card.cardBalance + amount } : card);
+            const card = cards.value[userId].find(card => card.cardNumber === cardNumber);
+            if (card && card.cardBalance + amount < 0) {
+                alert("Insufficient funds on the card. This transaction cannot be completed.");
+                return false;
+            }
+            cards.value[userId] = cards.value[userId].map(card => 
+                card.cardNumber === cardNumber ? 
+                { ...card, cardBalance: parseFloat((card.cardBalance + amount).toFixed(2)) } : 
+                card
+            );
         }
+        return true;
     }
 
     return { addCard, getCards, eliminateCard, toggleDeleteButton, showDelete, addCardTransaction }

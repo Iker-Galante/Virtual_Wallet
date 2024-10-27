@@ -29,8 +29,8 @@ function addRandomCard(userId) {
 const userCards = computed(() => cardStore.value.getCards(profileId.value))
 function addRandomMovements(userId) {
     if (!movementsAdded.value) {
-        for (let i = 0; i < 3; i++) {
-            addRandomMovement(userId);
+        for (let i = 0; i < 1; i++) {
+            addRandomMovement(userId); 
         }
         movementsAdded.value = true;
     }
@@ -69,20 +69,24 @@ function addRandomMovement(userId) {
         isCardTransaction: isCardTransaction
     }
 
-    movementStore.value.addMovement(
-        userId, 
-        randomMovement.date, 
-        randomMovement.time, 
-        randomMovement.amount, 
-        randomMovement.movementType, 
-        randomMovement.description,
-        randomMovement.isCardTransaction
-    );
+    let transactionSuccessful = true;    
 
     if (isCardTransaction) {
-        cardStore.value.addCardTransaction(userId, cardNumber, randomMovement.amount);
+        transactionSuccessful = cardStore.value.addCardTransaction(userId, cardNumber, randomMovement.amount);
     } else {
-        balanceStore.value.addFunds(amount);
+        transactionSuccessful = balanceStore.value.addFunds(amount);
+    }
+    console.log(transactionSuccessful)
+    if (transactionSuccessful) {
+        movementStore.value.addMovement(
+            userId, 
+            randomMovement.date, 
+            randomMovement.time, 
+            randomMovement.amount, 
+            randomMovement.movementType, 
+            randomMovement.description,
+            randomMovement.isCardTransaction
+        );
     }
 }
 
