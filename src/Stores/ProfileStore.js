@@ -66,5 +66,12 @@ export const useProfileStore = defineStore('profile', () => {
         profiles.value[index].password = newPassword
     }
 
-    return { getCurrentProfileId, addProfile, getCurrentProfileUserId, fetchProfiles,getCurrentProfileIndex,setCurrentProfile,getCurrentProfile,resetPassword, getToken, setToken }
+    function editProfile(index, name, lastName, age, email) {
+        profiles.value[index].name = name
+        profiles.value[index].lastName = lastName
+        profiles.value[index].age = age
+        profiles.value[index].email = email
+    }
+
+    return { getCurrentProfileId, addProfile, getCurrentProfileUserId, fetchProfiles,getCurrentProfileIndex,setCurrentProfile,getCurrentProfile,resetPassword, getToken, setToken, editProfile }
 })

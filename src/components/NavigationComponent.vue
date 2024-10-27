@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, watchEffect } from 'vue';
 import { useProfileStore } from '@/Stores/ProfileStore';
 import NavigationBarComponent from '@/components/NavigationBarComponent.vue';
 import { useRouter } from 'vue-router';
@@ -7,11 +7,18 @@ const profileStore = useProfileStore();
 
 const profile = computed(() => profileStore.getCurrentProfile());
 const changedname = ref(profile.value.name);
+const changedlastName = ref(profile.value.lastName);
 
 const name = computed(() => {
   return changedname.value;
 });
-const user = ref('@' + profile.value.name + '_' + profile.value.lastName);
+
+watchEffect(() => {
+  changedname.value = profile.value.name;
+  changedlastName.value = profile.value.lastName;
+});
+
+const user = computed(() => {return '@' + changedname.value + '_' + changedlastName.value});
 const router = useRouter();
 
 function navigate(destination) {

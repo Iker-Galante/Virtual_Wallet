@@ -9,13 +9,22 @@ const profile = profileStore.getCurrentProfile();
 const name= ref(profile.name);
 const lastName= ref(profile.lastName);
 const mail= ref(profile.email);
+const index=profileStore.getCurrentProfileIndex(mail.value);
+
 const age= ref(profile.age);
+const edit = ref(true);
 
 const username = computed(() => {
         
     return profile ? `@${profile.name}_${profile.lastName}` : '';
 });
   
+function handleButtonClick() {
+  edit.value = !edit.value;
+  if(edit.value){
+    profileStore.editProfile(index,name.value, lastName.value, age.value, mail.value);
+    }
+}
 
 </script>
 
@@ -60,7 +69,7 @@ const username = computed(() => {
                 <v-text-field
                   label="Nombre"
                   v-model="name"
-                  disabled
+                  :disabled="edit"
                   type="text"
                   prepend-inner-icon="mdi-account"
                   variant="outlined"
@@ -70,7 +79,7 @@ const username = computed(() => {
                 <v-text-field
                   label="Apellido"
                   v-model="lastName"
-                  disabled
+                  :disabled="edit"
                   type="text"
                   prepend-inner-icon="mdi-account"
                   variant="outlined"
@@ -82,7 +91,7 @@ const username = computed(() => {
                 <v-text-field
                   label="Mail"
                   v-model="mail"
-                  disabled
+                  :disabled="edit"
                   type="email"
                   prepend-inner-icon="mdi-account"
                   variant="outlined"
@@ -93,7 +102,7 @@ const username = computed(() => {
                   label="Edad"
                   v-model="age"
                   max-width="150px"
-                  disabled
+                  :disabled="edit"
                   type="number"
                   variant="outlined"
                   color="blue"

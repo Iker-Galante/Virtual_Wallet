@@ -27,7 +27,7 @@ function validate(){
         <v-dialog v-model="isOpen" width="auto">
         <v-card>
             <v-card-text>Ingrese Token para continuar</v-card-text>
-            <v-text-field label="Token" v-model="token" placeholder="Token" type="text" prepend-inner-icon="mdi-account" variant="outlined" color="blue" class="pa-1"></v-text-field>
+            <v-text-field label="Token" v-model="token" placeholder="Token" type="text" prepend-inner-icon="mdi-ticket-confirmation-outline" variant="outlined" color="blue" class="pa-1"></v-text-field>
                 <v-card-actions>
                     <v-spacer></v-spacer>
                     <v-btn @click="isOpen = false">Cancelar</v-btn>

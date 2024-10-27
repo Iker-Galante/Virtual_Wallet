@@ -14,6 +14,8 @@ const validatePassword= ref('');
 const regex = /\d/;
 const forms = computed(() => name.value!='' && lastName.value!='' && mail.value!='' && age.value!='' && password.value!='' && validatePassword.value!='' && age.value.length<=2 && age.value > 15 && !regex.test(name.value) && !regex.test(lastName.value) && mail.value.includes('@'));
 const profileStore = useProfileStore();
+const errorMessage = ref('Las contraseñas no coinciden');
+const displayErrorNoMatching = ref(false);
 
 function showpassword() {
   passwordStatus.value = !passwordStatus.value;
@@ -27,7 +29,7 @@ function validate(path){
         profileStore.addProfile(name.value, lastName.value, age.value,mail.value, password.value);
         router.push(path);
     }else{
-        alert("Contraseñas no coinciden");
+        displayErrorNoMatching.value=true;
     }
 }
 
@@ -70,10 +72,10 @@ function checkStrings(v){
             </div>
           <v-text-field label="Contraseña" v-model="password" placeholder="Contraseña" :type="passwordStatus? 'text' : 'password'" 
           prepend-inner-icon="mdi-lock" :append-inner-icon= "passwordStatus ?'mdi-eye-outline' : 'mdi-eye-off-outline'"  
-          @click:append-inner="showpassword()" variant="outlined" color="blue" class="pa-1" :rules="[validateCharacters(password)]"></v-text-field>
+          @click:append-inner="showpassword()" variant="outlined" color="blue" class="pa-1" :rules="[validateCharacters(password)]" :error="displayErrorNoMatching" :error-messages="displayErrorNoMatching? errorMessage: ''"></v-text-field>
           <v-text-field label="Repetir Contraseña" v-model="validatePassword"placeholder="123456789" :type="passwordStatus2? 'text' : 'password'" 
           prepend-inner-icon="mdi-lock" :append-inner-icon= "passwordStatus2 ?'mdi-eye-outline' : 'mdi-eye-off-outline'"  
-          @click:append-inner="showpassword2()" variant="outlined" color="blue" class="pa-1" :rules="[validateCharacters(validatePassword)]"></v-text-field>
+          @click:append-inner="showpassword2()" variant="outlined" color="blue" class="pa-1" :rules="[validateCharacters(validatePassword)]" :error="displayErrorNoMatching" :error-messages="displayErrorNoMatching? errorMessage: ''"></v-text-field>
         </v-card-text>
         <v-card-actions class="justify-end">
           <v-btn color="primary" class="iniciar" variant="text" @click="navigate()">Salir</v-btn>
