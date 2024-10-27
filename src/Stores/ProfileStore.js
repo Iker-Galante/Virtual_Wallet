@@ -7,7 +7,7 @@ import dummyProfiles from '@/API/profiles';
 
 export const useProfileStore = defineStore('profile', () => {
 
-    const profiles = ref([{ name: 'default', lastName: 'guest', age: '100', email: 'admin@gmail.com', password: 'admin' }])
+    const profiles = ref([{ name: 'default', lastName: 'guest', username: '@default_guest',  age: '100', email: 'admin@gmail.com', password: 'admin' }])
     const totalProfiles = computed(() => profiles.value.length)
     const currentProfile = ref(null);
     const token = ref('12345678')
@@ -33,9 +33,10 @@ export const useProfileStore = defineStore('profile', () => {
 
     function addProfile(name, lastName, age, email, password) {
         const userId = getNextUnusedUserId()
-        profiles.value[userId] = { 
+        profiles.value[userId] = {   
             name: name,
             lastName: lastName,
+            username: `@${name}_${lastName}`, 
             age: age,
             email: email,
             password: password }
@@ -69,9 +70,10 @@ export const useProfileStore = defineStore('profile', () => {
         profiles.value[index].password = newPassword
     }
 
-    function editProfile(index, name, lastName, age, email) {
+    function editProfile(index, name, lastName, username, age, email) {
         profiles.value[index].name = name
         profiles.value[index].lastName = lastName
+        profiles.value[index].username = username
         profiles.value[index].age = age
         profiles.value[index].email = email
     }
