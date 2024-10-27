@@ -1,4 +1,3 @@
-import { computed } from 'vue';
 import { createRouter, createWebHistory } from 'vue-router'
 import { useProfileStore } from '@/Stores/ProfileStore';
 
@@ -46,15 +45,6 @@ const router = createRouter({
       icon: 'mdi-inbox-multiple-outline',
       meta: { RequiresAuth: true },
       component: () => import('../Views/MovementView.vue'),
-      
-    },
-    {
-      path: '/contacts',
-      name: 'contacts',
-      spanishName: 'Contactos',
-      icon: 'mdi-account-group-outline',
-      meta: { RequiresAuth: true },
-      component: () => import('../Views/ContactsView.vue'),
       
     },
     {
