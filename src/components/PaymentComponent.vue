@@ -106,25 +106,37 @@ import { ref, computed, inject, onMounted } from 'vue'
 import { useRouter } from 'vue-router'  // Import useRouter
 import { useMovementStore } from '@/Stores/MovementStore'
 import { usePaymentsStore } from '@/Stores/PaymentsStore'
+import { useCardStore } from '@/Stores/CardStore'
+import { useBalanceStore } from '@/Stores/BalanceStore'
+import { useProfileStore } from '@/Stores/ProfileStore'
+
 
 const router = useRouter()  // Initialize router
 
+
+//Harcodeado
 const description = ref('Bitcoin')
+//TODO: Recibir ¿por parametros?
 const userToPay = ref('Isaac@Newton')
 const nameToPay = ref('Isaac Newton')
+
+
 const price = ref(0)
 const confirmDialog = ref(false)
 const successDialog = ref(false)
 const failureDialog = ref(false)
 
 const currentProfile = inject('currentuserId')
-const movementStore = useMovementStore()
-const paymentStore = usePaymentsStore()
+const movementStore = useMovementStore();
+const paymentStore = usePaymentsStore();
+const profileStor = useProfileStore();
+const balanceStore = useBalanceStore();
+const CardStore = useCardStore();
 
 const userIdArg = 0
 
 onMounted(() => {
-  paymentStore.createPayment(userIdArg, 100) // To delete in final version
+  paymentStore.createPayment(userIdArg, 100) // Hardcodeado para crear un pago
   price.value = paymentStore.getLastPayment(userIdArg)
 })
 
@@ -141,7 +153,12 @@ const confirmPayment = () => {
   const time = new Date().toISOString().split('T')[1].split('.')[0]
   movementStore.addMovement(currentProfile.value, date, time, price.value, 'payment', description.value)
 
-  if (paymentStore.pay(userIdArg, paymentStore.getLastPaymentId(userIdArg))) {
+  if (paymentStore.pay(userIdArg, 
+      paymentStore.getLastPaymentId(userIdArg))) { 
+
+// if (paymentStore.pay(userIdArg, paymentIdArg)) { // paymentIdArg viene de la url
+
+        
     successDialog.value = true
   } else {
     failureDialog.value = true
