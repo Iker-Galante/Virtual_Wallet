@@ -42,7 +42,7 @@ function handleLogOut() {
             <v-list class="elevation-20">
               <!--
               <v-list-item @click="navigate('/Profile')">Perfil</v-list-item> -->
-              <v-list-item @click="navigate('/Settings')">Configuración</v-list-item>
+              <v-list-item @click="navigate('/profile')">Perfil</v-list-item>
               <v-list-item @click="handleLogOut()">Cerrar Sesión</v-list-item>
             </v-list>
           </v-menu>

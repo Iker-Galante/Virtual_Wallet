@@ -1,46 +1,3 @@
-<template>
-    <nav-component>Perfil
-        <template #Main_page>
-      
-            <div class="profile_page">
-      
-
-                <div class="profile_container">
-        
-            
-                    <div class="profile_details">
-          
-                        <label for="username">Usuario:  </label>
-                        <span>{{ username }}</span>
-
-                    </div>
-
-                    <div class="profile_details">
-
-                        <label for="email">Email: </label>
-                        <span>{{ profile.email }}</span>
-
-                    </div>
-
-                    <div class="profile_details password-container">
-
-                        <label for="password">Contraseña:  </label>
-
-                        <span>{{ getPassword() }}</span>
-
-                        <b class="password-toggle" @click="togglePasswordVisibility">
-
-                        <span v-if="passwordVisible">Ocultar</span>
-                        <span v-else>Mostrar</span>
-
-                        </b>
-
-                    </div>
-                </div>
-            </div>
-        </template>
-    </nav-component>
-</template>
 <script setup>
 
 import { useProfileStore } from '@/Stores/ProfileStore';
@@ -49,26 +6,112 @@ import NavComponent from '@/components/NavigationComponent.vue';
   
 const profileStore = useProfileStore();
 const profile = profileStore.getCurrentProfile();
-const passwordVisible = ref(false);
+const name= ref(profile.name);
+const lastName= ref(profile.lastName);
+const mail= ref(profile.email);
+const age= ref(profile.age);
 
-
-  
 const username = computed(() => {
         
     return profile ? `@${profile.name}_${profile.lastName}` : '';
 });
   
-function togglePasswordVisibility() {
-
-    passwordVisible.value = !passwordVisible.value;
-}
-
-function getPassword() {
-    
-    return passwordVisible.value? profile.password : '*'.repeat(profile.password.length);
-}
 
 </script>
+
+<template>
+    <nav-component>
+      <template #Main_page>
+        <!-- Contenedor para centrar y añadir margen a la tarjeta -->
+        <div class="d-flex justify-center align-center my-12">
+          <v-card class="ma-4" color="#1D1D1D" min-width="800" elevation="8">
+            <v-card-title>
+                <v-row no-gutters align="center">
+                    <v-col cols="2">
+                        <v-spacer></v-spacer>
+                    </v-col>
+                    <v-col cols="8">
+                        <h3 class="text-h4 font-weight-bold text-center">Perfil</h3>
+                    </v-col>
+                    <v-col cols="2" class="text-right">
+                         <v-btn icon text @click="handleButtonClick">
+                            <v-icon>mdi-pencil</v-icon>
+                        </v-btn>
+                    </v-col>
+                </v-row>
+              
+            
+               
+            </v-card-title>
+            <v-card-text class="py-0">
+              <div class="d-flex">
+                <v-text-field
+                  label="Nombre de usuario"
+                  v-model="username"
+                  disabled
+                  type="text"
+                  prepend-inner-icon="mdi-account"
+                  variant="outlined"
+                  color="blue"
+                  class="pa-1"
+                ></v-text-field>
+              </div>
+              <div class="d-flex flex-row">
+                <v-text-field
+                  label="Nombre"
+                  v-model="name"
+                  disabled
+                  type="text"
+                  prepend-inner-icon="mdi-account"
+                  variant="outlined"
+                  color="blue"
+                  class="pa-1"
+                ></v-text-field>
+                <v-text-field
+                  label="Apellido"
+                  v-model="lastName"
+                  disabled
+                  type="text"
+                  prepend-inner-icon="mdi-account"
+                  variant="outlined"
+                  color="blue"
+                  class="pa-1"
+                ></v-text-field>
+              </div>
+              <div class="d-flex">
+                <v-text-field
+                  label="Mail"
+                  v-model="mail"
+                  disabled
+                  type="email"
+                  prepend-inner-icon="mdi-account"
+                  variant="outlined"
+                  color="blue"
+                  class="pa-1"
+                ></v-text-field>
+                <v-text-field
+                  label="Edad"
+                  v-model="age"
+                  max-width="150px"
+                  disabled
+                  type="number"
+                  variant="outlined"
+                  color="blue"
+                  class="pa-1"
+                ></v-text-field>
+              </div>
+            </v-card-text>
+          </v-card>
+        </div>
+        <div class="d-flex justify-center align-center my-12">
+            <v-btn color="#870102">
+                Eliminar cuenta
+            </v-btn>
+        </div>
+      </template>
+    </nav-component>
+  </template>
+  
   
 <style scoped>
 
