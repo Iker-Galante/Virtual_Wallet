@@ -11,19 +11,16 @@ const name= ref(profile.name);
 const lastName= ref(profile.lastName);
 const mail= ref(profile.email);
 const index=profileStore.getCurrentProfileIndex(mail.value);
-
+const username = ref(profile.username)
 const age= ref(profile.age);
-const edit = ref(true);
+const edit = ref(false);
 
-const username = computed(() => {
-        
-    return profile ? `@${profile.name}_${profile.lastName}` : '';
-});
+
   
 function handleButtonClick() {
   edit.value = !edit.value;
-  if(edit.value){
-    profileStore.editProfile(index,name.value, lastName.value, age.value, mail.value);
+  if(!edit.value){
+    profileStore.editProfile(index, name.value, lastName.value, username.value, age.value, mail.value);
     }
 }
 
@@ -46,8 +43,11 @@ const isOpen= ref(false);
                         <h3 class="text-h4 font-weight-bold text-center">Perfil</h3>
                     </v-col>
                     <v-col cols="2" class="text-right">
-                         <v-btn icon text @click="handleButtonClick">
+                         <v-btn v-if="!edit" icon text color="#1D1D1D" @click="handleButtonClick">
                             <v-icon>mdi-pencil</v-icon>
+                        </v-btn>
+                        <v-btn v-else-if="edit" icon text color="#1D1D1D" @click="handleButtonClick">
+                          <v-icon>mdi-check</v-icon>
                         </v-btn>
                     </v-col>
                 </v-row>
@@ -60,7 +60,7 @@ const isOpen= ref(false);
                 <v-text-field
                   label="Nombre de usuario"
                   v-model="username"
-                  disabled
+                  :disabled="!edit"
                   type="text"
                   prepend-inner-icon="mdi-account"
                   variant="outlined"
@@ -72,7 +72,7 @@ const isOpen= ref(false);
                 <v-text-field
                   label="Nombre"
                   v-model="name"
-                  :disabled="edit"
+                  :disabled="!edit"
                   type="text"
                   prepend-inner-icon="mdi-account"
                   variant="outlined"
@@ -82,7 +82,7 @@ const isOpen= ref(false);
                 <v-text-field
                   label="Apellido"
                   v-model="lastName"
-                  :disabled="edit"
+                  :disabled="!edit"
                   type="text"
                   prepend-inner-icon="mdi-account"
                   variant="outlined"
@@ -94,7 +94,7 @@ const isOpen= ref(false);
                 <v-text-field
                   label="Mail"
                   v-model="mail"
-                  :disabled="edit"
+                  disabled
                   type="email"
                   prepend-inner-icon="mdi-account"
                   variant="outlined"
@@ -105,7 +105,7 @@ const isOpen= ref(false);
                   label="Edad"
                   v-model="age"
                   max-width="150px"
-                  :disabled="edit"
+                  disabled
                   type="number"
                   variant="outlined"
                   color="blue"
@@ -115,7 +115,7 @@ const isOpen= ref(false);
             </v-card-text>
           </v-card>
         </div>
-        <div class="d-flex justify-center align-center my-12">
+        <div v-if="edit" class="d-flex justify-center align-center my-12">
             <v-btn color="#870102" @click="isOpen=true">
                 Eliminar cuenta
             </v-btn>
