@@ -8,11 +8,11 @@ export const useMovementStore = defineStore('movement', () => {
 
     const movements = ref({})
 
-    function addMovement(userId, date, time, amount, movementType, description) {
+    function addMovement(userId, date, time, amount, movementType, description, isCardTransaction) {
         if (!movements.value[userId]) {
             movements.value[userId] = []
         }
-        movements.value[userId].push({ date, time, amount, movementType, description })
+        movements.value[userId].push({ date, time, amount, movementType, description, isCardTransaction })
     }
 
     function getMovementsByUserId(userId) {

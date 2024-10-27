@@ -18,7 +18,7 @@ const formattedBalance = computed(() => {
 
 <template>
   <div class="saldo-display">
-    <div class="saldo">Saldo Disponible</div>
+    <div class="saldo">Saldo Disponible en Cuenta</div>
     <div class="amount-container">
       <div class="balance-wrapper">
         <span class="saldo-amount" v-if="!isBalanceHidden">$ {{ formattedBalance }}</span>

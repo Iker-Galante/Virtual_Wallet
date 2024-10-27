@@ -39,7 +39,12 @@ function formatAmount(amount) {
     <div class="icon-container">
       <v-icon color="black" size="28">{{ getIcon(movement.movementType) }}</v-icon>
     </div>
-    <div class="movement-description">{{ movement.description }}</div>
+    <div class="movement-info">
+      <div class="movement-description">{{ movement.description }}</div>
+      <div class="transaction-type">
+        {{ movement.isCardTransaction ? 'Transacción con Tarjeta' : 'Transacción con dinero en cuenta' }}
+      </div>
+    </div>
     <div class="movement-right">
       <div class="movement-time">{{ formatTime(movement.time) }}</div>
       <div class="movement-amount" :class="{ 'positive': movement.amount > 0, 'negative': movement.amount < 0 }">
@@ -79,11 +84,20 @@ function formatAmount(amount) {
   /* left: 10px; */
 }
 
-.movement-description { 
+.movement-info {
   flex-grow: 1;
+}
+
+.movement-description { 
   font-weight: 500;
   color: #CCCCCC;
   font-size: 16px;
+}
+
+.transaction-type {
+  font-size: 12px;
+  color: #888;
+  margin-top: 2px;
 }
 
 .movement-right {

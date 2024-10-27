@@ -38,46 +38,52 @@ function addRandomMovements(userId) {
 
 //Test purposes
 function addRandomMovement(userId) {
-            const isPositive = Math.random() < 0.5; 
-            const randomAmount = Math.floor(Math.random() * 1000) + 1; 
-            const amount = isPositive ? randomAmount : -randomAmount;
-            const isCardTransaction = Math.random() < 0.5;
-            const cardNumber = isCardTransaction ? userCards.value[Math.floor(Math.random() * userCards.value.length)].cardNumber : null;
-            let movementType, description;
+    const isPositive = Math.random() < 0.5; 
+    const randomAmount = Math.floor(Math.random() * 1000) + 1; 
+    const amount = isPositive ? randomAmount : -randomAmount;
+    const availableCards = userCards.value;
+    const isCardTransaction = availableCards.length > 0 && Math.random() < 0.5;
+   
+    let cardNumber = null;
+    if (isCardTransaction) {
+        const randomCard = availableCards[Math.floor(Math.random() * availableCards.length)];
+        cardNumber = randomCard.cardNumber;
+    }
 
-            if (isPositive) {
-                movementType = 'deposito';
-                description = ['Salario', 'Rembolso'][Math.floor(Math.random() * 2)];
-                
-            } else {
-                movementType = ['retiros', 'transferencia', 'pagos'][Math.floor(Math.random() * 3)];
-                description = ['Renta', 'Compras', 'Comida', 'Pago de cuentas'][Math.floor(Math.random() * 4)];
-            }
+    let movementType, description;
 
-            const randomMovement = {
-                date: new Date().toISOString().split('T')[0],
-                time: new Date().toISOString().split('T')[1].split('.')[0],
-                amount: amount,
-                movementType: movementType,
-                description: description,
-                isCardTransaction: isCardTransaction
-            }
+    if (isPositive) {
+        movementType = 'deposito';
+        description = ['Salario', 'Rembolso'][Math.floor(Math.random() * 2)];
+    } else {
+        movementType = ['retiros', 'transferencia', 'pagos'][Math.floor(Math.random() * 3)];
+        description = ['Renta', 'Compras', 'Comida', 'Pago de cuentas'][Math.floor(Math.random() * 4)];
+    }
 
-            movementStore.value.addMovement(
-                userId, 
-                randomMovement.date, 
-                randomMovement.time, 
-                randomMovement.amount, 
-                randomMovement.movementType, 
-                randomMovement.description,
-                randomMovement.isCardTransaction
-            );
+    const randomMovement = {
+        date: new Date().toISOString().split('T')[0],
+        time: new Date().toISOString().split('T')[1].split('.')[0],
+        amount: amount,
+        movementType: movementType,
+        description: description,
+        isCardTransaction: isCardTransaction
+    }
 
-            if (isCardTransaction) {
-                cardStore.value.addCardTransaction(userId, cardNumber, randomMovement.amount);
-            } else {
-                balanceStore.value.addFunds(amount);
-            }
+    movementStore.value.addMovement(
+        userId, 
+        randomMovement.date, 
+        randomMovement.time, 
+        randomMovement.amount, 
+        randomMovement.movementType, 
+        randomMovement.description,
+        randomMovement.isCardTransaction
+    );
+
+    if (isCardTransaction) {
+        cardStore.value.addCardTransaction(userId, cardNumber, randomMovement.amount);
+    } else {
+        balanceStore.value.addFunds(amount);
+    }
 }
 
 //Test purposes
