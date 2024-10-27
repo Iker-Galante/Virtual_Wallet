@@ -6,7 +6,7 @@ import { defineStore } from 'pinia'
 
 export const useProfileStore = defineStore('profile', () => {
 
-    const profiles = ref([{ name: 'default', lastName: 'guest', username: '@default_guest',  age: '100', email: 'admin@gmail.com', password: 'admin' }])
+    const profiles = ref([{ name: 'default', lastName: 'guest', username: '@default_guest',  age: '12/0000', email: 'admin@gmail.com', password: 'admin' }])
     const totalProfiles = computed(() => profiles.value.length)
     const currentProfile = ref(null);
     const token = ref('12345678')

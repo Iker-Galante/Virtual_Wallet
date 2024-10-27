@@ -3,7 +3,7 @@ import { ref, provide } from 'vue'
 import { useProfileStore } from '@/Stores/ProfileStore'
 import NavigationComponent from '@/components/Utilities/NavigationComponent.vue';
 import PaymentComponent from '@/components/ManageMoney/PaymentComponent.vue';
-
+import PaymentsComponents from '@/components/ManageMoney/PaymentsComponents.vue';
 const profileStore = useProfileStore();
 const currentuserId = ref(profileStore.getCurrentProfileIndex(profileStore.getCurrentProfile().email));
 provide('currentuserId', currentuserId);
@@ -14,7 +14,8 @@ provide('currentuserId', currentuserId);
     <NavigationComponent>
         <template #page-title> Pagar </template>
         <template #Main_page>
-            <PaymentComponent/>
+            <PaymentsComponents/>
+            <!--<PaymentComponent/> -->
         </template>
     </NavigationComponent>
 </template>
