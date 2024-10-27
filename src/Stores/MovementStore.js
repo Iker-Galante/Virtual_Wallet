@@ -14,8 +14,8 @@ export const useMovementStore = defineStore('movement', () => {
     const staticMovements = [
         { date: '2024-03-16', time: '14:45:00', amount: 6000.00, movementType: 'deposito', description: 'Regalo de Bienvenida', isCardTransaction: false },
         { date: '2024-03-16', time: '14:45:00', amount: -500.00, movementType: 'pago automatico', description: 'Impuestos Nacionales', isCardTransaction: false },
-        { date: '2024-03-17', time: '11:20:00', amount: -300.00, movementType: 'pago automatico', description: 'Pago de Comision', isCardTransaction: false },
-        { date: '2024-03-18', time: '20:15:00', amount: -1000.00, movementType: 'pago', description: 'Comida', isCardTransaction: true },
+        { date: '2024-03-16', time: '14:45:00', amount: -300.00, movementType: 'pago automatico', description: 'Pago de Comision', isCardTransaction: false },
+        { date: '2024-06-18', time: '20:15:00', amount: -1000.00, movementType: 'pago', description: 'Comida', isCardTransaction: true },
     ];
 
     function initializeUserMovements(userId) {
