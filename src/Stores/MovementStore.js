@@ -12,15 +12,11 @@ export const useMovementStore = defineStore('movement', () => {
     const balanceStore = useBalanceStore()
 
     const staticMovements = [
-        { date: '2024-03-16', time: '14:45:00', amount: 8000.00, movementType: 'deposito', description: 'Regalo de Bienvenida', isCardTransaction: false },
-        { date: '2024-03-16', time: '14:45:00', amount: -500.00, movementType: 'transferencia', description: 'Impuestos Nacionales', isCardTransaction: false },
-        { date: '2024-03-16', time: '14:45:00', amount: -300.00, movementType: 'transferencia', description: 'Pago de Comision', isCardTransaction: false },
-        { date: '2024-06-18', time: '20:15:00', amount: -1000.00, movementType: 'pago', description: 'Comida', isCardTransaction: true },
-        { date: '2024-06-18', time: '20:15:00', amount: -1000.00, movementType: 'pago', description: 'Ropa', isCardTransaction: false },
-        { date: '2024-06-18', time: '20:15:00', amount: -1000.00, movementType: 'retiro', description: 'Retirar Dinero', isCardTransaction: false },
-
-
-
+        { date: '2024-03-16', time: '14:45:00', amount: 5000.00, movementType: 'deposito', description: 'Salario', isCardTransaction: false },
+        { date: '2024-03-16', time: '14:45:00', amount: -50.00, movementType: 'retiro', description: 'Compras', isCardTransaction: true },
+        { date: '2024-03-17', time: '11:20:00', amount: -30.00, movementType: 'pago', description: 'Factura de servicios', isCardTransaction: false },
+        { date: '2024-03-18', time: '20:15:00', amount: -25.50, movementType: 'pago', description: 'Restaurante', isCardTransaction: true },
+        { date: '2024-03-19', time: '16:00:00', amount: 200.00, movementType: 'deposito', description: 'Reembolso', isCardTransaction: false },
     ];
 
     function initializeUserMovements(userId) {
