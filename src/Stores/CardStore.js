@@ -23,7 +23,7 @@ export const useCardStore = defineStore('card', () => {
         if (!cards.value[userId]) {
             cards.value[userId] = []
         }
-        cards.value[userId].push({ name, cardNumber, expirationDate, cvv, cardBalance })
+        cards.value[userId].push({ name: name, cardNumber: cardNumber, expirationDate: expirationDate, cvv: cvv, cardBalance: cardBalance })
     }
 
     function getCards(userId) {
@@ -36,5 +36,11 @@ export const useCardStore = defineStore('card', () => {
         }
     }
 
-    return { addCard, getCards, eliminateCard, toggleDeleteButton, showDelete }
+    function addCardTransaction(userId, cardNumber, amount) {
+        if (cards.value[userId]) {
+            cards.value[userId] = cards.value[userId].map(card => card.cardNumber === cardNumber ? { ...card, cardBalance: card.cardBalance + amount } : card);
+        }
+    }
+
+    return { addCard, getCards, eliminateCard, toggleDeleteButton, showDelete, addCardTransaction }
 })

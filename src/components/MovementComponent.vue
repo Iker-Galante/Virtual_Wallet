@@ -1,40 +1,92 @@
 <script setup>
-import {computed, ref} from 'vue';
+import {computed, ref, onMounted} from 'vue';
 import { useProfileStore } from '@/Stores/ProfileStore';
 import { useMovementStore } from '@/Stores/MovementStore';
 import { useBalanceStore } from '@/Stores/BalanceStore';
+import { useCardStore } from '@/Stores/CardStore';
 import MovementItemComponent from './MovementItemComponent.vue';
 
 const profileStore = computed(() => useProfileStore())
 const movementStore = computed(() => useMovementStore())
 const balanceStore = computed(() => useBalanceStore())
+const cardStore = computed(() => useCardStore())
 
 const profileId = computed(() => profileStore.value.getCurrentProfileIndex(profileStore.value.getCurrentProfile().email));
 
+//Test purposes
+const cardAdded = ref(false);
+const movementsAdded = ref(false);
 
- //Test purposes
- function addRandomMovement(userId) {
-        // for (let i = 0; i < 2; i++) {
+//Test purposes
+function addRandomCard(userId) {
+    if (!cardAdded.value) {
+        cardStore.value.addCard('Juan Perez', '1234567890123456', '12/24', '123', 1000, userId)
+        cardAdded.value = true;
+    }
+}
+
+//Test purposes
+const userCards = computed(() => cardStore.value.getCards(profileId.value))
+function addRandomMovements(userId) {
+    if (!movementsAdded.value) {
+        for (let i = 0; i < 3; i++) {
+            addRandomMovement(userId);
+        }
+        movementsAdded.value = true;
+    }
+}
+
+//Test purposes
+function addRandomMovement(userId) {
             const isPositive = Math.random() < 0.5; 
             const randomAmount = Math.floor(Math.random() * 1000) + 1; 
             const amount = isPositive ? randomAmount : -randomAmount;
+            const isCardTransaction = Math.random() < 0.5;
+            const cardNumber = isCardTransaction ? userCards.value[Math.floor(Math.random() * userCards.value.length)].cardNumber : null;
+            let movementType, description;
+
+            if (isPositive) {
+                movementType = 'deposito';
+                description = ['Salario', 'Rembolso'][Math.floor(Math.random() * 2)];
+                
+            } else {
+                movementType = ['retiros', 'transferencia', 'pagos'][Math.floor(Math.random() * 3)];
+                description = ['Renta', 'Compras', 'Comida', 'Pago de cuentas'][Math.floor(Math.random() * 4)];
+            }
 
             const randomMovement = {
                 date: new Date().toISOString().split('T')[0],
                 time: new Date().toISOString().split('T')[1].split('.')[0],
                 amount: amount,
-                movementType: ['deposito', 'retiros', 'transferencia', 'pagos'][Math.floor(Math.random() * 4)],
-                description: ['Salario', 'Renta', 'Compras', 'Cena', 'Rembolso', 'Pago de cuentas'][Math.floor(Math.random() * 6)]
-        }
-        movementStore.value.addMovement(userId, randomMovement.date, randomMovement.time, randomMovement.amount, randomMovement.movementType, randomMovement.description)
-        balanceStore.value.addFunds(amount)
-        // }
+                movementType: movementType,
+                description: description,
+                isCardTransaction: isCardTransaction
+            }
+
+            movementStore.value.addMovement(
+                userId, 
+                randomMovement.date, 
+                randomMovement.time, 
+                randomMovement.amount, 
+                randomMovement.movementType, 
+                randomMovement.description,
+                randomMovement.isCardTransaction
+            );
+
+            if (isCardTransaction) {
+                cardStore.value.addCardTransaction(userId, cardNumber, randomMovement.amount);
+            } else {
+                balanceStore.value.addFunds(amount);
+            }
 }
 
-for (let i = 0; i < 3; i++) {
-    addRandomMovement(profileId.value)
-}
-
+//Test purposes
+onMounted(() => {
+    addRandomCard(profileId.value);
+    addRandomMovements(profileId.value);
+    console.log(userCards.value);
+    console.log(movementStore.value.getMovementsByUserId(profileId.value));
+});
 
 const movements = computed(() => {
   const userMovements = movementStore.value.getMovementsByUserId(profileId.value);
