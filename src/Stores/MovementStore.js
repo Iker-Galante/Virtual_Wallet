@@ -15,14 +15,6 @@ export const useMovementStore = defineStore('movement', () => {
         { date: '2024-03-16', time: '14:45:00', amount: 8800.00, movementType: 'deposito', description: 'Regalo de Bienvenida', isCardTransaction: false },
         { date: '2024-03-16', time: '14:45:00', amount: -500.00, movementType: 'transferencia', description: 'Impuestos Nacionales', isCardTransaction: false },
         { date: '2024-03-16', time: '14:45:00', amount: -300.00, movementType: 'transferencia', description: 'Pago de Comision', isCardTransaction: false },
-        { date: '2024-06-18', time: '20:15:00', amount: -1000.00, movementType: 'pago', description: 'Comida', isCardTransaction: true },
-        { date: '2024-06-18', time: '20:15:00', amount: -1000.00, movementType: 'pago', description: 'Ropa', isCardTransaction: false },
-        { date: '2024-06-18', time: '20:15:00', amount: -1000.00, movementType: 'retiro', description: 'Retirar Dinero', isCardTransaction: false },
-        { date: '2024-06-18', time: '20:15:00', amount: -800.00, movementType: 'pago', description: 'Ropa', isCardTransaction: false },
-
-
-
-
     ];
 
     function initializeUserMovements(userId) {
