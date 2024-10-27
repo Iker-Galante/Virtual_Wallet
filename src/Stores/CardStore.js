@@ -8,11 +8,14 @@ import { defineStore } from 'pinia';
 export const useCardStore = defineStore('card', () => {
 
     const cards = ref({})
-
     const showDelete = ref(false)
 
-    //TODO: como no esta la API, hay que inventar datos. 
-    const fetchCards = async () => {
+    const staticCard = {
+        name: 'Juan Pérez',
+        cardNumber: '1234 5678 9012 3456',
+        expirationDate: '12/25',
+        cvv: '123',
+        cardBalance: 1000.00
     }
 
     function toggleDeleteButton(state) {
@@ -21,13 +24,16 @@ export const useCardStore = defineStore('card', () => {
 
     function addCard(name, cardNumber, expirationDate, cvv, cardBalance, userId) {
         if (!cards.value[userId]) {
-            cards.value[userId] = []
+            cards.value[userId] = [{ ...staticCard }]
         }
-        cards.value[userId].push({ name: name, cardNumber: cardNumber, expirationDate: expirationDate, cvv: cvv, cardBalance: cardBalance })
+        cards.value[userId].push({ name, cardNumber, expirationDate, cvv, cardBalance })
     }
 
     function getCards(userId) {
-        return cards.value[userId] || []
+        if (!cards.value[userId]) {
+            cards.value[userId] = [{ ...staticCard }]
+        }
+        return cards.value[userId]
     }
 
     function eliminateCard(userId, cardNumber) {
@@ -40,7 +46,7 @@ export const useCardStore = defineStore('card', () => {
         if (cards.value[userId]) {
             const card = cards.value[userId].find(card => card.cardNumber === cardNumber);
             if (card && card.cardBalance + amount < 0) {
-                alert("Insufficient funds on the card. This transaction cannot be completed.");
+                alert("Fondos insuficientes en la tarjeta. Esta transacción no puede completarse.");
                 return false;
             }
             cards.value[userId] = cards.value[userId].map(card => 
