@@ -30,7 +30,7 @@ const navItems = routes
       @click="navigate(item.path)"
     >
       <template v-slot:prepend>
-        <v-icon :color="route.name === item.name ? 'violet' : 'white'">
+        <v-icon :color="route.name === item.name ? '#7749F8' : 'white'">
           {{ item.icon }}
         </v-icon>
       </template>
