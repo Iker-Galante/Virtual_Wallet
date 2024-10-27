@@ -18,14 +18,14 @@ function openAddFundsDialog() {
 
 function addFunds() {
     if (fundAmount.value > 0) {
-        balanceStore.value.addFundsById(profileId.value, fundAmount.value);
         movementStore.value.addMovement(
             profileId.value,
             new Date().toISOString().split('T')[0],
             new Date().toISOString().split('T')[1].split('.')[0],
             fundAmount.value,
-            'credit',
-            'Ingreso de fondos'
+            'deposito',
+            'Ingreso de fondos',
+            false
         );
         showDialog.value = false;
         fundAmount.value = 0;
