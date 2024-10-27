@@ -119,6 +119,7 @@ const cvvValidator = (value) => {
   }
 
 const addCard = () => {
+  console.log(cardStore.getCards(profileId.value))
   cardStore.addCard(
     formState.name,
     formState.cardNumber,
@@ -127,6 +128,7 @@ const addCard = () => {
     10000,
     profileId.value
   );
+  console.log(cardStore.getCards(profileId.value))
   showModal.value = false
   clear()
 }
