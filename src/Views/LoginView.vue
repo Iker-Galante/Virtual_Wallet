@@ -5,7 +5,7 @@ import LoginForm from '@/components/Users/LoginFormComponent.vue';
 <template>
   <div class="container">
     <div class="left-side">
-      <v-img class="redondo" max-width="400" src="@/assets/logo.jpg"></v-img>
+      <v-img class="redondo" max-width="300" src="@/assets/logo2.png"></v-img>
       <h3 class="text-texto text-center text-h4 logo-text">Bienvenido a Platan't</h3>
     </div>
     
@@ -18,8 +18,8 @@ import LoginForm from '@/components/Users/LoginFormComponent.vue';
 <style scoped>
   .container {
   display: flex;
-  height: 100vh; /* Full height of the viewport */
-  width: 100vw; /* Full width of the viewport */
+  height: 100vh; 
+  width: 100vw; 
   text-align: center;
   align-items: center;
  background: linear-gradient(to right, rgba(25, 25, 25, 0.95) 40%, rgba(255, 255, 255, 0.7) 40%);
@@ -34,7 +34,7 @@ import LoginForm from '@/components/Users/LoginFormComponent.vue';
 }
 
 .redondo {
-  border-radius: 50%;
+  border-radius: 40%;
   margin: 0 auto;
   opacity: 0.8; 
 }
