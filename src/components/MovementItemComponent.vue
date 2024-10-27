@@ -17,15 +17,22 @@ function getIcon(type) {
   return iconMap[type] || 'mdi-cash';
 }
 
-function formatTime(time) {
-  if (!time) return '';
+function formatDateTime(date, time) {
+  if (!date || !time) return '';
   
-  const [hours, minutes] = time.split(':');
-  const date = new Date();
-  date.setHours(parseInt(hours-3, 10));
-  date.setMinutes(parseInt(minutes, 10));
+  const [year, month, day] = date.split('-');
+  const [hours, minutes, seconds] = time.split(':');
+  const dateObj = new Date(year, month - 1, day, parseInt(hours, 10), parseInt(minutes, 10), parseInt(seconds, 10));
   
-  return date.toLocaleString('es-AR', { hour: 'numeric', minute: 'numeric', hour12: true });
+  return dateObj.toLocaleString('es-AR', { 
+    year: 'numeric',
+    month: 'numeric',
+    day: 'numeric',
+    hour: '2-digit', 
+    minute: '2-digit',
+    second: '2-digit',
+    hour12: false 
+  });
 }
 
 function formatAmount(amount) {
@@ -46,7 +53,7 @@ function formatAmount(amount) {
       </div>
     </div>
     <div class="movement-right">
-      <div class="movement-time">{{ formatTime(movement.time) }}</div>
+      <div class="movement-datetime">{{ formatDateTime(movement.date, movement.time) }}</div>
       <div class="movement-amount" :class="{ 'positive': movement.amount > 0, 'negative': movement.amount < 0 }">
         {{ formatAmount(movement.amount) }}
       </div>
@@ -104,7 +111,7 @@ function formatAmount(amount) {
   text-align: right;
 }
 
-.movement-time {
+.movement-datetime {
   font-size: 14px;
   color: #FFFFFF;
   margin-bottom: 4px;
