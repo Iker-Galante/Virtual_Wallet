@@ -48,11 +48,13 @@ function handleLogOut() {
           </div>
           <v-avatar id="perfil" image="@/assets/default_user.jpg" size="default" class="icon"></v-avatar>
           <v-menu transition="scale-transition" activator="#perfil" class="menu_expandible">
-            <v-list class="elevation-20">
-              <!--
-              <v-list-item @click="navigate('/Profile')">Perfil</v-list-item> -->
-              <v-list-item @click="navigate('/profile')">Perfil</v-list-item>
-              <v-list-item @click="handleLogOut()">Cerrar Sesión</v-list-item>
+            <v-list class="elevation-20 menu-list" bg-color="#1D1D1D">
+              <v-list-item @click="navigate('/profile')" class="menu-item" density="compact">
+                <v-list-item-title>Perfil</v-list-item-title>
+              </v-list-item>
+              <v-list-item @click="handleLogOut()" class="menu-item" density="compact">
+                <v-list-item-title>Cerrar Sesión</v-list-item-title>
+              </v-list-item>
             </v-list>
           </v-menu>
         </div>
@@ -139,5 +141,29 @@ function handleLogOut() {
   width: 200px;
 }
 
-/* ... (rest of your styles) ... */
+.menu-list {
+  background-color: #1D1D1D;
+}
+
+.menu-item {
+  color: white;
+  font-size: 14px;
+}
+
+:deep(.v-list-item-title) {
+  font-size: 14px;
+}
+
+.menu-item:hover {
+  background-color: #2D2B3E;
+}
+
+:deep(.v-list) {
+  background-color: #1D1D1D;
+  color: white;
+}
+
+:deep(.v-menu .v-overlay__content) {
+  background-color: #1D1D1D;
+}
 </style>

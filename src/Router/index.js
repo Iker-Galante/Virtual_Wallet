@@ -74,13 +74,6 @@ const router = createRouter({
       component: () => import('../Views/ProfileView.vue'),
     },
     {
-      path: '/settings',
-      name: 'settings',
-      spanishName: 'Configuración',
-      icon: 'mdi-cog-outline',
-      component: () => import('../Views/SettingsView.vue'),
-    },
-    {
       path: '/:pathMatch(.*)*',
       name: 'not-found',
       spanishName: 'Página no encontrada',
@@ -101,13 +94,6 @@ const router = createRouter({
       icon: 'mdi-lock-outline',
       component: () => import('../Views/ForgetPasswordView.vue'),
     },
-    {
-      path: '/support',
-      name: 'support',
-      spanishName: 'Soporte',
-      icon: 'mdi-help-circle-outline',
-      component: () => import('../Views/SupportView.vue'),
-    }
   ]
 })
 
