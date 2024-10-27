@@ -27,7 +27,7 @@ export const useCardStore = defineStore('card', () => {
         showDelete.value = state;
     }
 
-    function addCard(cardNumber, expirationDate, cvv, cardBalance, userId) {
+    function addCard(name, cardNumber, expirationDate, cvv, cardBalance, userId) {
         if (!cards.value[userId]) {
             cards.value[userId] = [createStaticCard()]
         }
