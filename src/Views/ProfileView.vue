@@ -60,7 +60,7 @@ const isOpen= ref(false);
                 <v-text-field
                   label="Nombre de usuario"
                   v-model="username"
-                  :disabled="!edit"
+                  disabled
                   type="text"
                   prepend-inner-icon="mdi-account"
                   variant="outlined"
@@ -102,11 +102,11 @@ const isOpen= ref(false);
                   class="pa-1"
                 ></v-text-field>
                 <v-text-field
-                  label="Edad"
+                  label="Fecha de Nacimiento"
                   v-model="age"
                   max-width="150px"
                   disabled
-                  type="number"
+                  type="text"
                   variant="outlined"
                   color="blue"
                   class="pa-1"

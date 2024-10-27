@@ -12,7 +12,7 @@ const age= ref('');
 const password= ref('');
 const validatePassword= ref('');
 const regex = /\d/;
-const forms = computed(() => name.value!='' && lastName.value!='' && mail.value!='' && age.value!='' && password.value!='' && validatePassword.value!='' && age.value.length<=2 && age.value > 15 && !regex.test(name.value) && !regex.test(lastName.value) && mail.value.includes('@'));
+const forms = computed(() => name.value!='' && lastName.value!='' && mail.value!='' && age.value!='' && password.value!='' && validatePassword.value!='' && !regex.test(name.value) && !regex.test(lastName.value) && mail.value.includes('@'));
 const profileStore = useProfileStore();
 const errorMessage = ref('Las contraseñas no coinciden');
 const displayErrorNoMatching = ref(false);
@@ -45,8 +45,8 @@ function validateCharacters(v){
     }
 }
 function checkNumbers(){
-  if(age.value.length>2  || age.value <= 15){
-    return "Edad no válida";
+  if(age.value.length!=7 || (parseInt(age.value.split("/")[1]) > 2012) || (parseInt(age.value.split("/")[0]) > 12) || (parseInt(age.value.split("/")[0]) < 1)){
+    return "Fecha no valida";
   }
   return true;
 }
@@ -68,7 +68,7 @@ function checkStrings(v){
             </div>
             <div class="d-flex">
                 <v-text-field label="Mail" v-model="mail" placeholder="mymail@gmail.com" type="email" prepend-inner-icon="mdi-account" variant="outlined" color="blue" class="pa-1" :rules="[validateCharacters(mail)]"></v-text-field>
-                <v-text-field label="Edad" v-model="age" max-width="150px" placeholder="13" type="number" variant="outlined" color="blue" class="pa-1" :rules="[validateCharacters(age), checkNumbers()]"></v-text-field>
+                <v-text-field label="Fecha de Nacimiento" v-model="age" max-width="250px" placeholder="mm/yyyy" type="text" variant="outlined" color="blue" class="pa-1" :rules="[validateCharacters(age), checkNumbers()]"></v-text-field>
             </div>
           <v-text-field label="Contraseña" v-model="password" placeholder="Contraseña" :type="passwordStatus? 'text' : 'password'" 
           prepend-inner-icon="mdi-lock" :append-inner-icon= "passwordStatus ?'mdi-eye-outline' : 'mdi-eye-off-outline'"  
