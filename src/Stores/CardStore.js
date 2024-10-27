@@ -3,35 +3,42 @@
 
 import { ref } from 'vue';
 import { defineStore } from 'pinia';
-//import {  } from '@/api/';
+import { useProfileStore } from './ProfileStore'; 
 
 export const useCardStore = defineStore('card', () => {
 
     const cards = ref({})
     const showDelete = ref(false)
+    const profileStore = useProfileStore() 
 
-    const staticCard = {
-        name: 'Juan Pérez',
-        cardNumber: '1234 5678 9012 3456',
-        expirationDate: '12/25',
-        cvv: '123',
-        cardBalance: 1000.00
+    function createStaticCard() {
+        const currentProfile = profileStore.getCurrentProfile()
+        const userName = currentProfile ? `${currentProfile.name} ${currentProfile.lastName}` : 'Default User'
+        return {
+            name: userName,
+            cardNumber: '1234 5678 9012 3456',
+            expirationDate: '12/25',
+            cvv: '123',
+            cardBalance: 1000.00
+        }
     }
 
     function toggleDeleteButton(state) {
         showDelete.value = state;
     }
 
-    function addCard(name, cardNumber, expirationDate, cvv, cardBalance, userId) {
+    function addCard(cardNumber, expirationDate, cvv, cardBalance, userId) {
         if (!cards.value[userId]) {
-            cards.value[userId] = [{ ...staticCard }]
+            cards.value[userId] = [createStaticCard()]
         }
-        cards.value[userId].push({ name, cardNumber, expirationDate, cvv, cardBalance })
+        const currentProfile = profileStore.getCurrentProfile()
+        const userName = currentProfile ? `${currentProfile.name} ${currentProfile.lastName}` : 'Default User'
+        cards.value[userId].push({ name: userName, cardNumber, expirationDate, cvv, cardBalance })
     }
 
     function getCards(userId) {
         if (!cards.value[userId]) {
-            cards.value[userId] = [{ ...staticCard }]
+            cards.value[userId] = [createStaticCard()]
         }
         return cards.value[userId]
     }
