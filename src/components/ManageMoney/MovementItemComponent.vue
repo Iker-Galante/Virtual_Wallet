@@ -9,10 +9,10 @@ const props = defineProps({
 
 function getIcon(type) {
   const iconMap = {
-    'deposit': 'mdi-cash-plus',
-    'withdrawal': 'mdi-cash-minus',
-    'transfer': 'mdi-bank-transfer',
-    'payment': 'mdi-cart',
+    'deposito': 'mdi-cash-plus',
+    'retiro': 'mdi-cash-minus',
+    'transferencia': 'mdi-bank-transfer',
+    'pago': 'mdi-cart',
   };
   return iconMap[type] || 'mdi-cash';
 }
