@@ -20,11 +20,6 @@ const masterCardRegex = /^5[1-5][0-9]{14}$/;
 const amexRegex = /^3[47][0-9]{13}$/;
 
 onMounted(() => {
-  // Only add a card if there are no cards for this profile
-  if (cards.value.length === 0) {
-    cardStore.addCard("admin admin", "4338123456789101", "10/26", "123", 0, profileId.value)
-  }
-
   cardStore.toggleDeleteButton(false)
 })
 

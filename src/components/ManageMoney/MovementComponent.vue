@@ -13,8 +13,8 @@ const cardStore = computed(() => useCardStore())
 const profileId = computed(() => profileStore.value.getCurrentProfileIndex(profileStore.value.getCurrentProfile()?profileStore.value.getCurrentProfile().email:null));
 
 const movements = computed(() => {
-  return movementStore.value.getMovementsByUserId(profileId.value);
-})
+  return movementStore.value.getMovementsByUserId(profileId.value).slice().reverse();
+});
 
 const displayLimit = ref(4);
 const initialLimit = 4;
