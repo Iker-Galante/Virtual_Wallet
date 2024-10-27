@@ -166,10 +166,9 @@ const confirmPayment = () => {
   confirmDialog.value = false
 }
 
-// Updated closeSuccessDialog function
 const closeSuccessDialog = () => {
   successDialog.value = false;
-  router.push({ name: 'mainPage' });  // Navigate to main page after user closes dialog
+  router.push({ name: 'mainPage' });
 }
 
 const closeFailureDialog = () => {
