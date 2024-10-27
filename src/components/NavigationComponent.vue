@@ -38,7 +38,7 @@ function handleLogOut() {
     <NavigationBarComponent/> 
       <div class="nav_bar">
         <div class="center-container">
-          <p class="text-h3 text-white"><slot name="page-title"></slot></p>
+          <!-- <p class="text-h3 text-white"><slot name="page-title"></slot></p> -->
         </div>
         <div class="icon-container">
           <!-- <v-icon icon="mdi-bell-outline" color="white" size="x-large" class="icon"></v-icon> -->
