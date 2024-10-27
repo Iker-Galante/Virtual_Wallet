@@ -44,7 +44,7 @@ function checkCredentials(){
     <div class="right-side">
       <v-card class="mx-auto" max-width="600" max-height="600" elevation="4">
         <v-card-title>
-          <h3 class="text-h3 text-left">Iniciar sesión</h3>
+          <h3 class="text-h4 text-left pb-3">Iniciar sesión</h3>
         </v-card-title>
         <v-card-text class="py-0 ">
           <v-text-field label="Email" v-model="email" placeholder="miEmail@gmail.com" type="email" prepend-inner-icon="mdi-account" variant="outlined" color="blue" :error="showEmailError" :error-messages="showEmailError? userEmailError : ''"></v-text-field>
