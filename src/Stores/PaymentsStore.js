@@ -1,6 +1,7 @@
 import { ref, computed } from 'vue';
 import { defineStore } from 'pinia'
 import { useBalanceStore } from './BalanceStore';
+import { useMovementStore } from './MovementStore';
 
 export const usePaymentsStore = defineStore('payments', () => {
 
@@ -8,6 +9,7 @@ export const usePaymentsStore = defineStore('payments', () => {
 // de montos de los links de pago generados, al pagarse la deuda el monto se setea en null
     const payments = ref([]);
     const balances = useBalanceStore();
+    const movements = useMovementStore();
 
 // El usuario tiene la deuda, es decir, es quien genera el link
 
@@ -33,6 +35,9 @@ export const usePaymentsStore = defineStore('payments', () => {
         
         balances.addFundsById(userId, payments.value[userId][paymentId]);
         payments.value[userId][paymentId] = null;
+
+        movementStore.addMovement(userId, new Date().toLocaleDateString(), new Date().toLocaleTimeString(), amountToPay, 'cobro', 'Cobro con link de pago', false);
+
         return true;
     }
 

@@ -6,7 +6,7 @@ import { defineStore } from 'pinia'
 
 export const useProfileStore = defineStore('profile', () => {
 
-    const profiles = ref([{ name: 'default', lastName: 'guest', username: '@default_guest',  age: '12/0000', email: 'admin@gmail.com', password: 'admin' }])
+    const profiles = ref([{ name: 'default', lastName: 'guest', username: '@default_guest',  age: '100', email: 'admin@gmail.com', password: 'admin' }])
     const totalProfiles = computed(() => profiles.value.length)
     const currentProfile = ref(null);
     const token = ref('12345678')
@@ -65,6 +65,11 @@ export const useProfileStore = defineStore('profile', () => {
         return getCurrentProfile ?  getCurrentProfileIndex(getCurrentProfile()?getCurrentProfile().email : null) : null;
     }
 
+    function getProfileIdByAlias(alias) {
+
+        return profiles.value.findIndex(profile => profile.username === alias);
+    }
+
     function resetPassword(index, newPassword) {
         profiles.value[index].password = newPassword
     }
@@ -77,5 +82,5 @@ export const useProfileStore = defineStore('profile', () => {
         profiles.value[index].email = email
     }
 
-    return { getCurrentProfileId, addProfile, getCurrentProfileUserId, fetchProfiles,getCurrentProfileIndex,setCurrentProfile,getCurrentProfile,resetPassword, getToken, setToken, editProfile, deleteProfile}
+    return { getCurrentProfileId, addProfile, getCurrentProfileUserId, fetchProfiles,getCurrentProfileIndex,setCurrentProfile,getCurrentProfile,resetPassword, getToken, setToken, editProfile, deleteProfile, getProfileIdByAlias}
 })
