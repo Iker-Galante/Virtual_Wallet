@@ -1,31 +1,9 @@
 <script setup>
-// import { useRouter } from 'vue-router';
-import { computed } from 'vue';
 import { useRouter } from 'vue-router';
 import SaldoDisplay from './SaldoDisplayComponent.vue';
-import { useBalanceStore } from '@/Stores/BalanceStore';
-import { useMovementStore } from '@/Stores/MovementStore';
-import { useProfileStore } from '@/Stores/ProfileStore';
+import AddFundsComponent from './AddFundsComponent.vue';
 
 const router = useRouter();
-const balanceStore = computed(() => useBalanceStore());
-const movementStore = computed(() => useMovementStore());
-const profileStore = computed(() => useProfileStore());
-const profileId = computed(() => profileStore.value.getCurrentProfileIndex(profileStore.value.getCurrentProfile().email));
-
-//TODO: make it dynamic
-function addFunds() {
-    balanceStore.value.addFunds(100.05); 
-    movementStore.value.addMovement(
-        profileId.value, 
-        new Date().toISOString().split('T')[0], 
-        new Date().toISOString().split('T')[1].split('.')[0], 
-        100.05, 
-        'credit', 
-        'Ingreso de fondos'
-    );
-
-}
 </script>
 
 <template>
@@ -33,12 +11,7 @@ function addFunds() {
         <v-card class="tarjeta elevation-12" image="@/assets/Cardbg.jpeg">
             <v-card-text>
                 <div class="align-center justify-space-between d-flex">
-                    <v-btn prepend-icon="mdi-plus-circle-outline" class="add-funds-btn" @click="addFunds"> 
-                     <div class="btn-text">
-                        <span>Ingresar</span>
-                        <span>Fondos</span>
-                    </div> 
-                    </v-btn>
+                    <AddFundsComponent />
                     <SaldoDisplay class="saldo-display"/>
                 </div>
             </v-card-text>

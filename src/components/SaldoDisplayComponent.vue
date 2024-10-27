@@ -8,6 +8,12 @@ const isBalanceHidden = ref(false);
 const toggleBalanceVisibility = () => {
   isBalanceHidden.value = !isBalanceHidden.value;
 };
+
+const formattedBalance = computed(() => {
+  const balance = balanceStore.value.getBalance();
+  console.log(balance);
+  return typeof balance === 'number' ? balance.toFixed(2) : '0.00';
+});
 </script>
 
 <template>
@@ -15,7 +21,7 @@ const toggleBalanceVisibility = () => {
     <div class="saldo">Saldo Disponible</div>
     <div class="amount-container">
       <div class="balance-wrapper">
-        <span class="saldo-amount" v-if="!isBalanceHidden">$ {{ balanceStore.getBalance().toFixed(2) }}</span>
+        <span class="saldo-amount" v-if="!isBalanceHidden">$ {{ formattedBalance }}</span>
         <span class="saldo-amount" v-else>$ ****.**</span>
       </div>
       <v-icon class="eye-icon" @click="toggleBalanceVisibility">mdi-eye-outline</v-icon>

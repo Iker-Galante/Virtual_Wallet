@@ -18,7 +18,7 @@ function openAddFundsDialog() {
 
 function addFunds() {
     if (fundAmount.value > 0) {
-        balanceStore.value.addFunds(fundAmount.value);
+        balanceStore.value.addFundsById(profileId.value, fundAmount.value);
         movementStore.value.addMovement(
             profileId.value,
             new Date().toISOString().split('T')[0],
@@ -58,8 +58,12 @@ function addFunds() {
                 </v-card-text>
                 <v-card-actions>
                     <v-spacer></v-spacer>
-                    <v-btn color="#A398C1" text @click="showDialog = false">Cancelar</v-btn>
-                    <v-btn color="#7749F8" text @click="addFunds">Confirmar</v-btn>
+                    <v-btn color="#A398C1" text @click="showDialog = false" class="normal-case-btn">
+                        Cancelar
+                    </v-btn>
+                    <v-btn color="#7749F8" text @click="addFunds" class="normal-case-btn">
+                        Confirmar
+                    </v-btn>
                 </v-card-actions>
             </v-card>
         </v-dialog>
@@ -102,10 +106,14 @@ function addFunds() {
 }
 
 :deep(.v-field__outline) {
-    color: #7749F8 !important;
+    color: #7749F8;
 }
 
 :deep(.v-label) {
-    color: #A398C1 !important;
+    color: #A398C1;
+}
+
+.normal-case-btn {
+    text-transform: none;
 }
 </style>
