@@ -5,7 +5,7 @@
       color="#2f2e36"
       rounded="xl"
       elevation="5"
-      max-width="250"
+      max-width="260"
     >
     <v-card-text>
         <p class="text-h6 font-weight-bold white--text">

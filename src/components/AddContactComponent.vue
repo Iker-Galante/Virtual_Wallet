@@ -16,6 +16,13 @@ const addContact = () => {
     phone.value = '';
     isOpen.value = false;
 }
+
+function cancel() {
+    name.value = '';
+    cvu.value = '';
+    phone.value = '';
+    isOpen.value = false;
+}
 </script>
 
 <template>
@@ -33,13 +40,13 @@ const addContact = () => {
             <v-text-field
             v-model="cvu"
             label="CVU"
-            :rules="[v => !!v || 'El campo es requerido']"
+            :rules="[v => !!v && v.length === 22|| 'Ingrese un CVU valido']"
             type="number"
             ></v-text-field>
             <v-text-field
             v-model="phone"
             label="Telefono"
-            :rules="[v => !!v || 'El campo es requerido']"
+            :rules="[v => !!v && v.length===10 || 'Ingrese un telefono valido']"
             type="number"
             ></v-text-field>
         </v-card-text>
@@ -48,7 +55,7 @@ const addContact = () => {
             <v-btn
             color="blue darken-1"
             text
-            @click="isOpen = false"
+            @click="cancel()"
             >
             Cancelar
             </v-btn>
