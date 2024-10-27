@@ -1,77 +1,77 @@
+import { computed } from 'vue';
 import { createRouter, createWebHistory } from 'vue-router'
+import { useProfileStore } from '@/Stores/ProfileStore';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   webName: 'Platan\'t',
   routes: [
-    {
-      path: '/',
-      name: 'root',
-      icon: 'mdi-home-outline',
-      redirect: '/login', // Redirect from '/' to '/login'
-    },
+    
     {
       path: '/login',
       name: 'login',
       spanishName: 'Iniciar Sesión',
       icon: 'mdi-login-outline',
-      component: Login,
+      component: () => import('../Views/LoginView.vue')
     },
     {
-      path: '/MainPage',
+      path: '/',
       name: 'mainPage',
       spanishName: 'Inicio',
       icon: 'mdi-home-outline',
-      component: () => import('../Views/HomeView.vue'),
       meta: { RequiresAuth: true },
+      component: () => import('../Views/HomeView.vue'),
     },
     {
       path: '/Cards',
       name: 'Cards',
       spanishName: 'Tarjetas',
       icon: 'mdi-credit-card-multiple-outline',
-      component: () => import('../Views/CardsView.vue'),
       meta: { RequiresAuth: true },
+      component: () => import('../Views/CardsView.vue'),
+      
     },
     {
       path: '/pay',
       name: 'pay',
       spanishName: 'Pagar',
       icon: 'mdi-send-variant-outline',
-      component: () => import('../Views/PayView.vue'),
       meta: { RequiresAuth: true },
+      component: () => import('../Views/PayView.vue'),
     },
     {
       path: '/movements',
       name: 'movements',
       spanishName: 'Movimientos',
       icon: 'mdi-inbox-multiple-outline',
-      component: () => import('../Views/MovementView.vue'),
       meta: { RequiresAuth: true },
+      component: () => import('../Views/MovementView.vue'),
+      
     },
     {
       path: '/contacts',
       name: 'contacts',
       spanishName: 'Contactos',
       icon: 'mdi-account-group-outline',
-      component: () => import('../Views/ContactsView.vue'),
       meta: { RequiresAuth: true },
+      component: () => import('../Views/ContactsView.vue'),
+      
     },
     {
       path: '/collect',
       name: 'collect',
       spanishName: 'Cobrar',
       icon: 'mdi-arrow-up',
-      component: () => import('../Views/CollectView.vue'),
       meta: { RequiresAuth: true },
+      component: () => import('../Views/CollectView.vue'),
     },
-    {
+    { 
       path: '/profile',
       name: 'profile',
       spanishName: 'Perfil',
       icon: 'mdi-account-outline',
-      component: () => import('../Views/ProfileView.vue'),
       meta: { RequiresAuth: true },
+      component: () => import('../Views/ProfileView.vue'),
     },
     {
       path: '/settings',
@@ -111,14 +111,13 @@ const router = createRouter({
   ]
 })
 
-router.beforeEach((to, from,next) => {
-  if(to.meta.RequiresAuth){
-
+router.beforeEach((to, from) => {
+  const profileStore = useProfileStore()
+  //const currentProfile = computed(() => profileStore.getCurrentProfile())
+  console.log(profileStore.getCurrentProfile())
+  if(to.matched.some(route => route.meta.RequiresAuth) && !profileStore.getCurrentProfile()){
+    return { name: 'login', query: { redirect: to.fullPath } } 
   }
-  next()
 });
 
 export default router
-
-
-import Login from '../Views/LoginView.vue'

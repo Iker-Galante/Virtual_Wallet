@@ -12,10 +12,15 @@ const name = computed(() => {
   return changedname.value;
 });
 const user = ref('@' + profile.value.name + '_' + profile.value.lastName);
-const route= useRouter();
+const router = useRouter();
 
 function navigate(destination) {
-  route.push(destination);
+  router.push(destination);
+}
+
+function handleLogOut() {
+  profileStore.setCurrentProfile(null);
+  router.push({ name: 'login' })
 }
 </script>
 
@@ -38,7 +43,7 @@ function navigate(destination) {
               <!--
               <v-list-item @click="navigate('/Profile')">Perfil</v-list-item> -->
               <v-list-item @click="navigate('/Settings')">Configuración</v-list-item>
-              <v-list-item @click="navigate('/Login')">Cerrar Sesión</v-list-item>
+              <v-list-item @click="handleLogOut()">Cerrar Sesión</v-list-item>
             </v-list>
           </v-menu>
         </div>

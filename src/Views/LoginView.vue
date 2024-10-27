@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from 'vue';
-import { useRouter } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
 import { useProfileStore } from '@/Stores/ProfileStore';
 
 const profileStore = useProfileStore();
@@ -9,22 +9,25 @@ const password= ref('');
 const passwordStatus = ref(false);
 const showEmailError = ref(false);
 const userEmailError = ref("Email o contraseña incorrectos");
+const router = useRouter();
+const route = useRoute();
 
 function showpassword() {
   passwordStatus.value = !passwordStatus.value;
 }
-const router = useRouter();
+
 function navigate(path){
   router.push(path);
 }
 
-function checkCredentials(path){
+function checkCredentials(){
   showEmailError.value = false;
 
   const profile = profileStore.getCurrentProfileUserId(email.value);
   if(profile && profile.password === password.value){
     profileStore.setCurrentProfile(profile);
-    router.push(path);
+    const redirect = route.query.redirect || '/'
+    router.push(redirect);
   }else{
     showEmailError.value = true;
   }
@@ -50,7 +53,7 @@ function checkCredentials(path){
           @click:append-inner="showpassword()" variant="outlined" color="blue" :error="showEmailError" :error-messages="showEmailError? userEmailError : ''"></v-text-field>
         </v-card-text>
         <v-card-actions class="justify-end">
-          <v-btn color="primary" class="iniciar" variant="text" @click="checkCredentials('/MainPage')">Iniciar sesión</v-btn>
+          <v-btn color="primary" class="iniciar" variant="text" @click="checkCredentials()">Iniciar sesión</v-btn>
         </v-card-actions>
         <v-divider class="opacity-10 mx-2"></v-divider>
         <v-card-actions class="pb-0">

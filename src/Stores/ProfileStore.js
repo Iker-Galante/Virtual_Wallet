@@ -9,7 +9,7 @@ export const useProfileStore = defineStore('profile', () => {
 
     const profiles = ref([{ name: 'default', lastName: 'guest', age: '100', email: 'admin@gmail.com', password: 'admin' }])
     const totalProfiles = computed(() => profiles.value.length)
-    const currentProfile = ref(profiles.value[0]);
+    const currentProfile = ref(null);
     const token = ref('12345678')
 
     function fetchProfiles() {
@@ -59,7 +59,7 @@ export const useProfileStore = defineStore('profile', () => {
 
     function getCurrentProfileId()   { // Te da el indice del usuario actual
 
-        return getCurrentProfileIndex(getCurrentProfile().email);
+        return getCurrentProfile ?  getCurrentProfileIndex(getCurrentProfile().email) : null;
     }
 
     function resetPassword(index, newPassword) {
