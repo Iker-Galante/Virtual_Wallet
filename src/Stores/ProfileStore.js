@@ -3,7 +3,6 @@
 
 import { ref, computed } from 'vue';
 import { defineStore } from 'pinia'
-import dummyProfiles from '@/API/profiles';
 
 export const useProfileStore = defineStore('profile', () => {
 
