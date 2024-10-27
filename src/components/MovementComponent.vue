@@ -10,7 +10,7 @@ const profileStore = computed(() => useProfileStore())
 const movementStore = computed(() => useMovementStore())
 const balanceStore = computed(() => useBalanceStore())
 const cardStore = computed(() => useCardStore())
-const profileId = computed(() => profileStore.value.getCurrentProfileIndex(profileStore.value.getCurrentProfile().email));
+const profileId = computed(() => profileStore.value.getCurrentProfileIndex(profileStore.value.getCurrentProfile()?profileStore.value.getCurrentProfile().email:null));
 
 //Test purposes
 const cardAdded = ref(false);

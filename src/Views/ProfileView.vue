@@ -3,7 +3,8 @@
 import { useProfileStore } from '@/Stores/ProfileStore';
 import { ref, computed } from 'vue';
 import NavComponent from '@/components/NavigationComponent.vue';
-  
+import { useRouter } from 'vue-router';
+import DeleteUserComponent from '@/components/DeleteUserComponent.vue';
 const profileStore = useProfileStore();
 const profile = profileStore.getCurrentProfile();
 const name= ref(profile.name);
@@ -25,6 +26,8 @@ function handleButtonClick() {
     profileStore.editProfile(index,name.value, lastName.value, age.value, mail.value);
     }
 }
+
+const isOpen= ref(false);
 
 </script>
 
@@ -113,9 +116,10 @@ function handleButtonClick() {
           </v-card>
         </div>
         <div class="d-flex justify-center align-center my-12">
-            <v-btn color="#870102">
+            <v-btn color="#870102" @click="isOpen=true">
                 Eliminar cuenta
             </v-btn>
+            <delete-user-component :isOpen="isOpen" :index="index"/>
         </div>
       </template>
     </nav-component>

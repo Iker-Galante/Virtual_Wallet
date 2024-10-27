@@ -41,6 +41,10 @@ export const useProfileStore = defineStore('profile', () => {
             password: password }
     }
 
+    function deleteProfile(index) {
+        profiles.value.splice(index, 1)
+    }
+
     function getCurrentProfileUserId(email) {
         return profiles.value.find(profile => profile.email === email)
     }
@@ -58,8 +62,7 @@ export const useProfileStore = defineStore('profile', () => {
     }
 
     function getCurrentProfileId()   { // Te da el indice del usuario actual
-
-        return getCurrentProfile ?  getCurrentProfileIndex(getCurrentProfile().email) : null;
+        return getCurrentProfile ?  getCurrentProfileIndex(getCurrentProfile()?getCurrentProfile().email : null) : null;
     }
 
     function resetPassword(index, newPassword) {
@@ -73,5 +76,5 @@ export const useProfileStore = defineStore('profile', () => {
         profiles.value[index].email = email
     }
 
-    return { getCurrentProfileId, addProfile, getCurrentProfileUserId, fetchProfiles,getCurrentProfileIndex,setCurrentProfile,getCurrentProfile,resetPassword, getToken, setToken, editProfile }
+    return { getCurrentProfileId, addProfile, getCurrentProfileUserId, fetchProfiles,getCurrentProfileIndex,setCurrentProfile,getCurrentProfile,resetPassword, getToken, setToken, editProfile, deleteProfile}
 })

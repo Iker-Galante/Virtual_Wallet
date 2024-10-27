@@ -10,7 +10,7 @@ ChartJS.register(ArcElement, Tooltip, Legend);
 const profileStore = computed(() => useProfileStore());
 const movementStore = computed(() => useMovementStore());
 
-const profileId = computed(() => profileStore.value.getCurrentProfileIndex(profileStore.value.getCurrentProfile().email));
+const profileId = computed(() => profileStore.value.getCurrentProfileIndex(profileStore.value.getCurrentProfile()?profileStore.value.getCurrentProfile().email: null));
 
 const movements = computed(() => {
   const userMovements = movementStore.value.getMovementsByUserId(profileId.value);

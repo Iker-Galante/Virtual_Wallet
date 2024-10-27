@@ -11,7 +11,7 @@ export const useBalanceStore = defineStore('balance', () => {
             balances.value[userId] = 0;
         }
 
-        if (balances.value[userId] + amount < 0) {
+        if (balances.value[userId] + amount < 1) {
             alert("Insufficient funds. This action cannot be completed.");
             return false;
         }

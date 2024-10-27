@@ -14,8 +14,10 @@ const name = computed(() => {
 });
 
 watchEffect(() => {
+  if(profile.value){
   changedname.value = profile.value.name;
   changedlastName.value = profile.value.lastName;
+  }
 });
 
 const user = computed(() => {return '@' + changedname.value + '_' + changedlastName.value});
