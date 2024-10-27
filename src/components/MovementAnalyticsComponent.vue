@@ -1,5 +1,5 @@
 <script setup>
-import { computed, ref } from 'vue';
+import { computed, ref, onMounted, watch } from 'vue';
 import { useProfileStore } from '@/Stores/ProfileStore';
 import { useMovementStore } from '@/Stores/MovementStore';
 import { Pie } from 'vue-chartjs';
@@ -7,15 +7,15 @@ import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-const profileStore = computed(() => useProfileStore());
-const movementStore = computed(() => useMovementStore());
+const profileStore = useProfileStore();
+const movementStore = useMovementStore();
 
-const profileId = computed(() => profileStore.value.getCurrentProfileIndex(profileStore.value.getCurrentProfile()?profileStore.value.getCurrentProfile().email: null));
-
-const movements = computed(() => {
-  const userMovements = movementStore.value.getMovementsByUserId(profileId.value);
-  return Array.isArray(userMovements) ? userMovements : [];
+const profileId = computed(() => {
+  const currentProfile = profileStore.getCurrentProfile();
+  return currentProfile ? profileStore.getCurrentProfileIndex(currentProfile.email) : null;
 });
+
+const movements = ref([]);
 
 const analytics = computed(() => {
   const totalIncome = movements.value.reduce((sum, movement) => 
@@ -23,15 +23,11 @@ const analytics = computed(() => {
   const totalExpense = movements.value.reduce((sum, movement) => 
     movement.amount < 0 ? sum + Math.abs(movement.amount) : sum, 0);
   const mostFrequentType = getMostFrequentType(movements.value);
-//   const averageTransaction = movements.value.length > 0 
-//     ? (totalIncome + totalExpense) / movements.value.length 
-//     : 0;
 
   return {
     totalIncome,
     totalExpense,
     mostFrequentType,
-    // averageTransaction: Math.abs(averageTransaction),
   };
 });
 
@@ -45,7 +41,7 @@ const chartData = computed(() => ({
   ]
 }));
 
-const chartOptions = ref({
+const chartOptions = {
   responsive: true,
   maintainAspectRatio: false,
   plugins: {
@@ -65,7 +61,7 @@ const chartOptions = ref({
       }
     }
   }
-});
+};
 
 function getMostFrequentType(movements) {
   const typeCounts = movements.reduce((counts, movement) => {
@@ -73,8 +69,19 @@ function getMostFrequentType(movements) {
     return counts;
   }, {});
   
-  return Object.entries(typeCounts).reduce((a, b) => a[1] > b[1] ? a : b)[0];
+  return Object.entries(typeCounts).reduce((a, b) => a[1] > b[1] ? a : b, ['', 0])[0];
 }
+
+function updateMovements() {
+  if (profileId.value !== null) {
+    movements.value = movementStore.getMovementsByUserId(profileId.value) || [];
+  } else {
+    movements.value = [];
+  }
+}
+
+onMounted(updateMovements);
+watch(profileId, updateMovements);
 </script>
 
 <template>
