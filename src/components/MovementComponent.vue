@@ -10,7 +10,6 @@ const profileStore = computed(() => useProfileStore())
 const movementStore = computed(() => useMovementStore())
 const balanceStore = computed(() => useBalanceStore())
 const cardStore = computed(() => useCardStore())
-
 const profileId = computed(() => profileStore.value.getCurrentProfileIndex(profileStore.value.getCurrentProfile().email));
 
 //Test purposes
@@ -20,13 +19,12 @@ const movementsAdded = ref(false);
 //Test purposes
 function addRandomCard(userId) {
     if (!cardAdded.value) {
-        cardStore.value.addCard('Juan Perez', '1234567890123456', '12/24', '123', 1000, userId)
+        cardStore.value.addCard('Juan Perez', '347777777777777', '12/24', '123', 1000, userId)
         cardAdded.value = true;
     }
 }
 
 //Test purposes
-const userCards = computed(() => cardStore.value.getCards(profileId.value))
 function addRandomMovements(userId) {
     if (!movementsAdded.value) {
         for (let i = 0; i < 1; i++) {
@@ -91,12 +89,16 @@ function addRandomMovement(userId) {
 }
 
 //Test purposes
+const userCards = computed(() => cardStore.value.getCards(profileId.value))
 onMounted(() => {
     addRandomCard(profileId.value);
     addRandomMovements(profileId.value);
     console.log(userCards.value);
     console.log(movementStore.value.getMovementsByUserId(profileId.value));
 });
+///Termino la parte de Test.
+
+
 
 const movements = computed(() => {
   const userMovements = movementStore.value.getMovementsByUserId(profileId.value);
