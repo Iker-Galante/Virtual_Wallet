@@ -1,7 +1,8 @@
 <script setup>
-import { useRouter } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
 
 const router = useRouter();
+const route = useRoute();
 const routes = router.options.routes;
 const webName = router.options.webName;
 
@@ -22,12 +23,21 @@ const navItems = routes
     <v-list-item-title class="text-h3 webTitle">{{ webName }}</v-list-item-title>
     <v-divider class="divisor"></v-divider>
     <v-list-item
-      v-for="route in navItems"
-      :key="route.name" class="routeItems"
-      :prepend-icon="route.icon"
-      :title="route.name === 'mainPage' ? 'Inicio' : route.spanishName"
-      @click="navigate(route.path)"
-    ></v-list-item>
+      v-for="item in navItems"
+      :key="item.name"
+      class="routeItems"
+      :class="{ 'active-route': route.name === item.name }"
+      @click="navigate(item.path)"
+    >
+      <template v-slot:prepend>
+        <v-icon :color="route.name === item.name ? 'violet' : 'white'">
+          {{ item.icon }}
+        </v-icon>
+      </template>
+      <v-list-item-title :class="{ 'violet-text': route.name === item.name }">
+        {{ item.name === 'mainPage' ? 'Inicio' : item.spanishName }}
+      </v-list-item-title>
+    </v-list-item>
   </v-navigation-drawer>
 </template>
 
@@ -56,6 +66,12 @@ const navItems = routes
   font-size: 16px;
   font-weight: 600; 
   color: white;
+  transition: background-color 0.3s, box-shadow 0.3s, color 0.3s;
+}
+
+.active-route {
+  background-color: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .divisor {
@@ -63,5 +79,7 @@ const navItems = routes
   background-color: rgba(255, 255, 255, 0.1);
 }
 
-
+.violet-text {
+  color: #7749F8;
+}
 </style>
