@@ -1,6 +1,7 @@
 <script setup>
-import MovementsComponent from '@/components/Movements/MovementComponent.vue';
-import MovementAnalyticsComponent from '@/components/Movements/MovementAnalyticsComponent.vue';
+import MovementsComponent from '@/components/ManageMoney/MovementComponent.vue';
+import MovementAnalyticsComponent from '@/components/ManageMoney/MovementAnalyticsComponent.vue';
+import NavigationComponent from '@/components/Utilities/NavigationComponent.vue';
 </script>
 
 <template>

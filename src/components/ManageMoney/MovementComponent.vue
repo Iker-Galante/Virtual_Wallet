@@ -4,7 +4,7 @@ import { useProfileStore } from '@/Stores/ProfileStore';
 import { useMovementStore } from '@/Stores/MovementStore';
 import { useBalanceStore } from '@/Stores/BalanceStore';
 import { useCardStore } from '@/Stores/CardStore';
-import MovementItemComponent from './Movements/MovementItemComponent.vue';
+import MovementItemComponent from '@/components/ManageMoney/MovementItemComponent.vue';
 
 const profileStore = computed(() => useProfileStore())
 const movementStore = computed(() => useMovementStore())

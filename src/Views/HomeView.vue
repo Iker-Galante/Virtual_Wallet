@@ -1,6 +1,6 @@
 <script setup>
-import BalanceComponent from '@/components/Movements/BalanceComponent.vue';
-import MovementsComponent from '@/components/Movements/MovementComponent.vue';
+import BalanceComponent from '@/components/ManageMoney/BalanceComponent.vue';
+import MovementsComponent from '@/components/ManageMoney/MovementComponent.vue';
 import Navigation from '@/components/Utilities/NavigationComponent.vue';
 import { useRouter } from 'vue-router';
 
