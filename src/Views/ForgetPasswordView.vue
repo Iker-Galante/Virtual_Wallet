@@ -3,7 +3,7 @@
 import { ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { useProfileStore } from '@/Stores/ProfileStore';
-import ConfirmTokenComponent from '@/components/ConfirmTokenComponent.vue';
+import ConfirmTokenComponent from '@/components/Utilities/ConfirmTokenComponent.vue';
 
 const profileStore = useProfileStore();
 const mail= ref('');

@@ -1,7 +1,7 @@
 <script setup>
 import { ref, computed, watchEffect } from 'vue';
 import { useProfileStore } from '@/Stores/ProfileStore';
-import NavigationBarComponent from '@/components/NavigationBarComponent.vue';
+import NavigationBarComponent from '@/components/Utilities/NavigationBarComponent.vue';
 import { useRouter } from 'vue-router';
 const profileStore = useProfileStore();
 

@@ -1,7 +1,7 @@
 <script setup>
 import { ref, onMounted, computed,provide } from 'vue'
-import CreditCard from '@/components/CardComponent.vue'
-import NavigationComponent from '@/components/NavigationComponent.vue'
+import CreditCard from '@/components/ManageMoney/CardComponent.vue'
+import NavigationComponent from '@/components/Utilities/NavigationComponent.vue'
 import { useCardStore } from '@/Stores/CardStore'
 import { useProfileStore } from '@/Stores/ProfileStore'
 import { reactive } from 'vue'

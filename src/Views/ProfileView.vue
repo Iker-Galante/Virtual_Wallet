@@ -2,9 +2,9 @@
 
 import { useProfileStore } from '@/Stores/ProfileStore';
 import { ref, computed } from 'vue';
-import NavComponent from '@/components/NavigationComponent.vue';
+import NavComponent from '@/components/Utilities/NavigationComponent.vue';
 import { useRouter } from 'vue-router';
-import DeleteUserComponent from '@/components/DeleteUserComponent.vue';
+import DeleteUserComponent from '@/components/Users/DeleteUserComponent.vue';
 const profileStore = useProfileStore();
 const profile = profileStore.getCurrentProfile();
 const name= ref(profile.name);

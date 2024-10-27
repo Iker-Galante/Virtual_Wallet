@@ -1,7 +1,7 @@
 <script setup>
-import BalanceComponent from '@/components/BalanceComponent.vue';
-import MovementsComponent from '@/components/MovementComponent.vue';
-import Navigation from '@/components/NavigationComponent.vue';
+import BalanceComponent from '@/components/Movements/BalanceComponent.vue';
+import MovementsComponent from '@/components/Movements/MovementComponent.vue';
+import Navigation from '@/components/Utilities/NavigationComponent.vue';
 import { useRouter } from 'vue-router';
 
 const router = useRouter();

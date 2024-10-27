@@ -1,8 +1,8 @@
 <script setup>
 import { ref, provide } from 'vue'
 import { useProfileStore } from '@/Stores/ProfileStore'
-import NavigationComponent from '@/components/NavigationComponent.vue';
-import PaymentComponent from '@/components/PaymentComponent.vue';
+import NavigationComponent from '@/components/Utilities/NavigationComponent.vue';
+import PaymentComponent from '@/components/ManageMoney/PaymentComponent.vue';
 
 const profileStore = useProfileStore();
 const currentuserId = ref(profileStore.getCurrentProfileIndex(profileStore.getCurrentProfile().email));

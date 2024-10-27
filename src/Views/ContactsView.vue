@@ -1,10 +1,10 @@
 <script setup>
-import UserComponent from '@/components/UserComponent.vue';
-import NavigationComponent from '@/components/NavigationComponent.vue';
+import UserComponent from '@/components/Users/UserComponent.vue';
+import NavigationComponent from '@/components/Utilities/NavigationComponent.vue';
 import { useContactsStore } from '@/Stores/ContactsStore';
 import { useProfileStore } from '@/Stores/ProfileStore';
 import { computed, onMounted, ref } from 'vue';
-import AddContactComponent from '@/components/AddContactComponent.vue';
+import AddContactComponent from '@/components/Users/AddContactComponent.vue';
 
 const contactsStore = useContactsStore();
 const profileStore = useProfileStore();
