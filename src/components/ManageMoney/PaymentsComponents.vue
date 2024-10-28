@@ -17,6 +17,7 @@ const paymentsStore = usePaymentsStore();
 const profileStore = useProfileStore();
 const currentProfile = computed(() => profileStore.getCurrentProfile())
 const profileId = computed(() => profileStore.getCurrentProfileIndex(currentProfile.value.email))
+const carouselIndex = ref(0);
 
 const props = defineProps({
   userIdArg: {
@@ -131,6 +132,7 @@ function confirmPayment() {
 
 function submitPayment() {
   if (form.value.amount && form.value.alias && form.value.paymentMethod) {
+    console.log(carouselIndex.value)
     isDialogOpen.value = true;
   }
 }
@@ -188,11 +190,10 @@ const paymentMethodIcon = computed(() => {
         <label>Seleccionar Tarjeta</label>
         <div class="card-slider">
 
-          <v-carousel>
-            <v-carousel-item v-for="(card, index) in cards"  
-            :key="card.cardNumber">
-          
+          <v-carousel class="d-flex justify-center align-center" hide-delimiters height="200" v-model="carouselIndex">
+            <v-carousel-item v-for="(card, index) in cards" :key="card.cardNumber">
               <CardComponent
+              height="90%"
               :cardNumber="card.cardNumber.toString()"
               :cardholderName="card.name"
               :cardColor="getCardColor(index)"
@@ -214,7 +215,7 @@ const paymentMethodIcon = computed(() => {
 
 <style scoped>
 .payment-form {
-  max-width: 500px;
+  max-width: 600px;
   margin: 40px auto;
   padding: 30px;
   background-color: #28293E;
