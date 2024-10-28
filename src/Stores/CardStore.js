@@ -25,7 +25,7 @@ export const useCardStore = defineStore('card', () => {
 
     function getCards(userId) {
         if (!cards.value[userId]) {
-            cards.value[userId] = [createStaticCard()]
+            cards.value[userId] = []
         }
         return cards.value[userId]
     }

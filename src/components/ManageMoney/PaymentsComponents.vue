@@ -9,12 +9,14 @@ import { useProfileStore } from '@/Stores/ProfileStore';
 import CardComponent from '@/components/ManageMoney/CardComponent.vue';
 
 
-const currentUserId = inject('currentuserId');
+//const currentUserId = inject('currentuserId');
 const balanceStore = useBalanceStore();
 const cardStore = useCardStore();
 const movementStore = useMovementStore();
 const paymentsStore = usePaymentsStore();
 const profileStore = useProfileStore();
+const currentProfile = computed(() => profileStore.getCurrentProfile())
+const profileId = computed(() => profileStore.getCurrentProfileIndex(currentProfile.value.email))
 
 const props = defineProps({
   userIdArg: {
@@ -36,8 +38,6 @@ const form = ref({
   cardNumber: ''
 });
 
-
-const cards = ref([]);
 const currentCardIndex = ref(0);
 
 onMounted(() => {
@@ -53,11 +53,12 @@ onMounted(() => {
     }
   }
 
-  cards.value = cardStore.getCards(currentUserId);
+  
 });
 
 const submitted = ref(false);
 const isDialogOpen = ref(false);
+const cards = computed(() => cardStore.getCards(profileId.value))
 
 const colors = ["#E1CC83", "#83B4E1", "#888989", "#6CAB90"];
 
@@ -102,7 +103,7 @@ function confirmPayment() {
 
     if (balanceStore.addFunds(-amountToPay)) {
 
-      movementStore.addMovement(currentUserId, new Date().toLocaleDateString(), new Date().toLocaleTimeString(), -amountToPay, 'pago', 'Pago con saldo', false);
+      movementStore.addMovement(profileId, new Date().toLocaleDateString(), new Date().toLocaleTimeString(), -amountToPay, 'pago', 'Pago con saldo', false);
       
       transfer(otherUserId, amountToPay);
     } 
@@ -137,19 +138,6 @@ function submitPayment() {
 const paymentMethodIcon = computed(() => {
   return form.value.paymentMethod === 'Balance en Cuenta' ? 'money' : 'card';
 });
-
-
-function previousCard() {
-  if (currentCardIndex.value > 0) {
-    currentCardIndex.value -= 1;
-  }
-}
-
-function nextCard() {
-  if (currentCardIndex.value < cards.value.length - 1) {
-    currentCardIndex.value += 1;
-  }
-}
 </script>
 
 <template>
