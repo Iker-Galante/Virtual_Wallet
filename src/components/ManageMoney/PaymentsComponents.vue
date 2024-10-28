@@ -181,7 +181,7 @@ const paymentMethodIcon = computed(() => {
         <select v-model="form.paymentMethod" required>
           <option value="" disabled>Seleccione un metodo</option>
           <option value="Balance en Cuenta">Balance en cuenta</option>
-          <option value="Tarjeta">Tarjeta</option>
+          <option  v-if="cards.length !== 0" value="Tarjeta">Tarjeta</option>
         </select>
       </div>
 
@@ -209,6 +209,20 @@ const paymentMethodIcon = computed(() => {
       <button type="submit" class="submit-button">Realizar Pago</button>
     </form>
   </div>
+  <div v-if="isDialogOpen" class="modal-overlay">
+  <div class="modal">
+    <h3>Confirmación de Pago</h3>
+    <p>Monto: {{ form.amount }}</p>
+    <p>Beneficiario: {{ form.alias }}</p>
+    <p>Método de Pago: {{ form.paymentMethod }}</p>
+
+    <!-- Confirmation Buttons -->
+    <div class="modal-buttons">
+      <button @click="confirmPayment" class="confirm-button">Confirmar</button>
+      <button @click="isDialogOpen = false" class="cancel-button">Cancelar</button>
+    </div>
+  </div>
+</div>
 </template>
 
 
@@ -295,25 +309,73 @@ input, select {
   margin-top: 10px;
 }
 
-.arrow {
-  font-size: 24px;
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal {
+  background-color: #28293E;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
   color: #FFFFFF;
-  background: none;
+  max-width: 300px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.modal h3 {
+  margin-bottom: 10px;
+}
+
+.modal-buttons {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-around;
+}
+
+.confirm-button, .cancel-button {
+  padding: 8px 16px;
   border: none;
+  border-radius: 4px;
+  font-weight: bold;
   cursor: pointer;
-  padding: 0 10px;
-  transition: color 0.3s ease;
+  color: #FFFFFF;
 }
 
-.arrow:hover {
-  color: #4A90E2;
+.confirm-button {
+  background-color: #4A90E2;
 }
 
-.left-arrow {
-  margin-right: 8px;
+.confirm-button:hover {
+  background-color: #357ABD;
 }
 
-.right-arrow {
-  margin-left: 8px;
+.cancel-button {
+  background-color: #888989;
+}
+
+.cancel-button:hover {
+  background-color: #6CAB90;
+}
+
+select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  color: #D1D1E9;
+}
+
+select option {
+  background-color: #353550;
+  color: #FFFFFF;
 }
 </style>
