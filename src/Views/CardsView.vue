@@ -161,14 +161,23 @@ const handleCancel = () => {
         </v-btn>
         <v-row justify="start">
           <v-col cols="4" md="4" class="ma-15">
-            <p class="text-h3 font-weight-bold" style="color: white">
+            <p class="text-h3 font-weight-bold text-white">
               Mis Tarjetas
             </p>
           </v-col>
         </v-row>
         <v-container class="ml-15 mr-15" fluid>
           <v-row>
+            <v-col 
+              v-if="cards.length === 0" 
+              class="d-flex justify-center align-center"
+            >
+              <h2 class="text-gray">
+                Actualmente no hay tarjetas registradas
+              </h2>
+            </v-col>
             <v-col
+              v-else=""
               v-for="(tarjeta, index) in cards"
               :key="index"
               cols="12"
@@ -350,5 +359,13 @@ const handleCancel = () => {
 
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
   background-color: #333;
+}
+
+.text-gray {
+  color: #757575; 
+}
+
+.text-white {
+  color: white
 }
 </style>

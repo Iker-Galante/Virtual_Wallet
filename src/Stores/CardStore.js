@@ -11,29 +11,16 @@ export const useCardStore = defineStore('card', () => {
     const showDelete = ref(false)
     const profileStore = useProfileStore() 
 
-    function createStaticCard() {
-        const currentProfile = profileStore.getCurrentProfile()
-        const userName = currentProfile ? `${currentProfile.name} ${currentProfile.lastName}` : 'Default User'
-        return {
-            name: userName,
-            cardNumber: '347777777777777',
-            expirationDate: '12/25',
-            cvv: '123',
-            cardBalance: 1000.00
-        }
-    }
-
     function toggleDeleteButton(state) {
         showDelete.value = state;
     }
 
     function addCard(name, cardNumber, expirationDate, cvv, cardBalance, userId) {
         if (!cards.value[userId]) {
-            cards.value[userId] = [createStaticCard()]
+            cards.value[userId] = []
         }
-        const currentProfile = profileStore.getCurrentProfile()
-        const userName = currentProfile ? `${currentProfile.name} ${currentProfile.lastName}` : 'Default User'
-        cards.value[userId].push({ name: userName, cardNumber, expirationDate, cvv, cardBalance })
+     
+        cards.value[userId].push({ name, cardNumber, expirationDate, cvv, cardBalance })
     }
 
     function getCards(userId) {

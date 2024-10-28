@@ -89,8 +89,6 @@ const router = createRouter({
 
 router.beforeEach((to, from) => {
   const profileStore = useProfileStore()
-  //const currentProfile = computed(() => profileStore.getCurrentProfile())
-  console.log(profileStore.getCurrentProfile())
   if(to.matched.some(route => route.meta.RequiresAuth) && !profileStore.getCurrentProfile()){
     return { name: 'login', query: { redirect: to.fullPath } } 
   }

@@ -20,7 +20,7 @@ watchEffect(() => {
   }
 });
 
-const user = computed(() => {return '@' + changedname.value + '_' + changedlastName.value});
+const user = ref(profile.value.username)
 const router = useRouter();
 
 function navigate(destination) {

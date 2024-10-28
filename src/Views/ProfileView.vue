@@ -19,6 +19,7 @@ const edit = ref(false);
   
 function handleButtonClick() {
   edit.value = !edit.value;
+  console.log("Vista "+ username.value)
   if(!edit.value){
     profileStore.editProfile(index, name.value, lastName.value, username.value, age.value, mail.value);
     }
