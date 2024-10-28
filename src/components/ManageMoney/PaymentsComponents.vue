@@ -1,16 +1,15 @@
 <script setup>
 import { ref, inject, onMounted, defineProps, computed } from 'vue';
-import { useBalanceStore } from '@/Stores/BalanceStore';
 import { useCardStore } from '@/Stores/CardStore';
 import { useMovementStore } from '@/Stores/MovementStore';
 import { usePaymentsStore } from '@/Stores/PaymentsStore';
 import { useProfileStore } from '@/Stores/ProfileStore';
 
+
 import CardComponent from '@/components/ManageMoney/CardComponent.vue';
 
 
 //const currentUserId = inject('currentuserId');
-const balanceStore = useBalanceStore();
 const cardStore = useCardStore();
 const movementStore = useMovementStore();
 const paymentsStore = usePaymentsStore();
@@ -18,7 +17,8 @@ const profileStore = useProfileStore();
 const currentProfile = computed(() => profileStore.getCurrentProfile())
 const profileId = computed(() => profileStore.getCurrentProfileIndex(currentProfile.value.email))
 const carouselIndex = ref(0);
-
+const open= ref(false);
+const error_message = ref('')
 const props = defineProps({
   userIdArg: {
     type: [String, undefined],
@@ -77,9 +77,18 @@ function transfer(otherUserId, amountToPay) {
   }
   else  {
 
-    balanceStore.addFundsById(otherUserId, amountToPay);
+
     movementStore.addMovement(otherUserId, new Date().toLocaleDateString(), new Date().toLocaleTimeString(), amountToPay, 'cobro', 'Cobro en cuenta', false);
   }
+}
+
+function deleteForm() {
+   //reset:
+   form.value.alias = '';
+    form.value.amount = '';
+    form.value.paymentMethod = '';
+
+
 }
 
 function confirmPayment() {
@@ -87,6 +96,15 @@ function confirmPayment() {
   submitted.value = true;
   
   const otherUserId = props.userIdArg ? form.value.userId : profileStore.getProfileIdByAlias(form.value.alias);
+
+  if( !props.userIdArg && !profileStore.profileExists(form.value.alias))  {
+
+    open.value = true
+    error_message.value ="Usario Invalido";
+    deleteForm();
+    return;
+  }
+  
   const amount = parseFloat(form.value.amount);
 
   const amountToPay = props.paymentIdArg ? 
@@ -94,7 +112,9 @@ function confirmPayment() {
     : amount;
 
   if (amountToPay <= 0 || isNaN(amountToPay)) {
-    console.log("Invalid or missing amount.");
+    open.value = true;
+    error_message.value = "Monto invalido o insuficiente.";
+    deleteForm();
     return;
   }
 
@@ -102,32 +122,38 @@ function confirmPayment() {
 
     // payment usando balance
 
-    if (balanceStore.addFunds(-amountToPay)) {
+    if (movementStore.addMovement(profileId.value, new Date().toLocaleDateString(), new Date().toLocaleTimeString(), -amountToPay, 'pago', 'Pago con saldo', false)) {
 
-      movementStore.addMovement(profileId, new Date().toLocaleDateString(), new Date().toLocaleTimeString(), -amountToPay, 'pago', 'Pago con saldo', false);
-      
       transfer(otherUserId, amountToPay);
     } 
     else {
-    
+      error_message.value = "Fondos insuficientes en balance.";
+      open.value = true;
       console.log("Insufficient funds in balance.");
     }
 
   } else if (form.value.paymentMethod === 'Tarjeta') {
 
     // payment usando tarjeta
+    
+    console.log(form);
+    console.log(cards.value);
+    console.log(carouselIndex.value);
+    console.log(cards.value[carouselIndex.value].cardNumber);
 
-    if (cardStore.addCardTransaction(userId, form.value.cardNumber, -amountToPay)) {
+    if (movementStore.addMovement(profileId.value, new Date().toLocaleDateString(), new Date().toLocaleTimeString(), -amountToPay, 'pago', 'Pago con tarjeta', true, cards.value[carouselIndex.value].cardNumber)) {
       
-      movementStore.addMovement(userId, new Date().toLocaleDateString(), new Date().toLocaleTimeString(), -amountToPay, 'pago', 'Pago con tarjeta', true, form.value.cardNumber);
-            
       transfer(otherUserId, amountToPay);
 
     } else {
-
+      error_message.value = "Fondos insuficientes en la tarjeta.";
+      open.value = true
       console.log("Insufficient funds on card.");
     }
   }
+
+  deleteForm();
+
 }
 
 function submitPayment() {
@@ -157,6 +183,7 @@ const paymentMethodIcon = computed(() => {
             v-model="form.amount" 
             :placeholder="props.paymentIdArg ? 'Autocompletado' : 'Ingrese monto'"
             required
+
           />
         </div>
       </div>
@@ -165,7 +192,6 @@ const paymentMethodIcon = computed(() => {
       <div class="form-group">
         <label for="alias">Alias</label>
         <div class="input-wrapper">
-          <span class="input-icon">@</span>
           <input 
             type="text" 
             v-model="form.alias" 
@@ -223,6 +249,18 @@ const paymentMethodIcon = computed(() => {
     </div>
   </div>
 </div>
+<v-dialog v-model="open" max-width="290">
+    <v-card color="#1D1D1D">
+      <v-card-title class="headline">Error</v-card-title>
+        <slot>
+        <v-card-text>{{error_message}}</v-card-text>
+        </slot>
+      <v-card-actions>
+        <v-spacer></v-spacer>
+        <v-btn color="error" text @click="open = false">Cerrar</v-btn>
+      </v-card-actions>
+    </v-card>
+    </v-dialog>
 </template>
 
 

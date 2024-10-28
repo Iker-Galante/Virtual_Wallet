@@ -75,7 +75,6 @@ export const useProfileStore = defineStore('profile', () => {
     }
 
     function editProfile(index, name, lastName, username, age, email) {
-        console.log(username)
         profiles.value[index].name = name
         profiles.value[index].lastName = lastName
         profiles.value[index].username = username
@@ -83,5 +82,9 @@ export const useProfileStore = defineStore('profile', () => {
         profiles.value[index].email = email
     }
 
-    return { getCurrentProfileId, addProfile, getCurrentProfileUserId, fetchProfiles,getCurrentProfileIndex,setCurrentProfile,getCurrentProfile,resetPassword, getToken, setToken, editProfile, deleteProfile, getProfileIdByAlias}
+    function profileExists(username) {
+        return profiles.value.some(profile => profile.username === username);
+    }
+
+    return { getCurrentProfileId, addProfile, getCurrentProfileUserId, fetchProfiles,getCurrentProfileIndex,setCurrentProfile,getCurrentProfile,resetPassword, getToken, setToken, editProfile, deleteProfile, getProfileIdByAlias, profileExists}
 })

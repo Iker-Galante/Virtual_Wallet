@@ -19,9 +19,9 @@ const movements = ref([]);
 
 const analytics = computed(() => {
   const totalIncome = movements.value.reduce((sum, movement) => 
-    movement.amount > 0 ? sum + movement.amount : sum, 0);
+  parseFloat(movement.amount) > 0 ? sum + parseFloat(movement.amount) : sum, 0);
   const totalExpense = movements.value.reduce((sum, movement) => 
-    movement.amount < 0 ? sum + Math.abs(movement.amount) : sum, 0);
+  parseFloat(movement.amount) < 0 ? sum + Math.abs(parseFloat(movement.amount)) : sum, 0);
   const mostFrequentType = getMostFrequentType(movements.value);
 
   return {
@@ -92,11 +92,11 @@ watch(profileId, updateMovements);
         <v-list class="analytics-list">
           <v-list-item>
             <v-list-item-title>Ingresos Totales</v-list-item-title>
-            <v-list-item-subtitle>${{ analytics.totalIncome.toFixed(2) }}</v-list-item-subtitle>
+            <v-list-item-subtitle>${{ parseFloat(analytics.totalIncome).toFixed(2) }}</v-list-item-subtitle>
           </v-list-item>
           <v-list-item>
             <v-list-item-title>Gastos Totales</v-list-item-title>
-            <v-list-item-subtitle>${{ analytics.totalExpense.toFixed(2) }}</v-list-item-subtitle>
+            <v-list-item-subtitle>${{ parseFloat(analytics.totalExpense).toFixed(2) }}</v-list-item-subtitle>
           </v-list-item>
           <v-list-item>
             <v-list-item-title>Tipo de Movimiento más Frecuente</v-list-item-title>

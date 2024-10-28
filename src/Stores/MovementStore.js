@@ -39,7 +39,7 @@ export const useMovementStore = defineStore('movement', () => {
 
         const transactionSuccess = isCardTransaction
             ? cardStore.addCardTransaction(userId, cardNumber || cardStore.getCards(userId)[0].cardNumber, amount)
-            : (balanceStore.addFundsById(userId, amount), true);
+            : balanceStore.addFundsById(userId, amount);
 
         if (transactionSuccess) {
             movements.value[userId].push({ date, time, amount, movementType, description, isCardTransaction });
