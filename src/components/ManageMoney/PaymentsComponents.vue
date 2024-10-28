@@ -1,331 +1,330 @@
 <script setup>
-import { ref, inject, computed } from 'vue'
+import { ref, inject, onMounted, defineProps, computed } from 'vue';
 import { useBalanceStore } from '@/Stores/BalanceStore';
 import { useCardStore } from '@/Stores/CardStore';
+import { useMovementStore } from '@/Stores/MovementStore';
+import { usePaymentsStore } from '@/Stores/PaymentsStore';
+import { useProfileStore } from '@/Stores/ProfileStore';
 
-const currentUserId = inject('currentuserId')
+import CardComponent from '@/components/ManageMoney/CardComponent.vue';
+
+
+const currentUserId = inject('currentuserId');
+const balanceStore = useBalanceStore();
+const cardStore = useCardStore();
+const movementStore = useMovementStore();
+const paymentsStore = usePaymentsStore();
+const profileStore = useProfileStore();
+
+const props = defineProps({
+  userIdArg: {
+    type: [String, undefined],
+    default: undefined
+  },
+  paymentIdArg: {
+    type: [String, undefined],
+    default: undefined
+  }
+});
+
+// Form data
 const form = ref({
+  userId: '',
   amount: '',
   alias: '',
   paymentMethod: '',
-  selectedCard: null
-})
+  cardNumber: ''
+});
 
-const balanceStore = useBalanceStore();
-const cardStore = useCardStore();
-const cards = ref(cardStore.getCards(currentUserId.value));
-const userBalance= ref(balanceStore.getBalanceById(currentUserId.value));
 
-const submitted = ref(false)
-const isDialogOpen = ref(false)
+const cards = ref([]);
+const currentCardIndex = ref(0);
+
+onMounted(() => {
+  if (props.userIdArg) {
+    
+    form.value.userId = props.userIdArg;
+  }
+
+  if (props.paymentIdArg) {
+    const paymentAmount = paymentsStore.getPaymentAmount(props.userIdArg, props.paymentIdArg);
+    if (paymentAmount) {
+      form.value.amount = paymentAmount;
+    }
+  }
+
+  cards.value = cardStore.getCards(currentUserId);
+});
+
+const submitted = ref(false);
+const isDialogOpen = ref(false);
+
+const colors = ["#E1CC83", "#83B4E1", "#888989", "#6CAB90"];
+
+function getCardColor(index)  {
+
+  return colors[index % 4];
+}
+
+function transfer(otherUserId, amountToPay) {
+
+  if (props.paymentIdArg) {
+  
+    // Cancela la deuda (cobra el otro)
+    paymentsStore.pay(otherUserId, props.paymentIdArg);
+  }
+  else  {
+
+    balanceStore.addFundsById(otherUserId, amountToPay);
+    movementStore.addMovement(otherUserId, new Date().toLocaleDateString(), new Date().toLocaleTimeString(), amountToPay, 'cobro', 'Cobro en cuenta', false);
+  }
+}
 
 function confirmPayment() {
-  isDialogOpen.value = false
-  submitted.value = true
-  console.log("Payment confirmed:", form.value)
+  isDialogOpen.value = false;
+  submitted.value = true;
+  
+  const otherUserId = props.userIdArg ? form.value.userId : profileStore.getProfileIdByAlias(form.value.alias);
+  const amount = parseFloat(form.value.amount);
+
+  const amountToPay = props.paymentIdArg ? 
+    paymentsStore.getPaymentAmount(otherUserId, props.paymentIdArg) || amount
+    : amount;
+
+  if (amountToPay <= 0 || isNaN(amountToPay)) {
+    console.log("Invalid or missing amount.");
+    return;
+  }
+
+  if (form.value.paymentMethod === 'Balance en Cuenta') {
+
+    // payment usando balance
+
+    if (balanceStore.addFunds(-amountToPay)) {
+
+      movementStore.addMovement(currentUserId, new Date().toLocaleDateString(), new Date().toLocaleTimeString(), -amountToPay, 'pago', 'Pago con saldo', false);
+      
+      transfer(otherUserId, amountToPay);
+    } 
+    else {
+    
+      console.log("Insufficient funds in balance.");
+    }
+
+  } else if (form.value.paymentMethod === 'Tarjeta') {
+
+    // payment usando tarjeta
+
+    if (cardStore.addCardTransaction(userId, form.value.cardNumber, -amountToPay)) {
+      
+      movementStore.addMovement(userId, new Date().toLocaleDateString(), new Date().toLocaleTimeString(), -amountToPay, 'pago', 'Pago con tarjeta', true, form.value.cardNumber);
+            
+      transfer(otherUserId, amountToPay);
+
+    } else {
+
+      console.log("Insufficient funds on card.");
+    }
+  }
 }
 
 function submitPayment() {
   if (form.value.amount && form.value.alias && form.value.paymentMethod) {
-    if (form.value.paymentMethod === 'Tarjeta' && !form.value.selectedCard) {
-      alert('Please select a card')
-      return
-    }
-    isDialogOpen.value = true
+    isDialogOpen.value = true;
   }
 }
 
 const paymentMethodIcon = computed(() => {
-  return form.value.paymentMethod === 'Balance en Cuenta' ? 'money' : 'card'
-})
+  return form.value.paymentMethod === 'Balance en Cuenta' ? 'money' : 'card';
+});
+
+
+function previousCard() {
+  if (currentCardIndex.value > 0) {
+    currentCardIndex.value -= 1;
+  }
+}
+
+function nextCard() {
+  if (currentCardIndex.value < cards.value.length - 1) {
+    currentCardIndex.value += 1;
+  }
+}
 </script>
 
 <template>
-    <div class="payment-form">
-      <h2 class="form-title">Pago en Transferencia</h2>
-  
-      <form @submit.prevent="submitPayment">
-        <div class="form-group">
-          <label for="amount">Monto</label>
-          <div class="input-wrapper">
-            <span class="input-icon">$</span>
-            <input 
-              type="number" 
-              v-model="form.amount" 
-              id="amount" 
-              placeholder="100.00"
-              required
-            />
-          </div>
-        </div>
-  
-        <div class="form-group">
-          <label for="alias">Alias</label>
-          <div class="input-wrapper">
-            <span class="input-icon">@</span>
-            <input 
-              type="text" 
-              v-model="form.alias" 
-              id="alias" 
-              placeholder="jose.mercado.pago" 
-              required
-            />
-          </div>
-        </div>
-  
-        <div class="form-group">
-          <label for="paymentMethod">Metodo de Pago</label>
-          <div class="input-wrapper">
-            <span class="input-icon">
-              <svg v-if="paymentMethodIcon === 'card'" xmlns="http://www.w3.org/2000/svg" class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
-              </svg>
-              <svg v-else xmlns="http://www.w3.org/2000/svg" class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-            </span>
-            <select 
-              v-model="form.paymentMethod" 
-              id="paymentMethod" 
-              required
-            >
-              <option value="" disabled>Seleccione un metodo</option>
-              <option value="Tarjeta">Tarjeta</option>
-              <option value="Balance en Cuenta">Balance en cuenta</option>
-            </select>
-          </div>
-        </div>
-  
-        <div v-if="form.paymentMethod === 'Tarjeta'" class="form-group">
-          <label>Select a Card</label>
-          <div class="card-list">
-            <div 
-              v-for="card in cards" 
-              :key="card.cardNumber" 
-              class="card-item"
-              :class="{ 'selected': form.selectedCard === card.cardNumber }"
-              @click="form.selectedCard = card.cardNumber"
-            >
-              <span>Card number: {{ card.cardNumber }} expires in {{ card.expirationDate }}</span>
-            </div>
-          </div>
-        </div>
-  
-        <div v-if="form.paymentMethod === 'Balance en Cuenta'" class="form-group">
-          <label>Available Balance</label>
-          <div class="balance-display">
-            ${{ userBalance.toFixed(2) }}
-          </div>
-        </div>
-  
-        <button type="submit" class="submit-button">
-          Transferir
-        </button>
-      </form>
-  
-      <div v-if="isDialogOpen" class="dialog-overlay">
-        <div class="dialog">
-          <h3 class="dialog-title">Payment Confirmation</h3>
-          <div class="dialog-content">
-            <p><strong>Monto:</strong> ${{ form.amount }}</p>
-            <p><strong>Alias:</strong> {{ form.alias }}</p>
-            <p><strong>Metodo:</strong> {{ form.paymentMethod }}</p>
-            <p v-if="form.paymentMethod === 'Tarjeta'"><strong>Card:</strong> 
-              {{ cards.find(card => card.cardNumber === form.selectedCard)?.cardNumber }} 
-              expires in {{ cards.find(card => card.cardNumber === form.selectedCard)?.expirationDate }}
-            </p>
-          </div>
-          <div class="dialog-actions">
-            <button @click="isDialogOpen = false" class="cancel-button">
-              Cancel
-            </button>
-            <button @click="confirmPayment" class="confirm-button">
-              Confirmar
-            </button>
-          </div>
+  <div class="payment-form">
+    <h2 class="form-title">Pagar Transferencia</h2>
+
+    <form @submit.prevent="submitPayment">
+      <!-- Amount Field -->
+      <div class="form-group">
+        <label for="amount">Monto</label>
+        <div class="input-wrapper">
+          <span class="input-icon">$</span>
+          <input 
+            type="number" 
+            v-model="form.amount" 
+            :placeholder="props.paymentIdArg ? 'Autocompletado' : 'Ingrese monto'"
+            required
+          />
         </div>
       </div>
-    </div>
-  </template>
-  
-  <style scoped>
-  .payment-form {
-    width: 800px;
-    margin: 0 auto;
-    background-color: white;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    padding: 24px;
-  }
-  
-  .form-title {
-    font-size: 24px;
-    font-weight: bold;
-    color: #333;
-    margin-bottom: 24px;
-  }
-  
-  .form-group {
-    margin-bottom: 16px;
-  }
-  
-  label {
-    display: block;
-    font-size: 14px;
-    font-weight: 500;
-    color: #555;
-    margin-bottom: 4px;
-  }
-  
-  .input-wrapper {
-    position: relative;
-  }
-  
-  .input-icon {
-    position: absolute;
-    left: 12px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: #777;
-  }
-  
-  input, select {
-    width: 100%;
-    padding: 10px 12px 10px 36px;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    background-color: white;
-  }
-  
-  select {
-    appearance: none;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23777'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 12px center;
-    background-size: 16px;
-  }
-  
-  .icon {
-    width: 20px;
-    height: 20px;
-  }
-  
-  .card-list {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-  }
-  
-  .card-item {
-    padding: 12px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-  }
-  
-  .card-item:hover {
-    background-color: #f0f0f0;
-  }
-  
-  .card-item.selected {
-    background-color: #e6f7ff;
-    border-color: #1890ff;
-  }
-  
-  .balance-display {
-    font-size: 18px;
-    font-weight: 600;
-    color: #333;
-    padding: 12px;
-    background-color: #f0f0f0;
-    border-radius: 4px;
-  }
-  
-  .submit-button {
-    width: 100%;
-    padding: 12px;
-    font-size: 16px;
-    font-weight: 600;
-    color: white;
-    background-color: #3b82f6;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-  }
-  
-  .submit-button:hover {
-    background-color: #2563eb;
-  }
-  
-  .dialog-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  .dialog {
-    background-color: white;
-    border-radius: 8px;
-    padding: 24px;
-    width: 100%;
-    max-width: 400px;
-  }
-  
-  .dialog-title {
-    font-size: 20px;
-    font-weight: 600;
-    color: #333;
-    margin-bottom: 16px;
-  }
-  
-  .dialog-content {
-    margin-bottom: 24px;
-  }
-  
-  .dialog-content p {
-    margin-bottom: 8px;
-  }
-  
-  .dialog-actions {
-    display: flex;
-    justify-content: flex-end;
-    gap: 12px;
-  }
-  
-  .cancel-button, .confirm-button {
-    padding: 8px 16px;
-    font-size: 14px;
-    font-weight: 500;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
-  .cancel-button {
-    color: #555;
-    background-color: #f3f4f6;
-    border: 1px solid #d1d5db;
-  }
-  
-  .confirm-button {
-    color: white;
-    background-color: #3b82f6;
-    border: none;
-  }
-  
-  .cancel-button:hover {
-    background-color: #e5e7eb;
-  }
-  
-  .confirm-button:hover {
-    background-color: #2563eb;
-  }
-  </style>
+
+      <!-- Alias Field -->
+      <div class="form-group">
+        <label for="alias">Alias</label>
+        <div class="input-wrapper">
+          <span class="input-icon">@</span>
+          <input 
+            type="text" 
+            v-model="form.alias" 
+            placeholder="Alias o nombre de beneficiario" 
+            required
+          />
+        </div>
+      </div>
+
+      <!-- Payment Method Field -->
+      <div class="form-group">
+        <label for="paymentMethod">Metodo de Pago</label>
+        <select v-model="form.paymentMethod" required>
+          <option value="" disabled>Seleccione un metodo</option>
+          <option value="Balance en Cuenta">Balance en cuenta</option>
+          <option value="Tarjeta">Tarjeta</option>
+        </select>
+      </div>
+
+      <!-- Card Selection (only if payment method is Card) -->
+      <div v-if="form.paymentMethod === 'Tarjeta'" class="form-group">
+        <label>Seleccionar Tarjeta</label>
+        <div class="card-slider">
+
+          <v-carousel>
+            <v-carousel-item v-for="(card, index) in cards"  
+            :key="card.cardNumber">
+          
+              <CardComponent
+              :cardNumber="card.cardNumber.toString()"
+              :cardholderName="card.name"
+              :cardColor="getCardColor(index)"
+              />
+            </v-carousel-item>
+
+          </v-carousel>
+          
+        </div>
+      </div>
+
+      <!-- Submit Button -->
+      <button type="submit" class="submit-button">Realizar Pago</button>
+    </form>
+  </div>
+</template>
+
+
+
+<style scoped>
+.payment-form {
+  max-width: 500px;
+  margin: 40px auto;
+  padding: 30px;
+  background-color: #28293E;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.form-title {
+  font-size: 24px;
+  font-weight: bold;
+  color: #FFFFFF;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.form-group {
+  margin-bottom: 16px;
+}
+
+label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #D1D1E9;
+  display: block;
+  margin-bottom: 6px;
+}
+
+.input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background-color: #353550;
+  border: 1px solid #5A5B85;
+  border-radius: 8px;
+  padding: 10px;
+}
+
+.input-icon {
+  margin-right: 8px;
+  color: #9A9AB3;
+}
+
+input, select {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: none;
+  border-radius: 4px;
+  background-color: transparent;
+  color: #FFFFFF;
+  outline: none;
+}
+
+.submit-button {
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  font-weight: bold;
+  color: white;
+  background-color: #4A90E2;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-top: 20px;
+}
+
+.submit-button:hover {
+  background-color: #357ABD;
+}
+
+/* Card Slider Styling */
+.card-slider {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.arrow {
+  font-size: 24px;
+  color: #FFFFFF;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0 10px;
+  transition: color 0.3s ease;
+}
+
+.arrow:hover {
+  color: #4A90E2;
+}
+
+.left-arrow {
+  margin-right: 8px;
+}
+
+.right-arrow {
+  margin-left: 8px;
+}
+</style>

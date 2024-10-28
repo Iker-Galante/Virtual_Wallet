@@ -1,6 +1,8 @@
 <script setup>
-import { ref, provide } from 'vue'
+import { ref, provide, computed } from 'vue'
 import { useProfileStore } from '@/Stores/ProfileStore'
+import { useRoute } from 'vue-router';
+
 import NavigationComponent from '@/components/Utilities/NavigationComponent.vue';
 import PaymentComponent from '@/components/ManageMoney/PaymentComponent.vue';
 import PaymentsComponents from '@/components/ManageMoney/PaymentsComponents.vue';
@@ -8,14 +10,17 @@ const profileStore = useProfileStore();
 const currentuserId = ref(profileStore.getCurrentProfileIndex(profileStore.getCurrentProfile().email));
 provide('currentuserId', currentuserId);
 
+const route = useRoute();
+const userId = computed(() => route.query.from ?? undefined);
+const paymentId = computed(() => route.query.payment ?? undefined);
+
 </script>
 
 <template>
     <NavigationComponent>
         <template #page-title> Pagar </template>
         <template #Main_page>
-            <PaymentsComponents/>
-            <!--<PaymentComponent/> -->
+            <PaymentsComponents :userIdArg="userId" :paymentIdArg="paymentId"/>
         </template>
     </NavigationComponent>
 </template>
